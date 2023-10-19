@@ -23,7 +23,7 @@ print(add(a: 10, b: 2))
 
 //tipos de una función
 //el tipo de una función es el tipo de datos de los parámetros y los tipos de datos de retorno
-(Int, Int) -> Int
+//(Int, Int) -> Int
 
 //Funciones dentro de Variables o constantes
 let math = add(a:b:)
@@ -31,7 +31,7 @@ let math = add(a:b:)
 //ahora podemos ocupar esa variable o constante  como una función
 print(math(2,3))
 
-String) -> String {
+func show(message : String, name: String)-> String {
     return message + " " + name + "!"
 }
 let message = show(message: "Hello", name: "SwiftBeta")
@@ -41,7 +41,7 @@ print(message)
 
 //Funcion retorno de tuplas
 //recomendable para el retorno de pocos valores, cuando son muchos valores se recomienda estructuras o clases
-String) {
+func getTuple ()-> (String, String) {
     let channel = "SwiftBeta"
     let action = "Suscríbete"
     return (channel, action)
@@ -87,8 +87,8 @@ validateUser("SwiftBeta")
 //Funciones con mismo nombre
 //se puede tener 2 funciones con el mismo nombre en Swift, pero estas deben tener distinto tipo(tipos de datos de  parámetros)->tipo dato retorno
 
-func getTwoValues() -> (String, String)
-func getTwoValues(paramOne name: String, paramTwo surname: String) -> (String, String)
+//func getTwoValues() -> (String, String)
+//func getTwoValues(paramOne name: String, paramTwo surname: String) -> (String, String)
 
 
 
@@ -116,9 +116,12 @@ func validate(names: String...) {
 validate(names: "SwiftBeta", "Suscríbete al Canal", "Youtube")
 
 //señalando que el parametro sea de tipo arreglo de datos sería el equivalente a un parametro varíadic
-print("Names \(names)")
+print(validate())
+
+func validates(names: [String]) {
+    print("Names \(names)")
 }
-validate(names: ["SwiftBeta", "Suscríbete al Canal", "Youtube"])
+validates(names: ["SwiftBeta", "Suscríbete al Canal", "Youtube"])
 
 
 
@@ -155,4 +158,4 @@ func validate(password: String) {
     }
 }
 validate(password: "SwiftBeta")
-//este es un ejemplo para ver lo flexibles que son las funciones en Swift, pero no es muy recomendable ya que es mejor crear tipos para mejorar la lógica del programa y clases y estructuras para
+//este es un ejemplo para ver lo flexibles que son las funciones en Swift, pero no es muy recomendable ya que es mejor crear tipos para mejorar la lógica del programa y clases y estructuras para organizar mejor el código

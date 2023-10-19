@@ -16,7 +16,7 @@ var numbers = [1, 2, 7]
 
 //Acceder a un valor de un arreglo
 //recomendable ver cuántos datos tiene el arreglo y luego podemos acceder al índice de forma segura si no nos arroja error.
-var new number = numbers[0]
+var newNumber = numbers[0]
 
 //Modificar o crear valor del arreglo
 //automáticamente se agregan los valores a la última posición del arreglo
@@ -78,7 +78,7 @@ let fiveZs = Array(repeating: "Z", count: 5)
 //los sets ocupan el protocolo Hasheable para saber cuando un tipo de dato en su interior está repetido para luego eliminar la copia y dejar solo 1. Por lo que los datos que no cumplan ese protocolo(estructuras y otros), tenemos que adoptar ese protocolo
 
 //Inicializar Set vacio
-“var setNumbers = Set<Int>()
+var setNumbers = Set<Int>()
 var setNumbers2: Set<Int> = []
 var setNumbers3: Set<Int> = .init()
 
@@ -96,12 +96,12 @@ var myDevices3 = Set.init(["Monitor", "Keyboard", "Laptop", "Mobile"])
 
 //Count
 //retorna número con cantidad de elementos dentro de un Set
-print(mySetNumbers.count)
+print(setNumbers.count)
 
 //IsEmpty
 //retorna Booleano que indica si un Set contiene o no contiene elementos.
 //como mencionábamos anteriormente, es recomendable usar este método en verificaciones if.
-if mySetNumbers.isEmpty {
+if setNumbers.isEmpty {
     print("mySetNumbers isEmpty")
 } else {
     print("mySetNumbers isn't Empty")
@@ -109,23 +109,23 @@ if mySetNumbers.isEmpty {
 
 //First
 //en los set se puede ocupar este método, pero no me arroja el primer valor si no que retorna cualquier valor dentro de la colección pero Opcional. Los set no tienen orden.
-print(mySetNumbers.first)
+print(setNumbers.first)
 
 //Insert
 //añadir valores dentro del set, este método acepta un parametro que es el valor a insertar.
-mySetNumbers.insert(8)
-print(mySetNumbers)
+setNumbers.insert(8)
+print(setNumbers)
 //cabe señalar que si insertamos un valor ya existente, este se sobreescribira pero no se repetirá
 
 //Contains
 ////retorna Booleano que indica si un Set contiene o no contiene un elemento.  Indicamos como parámetro que estamos buscando.
-var containsNumberSix = mySetNumbers.contains(where: { $0 == 6 } )
+var containsNumberSix = setNumbers.contains(where: { $0 == 6 } )
 print(containsNumberSix)
 
 //RemoveAll
 //con este método borramos todos los elementos de un arreglo
-mySetNumbers.removeAll()
-print(mySetNumbers)
+setNumbers.removeAll()
+print(setNumbers)
 
 
 //En los Set no se puede ocupar el método Append, tampoco Last y el Insert en Los Set recibe solo un parametro.
@@ -134,23 +134,23 @@ print(mySetNumbers)
 
 //Union
 //colección que incluye todos  los elementos entre 2 sets, con datos sin repetirse.
-setA.union(setB))
+//setA.union(setB))
 
 //Intersection
 //colección que incluye todos  los elementos en común entre 2 sets, con datos sin repetirse.
-setA.intersection(setB))
+//setA.intersection(setB))
 
 //Subtracting
 //colección que incluye elementos del conjunto A, que no están presentes en el conjunto B, con datos sin repetirse.
-setA.subtracting(setB))
+//setA.subtracting(setB))
 
 //SymmetricDifference
 //colección que incluye todos  los elementos No en común entre 2 sets, con datos sin repetirse.
-setA.symmetricDifference(setB))
+//setA.symmetricDifference(setB))
 
 //IsSubset
 //retorna dato booleano que indica si un Set es Subset de otro Set
-setB.isSubset(of: setA))
+//setB.isSubset(of: setA))
 
 
 
@@ -165,17 +165,17 @@ var myDictionary2: [String: String] = .init()
 var myDictionary3: [String: String] = [:]
 
 //Inicializar Diccionario con valores
-var myDictionaryInfo = ["name": 1, “city”: 2, "skills": 0]
+var myDictionaryInfo = ["name": 1, "city": 2, "skills": 0]
 
 //crear o modificar datos en un diccionario
-myDictionaryInfo["city"] = "3"
+myDictionaryInfo["city"] = 3
 print(myDictionaryInfo)
 
 //acceder al dato de un diccionario
 var myCyty = myDictionaryInfo["city"]
 
 //eliminar clave y valor de diccionario
-myDictionaryInfo[“skills”] = nil
+myDictionaryInfo["skills"] = nil
 print(myDictionaryInfo)
 //Ejemplos de algunos métodos comunes en Diccionarios
 
