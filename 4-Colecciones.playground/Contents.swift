@@ -44,8 +44,8 @@ if myNewSkills.isEmpty {
 
 //First y Last
 //retorna primer o último elemento de un arreglo respectivamente. Cabe señalar que el dato devuelto por estos métodos es un tipo opcionales por que puede que no existan.
-print(myNewSkills.first)
-print(myNewSkills.last)
+print(myNewSkills.first!)
+print(myNewSkills.last!)
 
 //Append
 //añadir valores dentro de un arreglo, de forma automática se agrega en la última posición
@@ -109,7 +109,7 @@ if setNumbers.isEmpty {
 
 //First
 //en los set se puede ocupar este método, pero no me arroja el primer valor si no que retorna cualquier valor dentro de la colección pero Opcional. Los set no tienen orden.
-print(setNumbers.first)
+print(setNumbers.first!)
 
 //Insert
 //añadir valores dentro del set, este método acepta un parametro que es el valor a insertar.
