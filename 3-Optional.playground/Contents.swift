@@ -1,5 +1,5 @@
 import Foundation
-import SwiftUI
+
 
 //Opcionales
 //creacion tipos de datos opcionales
@@ -14,6 +14,8 @@ var myDouble: Double?
 
 
 
+
+
 var myStringNumber = "Rodolfo"
 if let myNumber  = Int(myStringNumber){
     print(myNumber)
@@ -21,7 +23,7 @@ if let myNumber  = Int(myStringNumber){
     print("\(myStringNumber) is not number")
 }
 
-//correct
+
 var myInt = "2500"
 if let myIntNumber = Int(myInt){
     print(myIntNumber)
@@ -50,7 +52,7 @@ if Int(myInt) != nil{
 
 
 //OPERADOR DE FUSION NULA
-// si el valor no es opcional entonces arroja un dato desempaquetado el cual ocuparemos dentro de una variable o consstante y si no es opcional entonces fijaremos un valor por defecto
+// si el valor no es opcional entonces arroja un dato desempaquetado el cual ocuparemos dentro de una variable o constante y si no es opcional entonces fijaremos un valor por defecto
 var myNewNumber = Int(myInt) ?? 0
 var myStringNum = "2500"
 var myNewIntNumber = Int(myStringNum) ?? 0

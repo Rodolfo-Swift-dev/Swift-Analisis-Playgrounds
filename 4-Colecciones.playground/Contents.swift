@@ -11,16 +11,19 @@ var numbers3: [Float] = .init()
 var numbers4: Array<Int> = []
 
 //Inicializar arreglo con valores
-var strings = Array(["Swift", "Xcode", "SwiftUI"])
+var strings = Array(["Rodolfo", "Martin", "Naxo"])
 var numbers = [1, 2, 7]
 
 //Acceder a un valor de un arreglo
 //recomendable ver cuántos datos tiene el arreglo y luego podemos acceder al índice de forma segura si no nos arroja error.
 var newNumber = numbers[0]
 
+
+
+var myNewSkills = ["Swift", "Uikit", "SwiftUI", "CocoaPods"]
 //Modificar o crear valor del arreglo
 //automáticamente se agregan los valores a la última posición del arreglo
-myNewSkills += ["UITableView", "UICollectionView"]
+myNewSkills += ["ArKit", "RealityKit"]
 numbers[0] = 6
 
 
@@ -28,7 +31,7 @@ numbers[0] = 6
 
 //Count
 //retorna número con cantidad de elementos dentro del arreglo
-var myNewSkills = ["Combine", "TDD", "SnapshotTests", "Swift Package Manager"]
+
 print(myNewSkills.count)
 
 //IsEmpty
@@ -44,7 +47,7 @@ if myNewSkills.isEmpty {
 
 //First y Last
 //retorna primer o último elemento de un arreglo respectivamente. Cabe señalar que el dato devuelto por estos métodos es un tipo opcionales por que puede que no existan.
-print(myNewSkills.first!)
+print(myNewSkills.first!)//recomendable comprob ar si existe para desempaquetar, de lo contrario nos puede arrojar error
 print(myNewSkills.last!)
 
 //Append
@@ -53,7 +56,7 @@ myNewSkills.append("Tests")
 
 //Insert
 //añadir valores dentro de un arreglo, este método acepta 2 parametros, el Parametro a insertar y posición donde queremos añadirlo
-myNewSkills.insert("SwiftBeta", at: 2)
+myNewSkills.insert("GitHub", at: 2)
 print(myNewSkills)
 
 //Contains
@@ -84,7 +87,7 @@ var setNumbers3: Set<Int> = .init()
 
 //Inicializar Set con valores
 var studentID : Set = [112, 114, 116, 118, 115]
-var myDevices = Set(["Monitor", "Keyboard", "Laptop", "Mobile"])
+var myDevices = Set(["Monitor", "Monitor", "Keyboard", "Laptop", "Mobile"])
 var myDevices2: Set<String> = ["Monitor", "Keyboard", "Laptop", "Mobile"]
 var myDevices3 = Set.init(["Monitor", "Keyboard", "Laptop", "Mobile"])
 //si engrasamos valores repetidos en nuestro set no se bloque, solo deja 1 dato y elimina las copias
@@ -128,7 +131,7 @@ setNumbers.removeAll()
 print(setNumbers)
 
 
-//En los Set no se puede ocupar el método Append, tampoco Last y el Insert en Los Set recibe solo un parametro.
+//En los Set no se puede ocupar el método Append, tampoco Last y el Insert en los Set reciben solo un parametro.
 
 //cabe señalar que existen más métodos para los Sets, incluidos métodos particulares para trabajar entre Sets.
 
@@ -163,6 +166,7 @@ print(setNumbers)
 var myDictionary = [String: Int]()
 var myDictionary2: [String: String] = .init()
 var myDictionary3: [String: String] = [:]
+
 
 //Inicializar Diccionario con valores
 var myDictionaryInfo = ["name": 1, "city": 2, "skills": 0]
@@ -203,3 +207,7 @@ myDictionaryInfo.updateValue(10, forKey: "twitter")
 //eliminar clave y valor de un diccionario, este método nos pedirá un parámetro que será la clave correspondiente al valor que queremos eliminar
 myDictionaryInfo.removeValue(forKey: "twitter")
 print(myDictionaryInfo)
+
+
+//Casos de uso
+

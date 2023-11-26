@@ -57,8 +57,8 @@ let newWord = "la \(word) \(word) se repite \(numInt) veces"
 let phrase = newWord + word
 
 //variables
-var myName = "SwiftBeta"
-myName = "¡Suscríbete al canal de SwiftBeta!"
+var myName = "Rodolfo Gonzalez"
+myName = "saludos Rodolfo"
 //se puede modificar la variable pero siempre respetando el tipo de datos
 var myNum = 5
 myNum = 7
