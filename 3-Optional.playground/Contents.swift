@@ -107,5 +107,20 @@ if let safeColor = myCar?.convert(color: "1234"){
 }
 
 
+
+//Guard let
+//muy interesantes y muy comunes al crear lógica de la aplicacion
+//podemos ocupar la sentencia Guard let para extraer el valor de un opcional de forma segura y almacenarlo en una constante
+var myOptional: Int? = 2
+func checkMyOptional() {
+    guard let value = myOptional else {
+        print("myOptional is nil!")
+        return
+    }
+    print("myOptional value is \(value)!")
+}
+checkMyOptional()
+
+
 //Extraer valor con un MAP
 //myIntNumber?.map { print("value = \($0)")  }  CORREGIR EL LIBRO, NO SE PERMITE EL MAP

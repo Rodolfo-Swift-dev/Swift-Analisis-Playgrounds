@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 
 //ejecucion funcion print me imprime en consola

@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 
 //Arreglo
@@ -210,4 +210,41 @@ print(myDictionaryInfo)
 
 
 //Casos de uso
+
+//Arreglo
+
+//Almacenamiento de datos
+//iteracion  a traves de elementos
+//agregar y eliminar elementos
+//acceder por indice
+//numero de elementos
+//verificacion de existencia
+//filtrado de elementos
+//transformacion de elementos
+//ordenamiento
+//matrices Bidimensionales
+
+//Set
+
+//eliminacion de duplicados
+//operaciones de conjuntos
+//verificacion de pertenencias
+//filtrado de elementos unicos
+//operacion de conjuntos con actualizacion
+//eliminacion de elementos
+//verificacion de conjunto vacio
+
+//Dict
+
+//almacenamiento de datos relacionados
+//acceso valores por clave
+//modificacion de valores
+//añadir nuevos pares clave-valor
+//eliminacion de pares clave-valor
+//iteracion a traves de claves y valores
+//verificacion de existencia de clave
+//diccionario de tipo especifico
+//uso de diccionario en funciones
+//inicializacion vacia y agregado de elementos
+//obtencion de claves y valores
 

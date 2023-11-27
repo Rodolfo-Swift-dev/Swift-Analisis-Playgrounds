@@ -1,11 +1,15 @@
-import UIKit
+import Foundation
 
 //Control Flow
 
+
+var condition = true
 //If
 //control de flujo en donde evaluamos una condición y si esta es verdadera  se ejecutará el código entre { }. Cabe señalar que si la condición a evaluar es falsa entonces podremos agregar o no, una cláusula else.
 if (condition) {
-    // scope del if
+    print("condition is true")
+}else{
+    print("condition is false")
 }
 
 
@@ -14,7 +18,7 @@ if (condition) {
 //si tuviera varios ELSE IF, se ejecuta por orden desde el principio y se activará el código de la primera condición Else If que sea true, y si no es true se saltará al siguiente bloque de código.
 var numberOfSubscribers = 6
 if numberOfSubscribers > 10 {
-    print("A bunch of subscribers! 🤓")
+    print("A lot of subscribers!")
 } else if numberOfSubscribers > 5 {
     print("We need more subscribers!")
 } else {
@@ -87,7 +91,7 @@ default:
 //la Keyword Where se puede utilizar en Switch para filtrar datos, en If let, Guard let y Do catch, for, genéricos, protocolos y extensiones para filtrar tipos y también en funciones de orden superior como sorted, first, etc
 
 //en el siguiente ejemplo añadiremos la Keyword where e incluiremos una condición y además creamos una constante en donde luego la podemos utilizar para añadir una condición extra.
-var numberOfSubscrib= 100
+var numberOfSubscrib = 100
 switch numberOfSubscrib {
 case let x where numberOfSubscribers > 5:
     print("A bunch of subscribers! TOTAL: \(x)")
@@ -162,3 +166,10 @@ repeat {
     print(numbers[counter2])
     counter2 += 1
 } while (counter2 < numbers.count)
+
+
+
+//casos de usos
+
+
+
