@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Métodos
 
@@ -10,20 +10,23 @@ import UIKit
 
 //Metodos de instancia Clase
 //metodos que creamos dentro de un tipo (Struct o Class) y para poder ocuparlos debemos Instanciar previamente.
-class Game {
-    var score = 0
+class Games {
+    var score = 10
+    
+    
     func increaseScore() {
-        score += 1
+        self.score += 1
     }
     func reset() {
-        score = 0
+        self.score = 0
     }
+   
 }
 //en el código previo creamos 2 métodos de instancia y para poder acceder a ellos debemos Instanciarlos.
 
-let game = Game()
-game.increaseScore()
-game.increaseScore()
+let games = Games()
+games.increaseScore()
+games.reset()
 
 //en el código anterior creamos métodos que modifican una propiedad, no hay problema ya que es una clase y es mutable pero en una propiedad tendríamos que anteponer la keyword @mutating antes del método y así podríamos modificar propiedades dentro de una estructura.
 
@@ -35,12 +38,16 @@ struct User {
     mutating func update(name: String) {
         self.name = name
     }
+   private func printName() {
+        print("the name is \(name)")
+    }
 }
 
 //ahora para poder acceder y usar el método, debemos Instanciar el tipo(Class o Struct) creado
-var user = User(name: "SwiftBeta")
-user.update(name: "Swift")
+var user = User(name: "Rodolfo")
+user.update(name: "RodDev")
 print(user.name)
+//user.printName() codigo erroneo ya que no podemos acceder al metodo desde fuera del tipo ya que es privado
 
 
 //Self
@@ -55,15 +62,18 @@ class Game {
     }
     func reset() {
         self.score = 0
+        self.printScore()
     }
-    func printScore() {
-        print("Score Incremented! \(score)")
+    private func printScore() {
+        print("Score Total! \(score)")
     }
 }
 
 //Instanciar la clase
 var game = Game()
 game.increaseScore()
+game.reset()
+//game.printScore() codigo erroneo ya que no podemos acceder al metodo desde fuera del tipo ya que es privado
 
 
 
@@ -88,3 +98,19 @@ class Car {
 Car.startEngine()
 
 //cabe señalar que cuando queremos crear propiedades o métodos de tipo, si el tipo es una Struct debemos ocupar la Keyword static y si el tipo es una class debemos ocupar la keyword Class
+
+
+struct NewUser {
+    var name: String
+    static func start(){
+        print("Utilizar metodo sin previa instancia")
+    }
+   private func printName() {
+        print("the name is \(name)")
+    }
+}
+
+NewUser.start()
+
+
+//casos de usos
