@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Funciones
 
@@ -34,7 +34,7 @@ print(math(2,3))
 func show(message : String, name: String)-> String {
     return message + " " + name + "!"
 }
-let message = show(message: "Hello", name: "SwiftBeta")
+let message = show(message: "Hello", name: "Rodolfo")
 print(message)
 
 
@@ -42,12 +42,12 @@ print(message)
 //Funcion retorno de tuplas
 //recomendable para el retorno de pocos valores, cuando son muchos valores se recomienda estructuras o clases
 func getTuple ()-> (String, String) {
-    let channel = "SwiftBeta"
+    let name = "Rodolfo"
     let action = "Suscríbete"
-    return (channel, action)
+    return (name, action)
 }
-let (channel, action) = getTuple()
-print(channel)
+let (name, action) = getTuple()
+print(name)
 print(action)
 
 
@@ -66,7 +66,7 @@ func login(withUsername username: String,
         return false
     }
 }
-let isLogged = login(withUsername: "SwiftBeta", withPassword: "123456789")
+let isLogged = login(withUsername: "Rodolfo", withPassword: "123456789")
 
 
 
@@ -79,8 +79,8 @@ func validateUser(_ value: String) -> Bool {
     return value.count > 5
 }
 //luego al momento de llamar a la función se escribe directamente el parámetro sin su nombre
-validateUser("SwiftBeta")
-
+validateUser("Rodolfo")
+print(validateUser("rodolfo"))
 
 
 
@@ -101,8 +101,8 @@ func createDatabase(name: String, path: String = "/") {
 
 //dos ejemplos de llamado a la función  con uno sin indicar valor de parámetro por lo que se ocupará valor por defecto y el otro ejemplo indicando valor de parámetro
 
-createDatabase(name: "SwiftBeta")
-createDatabase(name: "SwiftBeta", path: "/users/root")
+createDatabase(name: "Rodolfo")
+createDatabase(name: "Rodolfo", path: "/users/root")
 
 
 
@@ -113,7 +113,7 @@ func validate(names: String...) {
     print("Names \(names)")
 }
 
-validate(names: "SwiftBeta", "Suscríbete al Canal", "Youtube")
+validate(names: "Rodolfo", "Martin", "Nacho")
 
 //señalando que el parametro sea de tipo arreglo de datos sería el equivalente a un parametro varíadic
 print(validate())
@@ -121,20 +121,20 @@ print(validate())
 func validates(names: [String]) {
     print("Names \(names)")
 }
-validates(names: ["SwiftBeta", "Suscríbete al Canal", "Youtube"])
+validates(names: ["Rodolfo", "Nacho", "Martin"])
 
 
 
 //parametros InOut en funciones
 //podemos modificar el dato de parámetro que ingresemos siempre y cuando ocupemos la siguiente sintaxis de inout y &
 func validate(names: inout [String]) {
-    names = ["SwiftBeta", "SwiftUI", "Swift"]
+    names = ["Rodolfo", "Gonzalez", "Hernandez"]
     print("Names \(names)")
 }
-var arrayOfNames = ["UIKit"]
+var arrayOfNames = ["nacho", "martin"]
 validate(names: &arrayOfNames)
 
-//Ocupando la Keyword input andes del tipo de dato en el parametro cuando estamos creando la función
+//Ocupando la Keyword inout antes del tipo de dato en el parametro cuando estamos creando la función
 //Ocupando el signo & antes del parametro cuando estamos llamando a la funcion
 //con esto podemos acceder al valor de un parametro dentro de una función y poder modificarlo
 
@@ -157,5 +157,8 @@ func validate(password: String) {
         print("Error")
     }
 }
-validate(password: "SwiftBeta")
+validate(password: "12345678")
 //este es un ejemplo para ver lo flexibles que son las funciones en Swift, pero no es muy recomendable ya que es mejor crear tipos para mejorar la lógica del programa y clases y estructuras para organizar mejor el código
+
+
+//casos de usos

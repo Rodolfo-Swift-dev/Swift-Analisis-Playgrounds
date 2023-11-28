@@ -171,5 +171,33 @@ repeat {
 
 //casos de usos
 
+//if y else
 
+//verificacion y comprobacion de condiciones
+
+
+//guard
+
+//verificacion y comprobacion de condiciones, en caso de que la condicion no se cumple, nos permite salir de un bloque de codigo con las keywor return, break o throw
+
+
+//switch
+
+//realizar comprobaciones exhaustivas y elegantes en valores
+
+
+//for
+
+//iterar sobre un rango, conjunto, secuencia, generando un bucle con codigo personalizado
+
+//while
+
+//preguntar y despues hacer
+//cuando la condicion se cumpla ejecutara un bloque de codigo en repetidas ocasiones, de lo contrario si no se cumple la condicion el bucle se detendra
+
+
+//repeat while
+
+//hacer y despues preguntar
+//ejecutara un bloque de codigo en repetidas ocasiones, verificando despues de la ejecucion del codigo si es que la condicion se cumple, para luego ejecutar nuevamente el codigo y volver a preguntar ka condicion. cuando la condicion no se cumpla se detendra el bucle
 
