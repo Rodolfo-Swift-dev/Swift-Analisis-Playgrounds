@@ -73,6 +73,7 @@ import Foundation
 //-Caracteristicas
 //-Creacion
 //-Instancia
+//-Diferencias
 
 
 //8-Metodos
@@ -91,8 +92,14 @@ import Foundation
 
 //10-Closure
 
-//-
-//-
+//-Sintaxis Closure
+//-Optimizacion Closure
+//-Trailling Closure
+//-Funcion con unico Closure
+//-Multiples Closure en una funcion
+//-Funciones que retornan Closure o funcion
+//-Escaping Closure
+//-Autoclosure
 
 
 //11-Enum

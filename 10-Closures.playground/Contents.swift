@@ -1,6 +1,5 @@
 
 import Foundation
-import UIKit
 //Closures
 
 //un clousure es como una función con sus mismo contenido, la única diferencia es que sería anónima, sin nombre
@@ -11,8 +10,12 @@ import UIKit
 //Nombres abreviados de argumentos
 //Sintaxis de cierre final
 
+
+
+
+
 //Sintaxis clousure
-let myClosure:
+let myClosure =
 { (parameter: Int) -> Int in    // 1
     print("Value \(parameter)")    // 2
     return parameter            // 3
@@ -32,25 +35,27 @@ myClosure(2)
 
 
 
+
+
 //Optimizacion del closure
 //crear closure sin parámetros y sin datos de retorno
 //al no retornar datos podríamos indicarle con la keyword Void que no retorna datos pero en este caso se puede omitir sin problemas
 let myEmptyClosure = { () in
-    print("¡Suscríbete a SwiftBeta!")
+    print("¡Hola")
 }
 
 //al no tener parámetros podríamos optimizarlo aún más nuestro closure
-let myEmptyClosure = {
-    print("¡Suscríbete a SwiftBeta!")
+let emptyClosure = {
+    print("¡Hola Rodolfo!")
 }
 
 //para ejecutar su implementación solo basta con llamarlo
-myEmptyCosure
+emptyClosure
 
 
-
+var names = ["Rodolfo", "Martin", "Nacho"]
 //Optimizacion
-reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 > s2 } )
+var reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 > s2 } )
 
 
 //inferir tipo a partir del contexto
@@ -86,11 +91,11 @@ reversedNames = names.sorted(by: >)
 //cuando la logia de un closure es requerida en más de un lugar en nuestro código y con la finalidad de hacerlo más modular y reutilizable es que podemos hacer un equivalente de nuestro clousure en función o método.
 
 //tipo de firma de clousure
-(Int, Int) -> Int
+//(Int, Int) -> Int
 //para reusar un closure y hacer una función equivalente es necesario que tenga los mismos tipos de datos en parámetros y retorne mismo tipo de dato
 
 //tipo de firma función
-(Int)  -> Int
+//(Int)  -> Int
 
 //código función
 func doble(_ num : Int) -> Int{
@@ -99,9 +104,14 @@ func doble(_ num : Int) -> Int{
 
 
 //llamado a la función dentro de un método
-var numbers = [ 2, 4, 6]
-var newNumbers = numbers.map ( by : doble)
 // en este ejemplo hemos remplazado el closure por una función con firma(tipo de dato) equivalente
+var numbers = [ 2, 4, 6]
+var newNumbers = numbers.map ( doble)
+
+//equivalencia con closure
+newNumbers = numbers.map { $0 * 2}
+
+
 
 
 
@@ -115,15 +125,20 @@ var newNumbers = numbers.map ( by : doble)
 
 func createUser(name: String, closure: (String, String) -> Void) {
     print("Create User: \(name)")
-    closure(name, "Suscríbete")
+    closure(name, "Swift")
     print("Completed")
 }
 //Cuando llamemos a la función podemos implementar la lógica que queramos dentro del closure”
 
-createUser(name: "SwiftBeta") { username, action in
+createUser(name: "Rodolfo") { username, action in
     print("Track Event \(username) with \(action)")
 }
 //en este ejemplo al llamar a la función tomamos el closure y le indicamos que el parámetro de entrada de la función sea un parámetro en el clousure y el otro parámetro del clousure es un string definido
+
+
+
+
+
 
 
 //crear función con único closure
@@ -138,14 +153,18 @@ func removeAllUsers(closure: (String, String) -> Void) {
 removeAllUsers { name, location in
     print("Removing table \(name) in \(location)")
 }
+
+removeAllUsers() { print("Removing table \($0) in \($1)") }
 //como se puede ver con un único parámetro en la funcion como closure, al momento de llamar a la función se pueden omitir los parentesis() aunque como curiosidad si los dejas funciona de la misma forma
 
 
 
 
+
+
+
 //múltiples closures en una funcion
-//como mencionábamos las funciones pueden llevar closure como parámetro
-Y múltiples closure.
+//como mencionábamos las funciones pueden llevar closure como parámetro Y múltiples closure.
 
 //creacion de función con múltiples closure
 func getDataFromBackend(status: String,
@@ -164,6 +183,11 @@ getDataFromBackend(status: "OK") {
     print("Error: \(status)")
 }
 //al llamar a la funcion es donde establecemos la lógica de código de nuestros closure como parametros
+
+getDataFromBackend(status: "OK", onSuccess: { print("Succes")}, onFailure: { print("Error: \($0)")})
+
+
+
 
 
 
@@ -190,7 +214,7 @@ func makeCounter(withValue value: Int) -> () -> Int {
 
 //creacion de función que retorna closure
 
-func makeCounter(withValue value: Int) -> () -> Int {
+func makeCounter2(withValue value: Int) -> () -> Int {
     var counter = value
     return {
         counter += 1
@@ -211,7 +235,6 @@ makeCounter(withValue: 10)()
 //esto ejecutará el código de la función o closure de retorno
 
 
-
 //closure y funciones de tipo por referencia
 //al igual que las clases, los closure y funciones son de tipo por referencia, es decir un cambio a alguna copia de un closure o función, afectará ese cambio a cada copia que exista.
 
@@ -229,10 +252,12 @@ print(counterB())
 
 
 
+
+
 //Escaping closure
 
-//En ocasiones el closure que pasamos como parámetro a una función no podrá ejecutarse al instante, es decir, el closure puede ejercutarse una vez la función haya acabado. Como el nombre indica, el closure "escapa" del scope de la función. un ejemplo muy claro es cuando hacemos una operación asíncrona, como por ejemplo una petición HTTP a un servidor. Necesitamos la respuesta para poder continuar Colón el flujo de la aplicacion
-//alcodigo debemos agregar la keyword @escaping, indicando que nuestro closure será llamado aunque la función haya acabado de ejecutar todo su código.
+//En ocasiones el closure que pasamos como parámetro a una función no podrá ejecutarse al instante, es decir, el closure puede ejercutarse una vez la función haya acabado. Como el nombre indica, el closure "escapa" del scope de la función. un ejemplo muy claro es cuando hacemos una operación asíncrona, como por ejemplo una petición HTTP a un servidor. Necesitamos la respuesta para poder continuar con el flujo de la aplicacion
+//alcodigo debemos agregar la keyword @escaping, indicando que nuestro closure será llamado cuando la función haya acabado de ejecutar todo su código.
 
 func getDataFromBackend (completionHandler: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -248,13 +273,15 @@ getDataFromBackend {
 
 
 
+
+
 //Autoclousure en Swift
 
 
 //crear función que acepte un clousure como parametro de entrada
 
-func remove(arrayOfNumbers: [String],
-            removeFirstNumber: () -> String) {
+func remove(arrayOfNumbers: [Int],
+            removeFirstNumber: () -> Int) {
     if arrayOfNumbers.count == 6 {
         print("Numbers OK!")
     } else {
@@ -263,9 +290,9 @@ func remove(arrayOfNumbers: [String],
 }
 
 //llamar a la función
-
-remove(arrayOfNumbers: arrayOfNumbers,
-       removeFirstNumber: { arrayOfNumbers.remove(at: 0) })
+var arrayNumbers = [1, 2, 3, 4, 5, 6, 7]
+remove(arrayOfNumbers: arrayNumbers,
+       removeFirstNumber: { arrayNumbers.remove(at: 0) })
 
 // RESULTADO 👇
 // Number Removed 1!
@@ -273,8 +300,8 @@ remove(arrayOfNumbers: arrayOfNumbers,
 
 //Pero en lugar de enviarle como parámetro un closure explícito, podríamos utilizar @autoclosure para evitar añadir las llaves{} y así enviarle solo la expresión
 
-func remove2(arrayOfNumbers: [String],
-             removeFirstNumber: @autoclosure () -> String) {
+func remove2(arrayOfNumbers: [Int],
+             removeFirstNumber: @autoclosure () -> Int) {
     if arrayOfNumbers.count == 6 {
         print("Numbers OK!")
     } else {
@@ -284,10 +311,14 @@ func remove2(arrayOfNumbers: [String],
 
 //llamar a la función
 
-remove2(arrayOfNumbers: arrayOfNumbers,
-        removeFirstNumber: arrayOfNumbers.remove(at: 0) )
+remove2(arrayOfNumbers: arrayNumbers,
+        removeFirstNumber: arrayNumbers.remove(at: 0) )
 
 // RESULTADO 👇
 // Number Removed 1!
 
 //visualmente es mucho más claro y conciso
+
+
+
+//casos de usos
