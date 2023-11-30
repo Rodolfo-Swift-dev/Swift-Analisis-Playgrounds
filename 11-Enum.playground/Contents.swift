@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Enums
 
@@ -11,7 +11,7 @@ import UIKit
 
 //Sintaxis
 
-enum clima {
+enum Clima {
 case sol
 case lluvia
 case nublado
@@ -25,27 +25,31 @@ case nublado
 
 
 
+
 //Instancia de un enum
 
-let climaStatus = clima.sol
+let climaStatus : Clima = .sol
 
 
 
 //Instancia de  un enum señalando su tipo
 
-Let climaStatus1 : clima = .sol
+let climaStatus1 : Clima = .sol
 
 //con este último ejemplo lo instanciamos indicando su tipo, lo que nos permite asignarle cualquier clase dentro de este tipo
+
+
+
+
+
 
 
 //Enum con inicializador
 
 enum clima {
-case sol
-case lluvia
-case nublado
+case sol, lluvia, nublado
 init (isRain: Bool){
-        If isRain {
+        if isRain {
 self = .lluvia
 }else {
 self = .sol
@@ -53,8 +57,8 @@ self = .sol
 }
 }
 
-let clima = clima( isRain : true)
-print ( clima)
+let statusClima = clima( isRain : true)
+print ( statusClima)
 
 // RESULTADO 👇
 // lluvia
@@ -64,15 +68,18 @@ print ( clima)
 
 
 
+
+
+
 //Enum con Switch
 
-enum clima {
+enum ClimaState {
 case sol
 case lluvia
 case nublado
 }
 
-let climaActual = clima.sol
+let climaActual = ClimaState.sol
 
 switch climaActual {
 
@@ -85,7 +92,7 @@ case .nublado :
 
 }
 
-En ocasiones también podemos agrupar distintos case dentro de un bloque de codigo
+//En ocasiones también podemos agrupar distintos case dentro de un bloque de codigo
 
 let climaActual1 = clima.sol
 
@@ -93,11 +100,10 @@ switch climaActual1 {
 
 case .sol :
      break
-case .lluvia, case .nublado:
+case .lluvia, .nublado :
       print("Húmedo y mojado")
 
 }
-
 
 //También podríamos ocupar la keyword break dentro de un case, así indicándole que no queremos implementar ningún tipo de lógica de codigo. En este caso si se llegara a ejecutar el case .sol se ejecutará el break y salimos del scope del código y continuamos con el resto de control de flujo.
 
@@ -106,6 +112,7 @@ case .lluvia, case .nublado:
 if messageStatus == .sent {
     print("Message Sent (If Statement)")
 }
+
 
 
 
@@ -174,9 +181,11 @@ compassPoint.printValue()
 // Value: Método de Instancia
 
 
-“CompassPoint.printMessage()
+CompassPoint.printMessage()
 // RESULTADO 👇
 // Message: Método de tipo”
+
+
 
 
 
@@ -209,11 +218,18 @@ secondMove = .right
 
 
 
+
+
+
+
+//Enum con protocolo CaseIterable
+
 //Iterar sobre los cases de un Enum
 
 //como Enum es un tipo podemos también adoptar protocolos y uno utilizado especialmente en los Enum es CaseIterable, el cual de muchas funcionalidades y propiedades como el código a continuación donde accedemos a allCases
 
-//Enum con protocolo CaseIterable
+
+
 enum Week: CaseIterable {
     case monday
     case tuesday
@@ -235,7 +251,9 @@ print("Week days: \(numberOfDays)")
 
 
 
-//Enum con Valores asociados
+
+
+//Enum con Valores asociados(Parametros)
 
 //a veces por necesidad en nuestros Enum debemos agregar parámetros de entrada(puedan recibir valores) al interior de nuestros case, similar a los parámetros de funciones
 
@@ -248,9 +266,12 @@ enum Field {
 }
 
 
-//Inicializacion de Enum con valores asociados
+//Inicializacion de Enum con valores asociados(Parametros)
 
 let creditCardField = Field.creditCard(digits: "1234 5678 9012", cvv: 123)
+
+
+
 
 
 //Implementacion Switch y Enum con valores asociados
@@ -262,7 +283,7 @@ default:
     print("Do nothing...")
 }
 
-//en el ejemplo anterior tomamos un valor de parámetro y lo guardamos dentro de una constante la cual ocupamos en el print y también omitimos capturar un valor asociado con el signo _
+//en el ejemplo anterior tomamos un valor de parámetro y lo guardamos dentro de una constante la cual ocupamos en el print y también omitimos capturar un valor asociado cvv con el signo _
 
 
 
@@ -276,11 +297,11 @@ default:
 //Enum con RawValue
 
 enum Parameter: String {
-    case query = "El Libro de Swift"
-    case limit = "50"
-    case author = "SwiftBeta"
+    case query = "Movies"
+    case limit = "20"
+    case author = "All"
 }
-
+////para poder acceder a un Enum con propiedades RawValue, es necesario que todos los cases sean del mismo tipo de datos
 
 //Inicializacion de Enum con RawValue
 
@@ -293,9 +314,9 @@ print(limit)
 print(author)
 
 // RESULTADO 👇
-// Libro swift
-// 50
-// SwiftBeta”
+// Movies
+// 20
+// All
 
 //para poder acceder a un Enum con propiedades RawValue, es necesario que todos los cases sean del mismo tipo de datos
 
@@ -318,3 +339,7 @@ print(neptune)
 // 1
 // 3
 // 8
+
+
+
+//casos de usos

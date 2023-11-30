@@ -87,6 +87,7 @@ import Foundation
 //-Propiedades de instancia
 //-Propiedades de tipo
 //-Propiedades calculadas
+//-Observadores de propiedad
 //-Property wrapper
 
 
