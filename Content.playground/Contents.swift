@@ -105,14 +105,24 @@ import Foundation
 
 //11-Enum
 
-//-
-//-
+//-Sintaxis Enum
+//-Instancia de un Enum
+//-Inicializador de un Enum
+//-Enum con Switch
+//-Enum con Default case
+//-Metodos y propiedades dentro de un Enum
 
 
 //12-Herencia
 
-//-
-//-
+//-Creacion de SuperClase y SubClase
+//-Creacion e instancia de objetos que heredan
+//-Creacion de objeto que hereda y sobreescribe(Override)
+//-Override metodo de Tipo de SuperClase en Subclase
+//-Override propiedades de SuperClase en Subclase
+//-Override de propiedades de Tipo de SuperClase en Subclase
+//-Restringir herencia de una clase
+//-Restringir Override de metodo o propiedad de una Superclase
 
 
 //13-Protocolos

@@ -6,9 +6,6 @@ import Foundation
 
 
 
-
-
-
 //Sintaxis
 
 enum Clima {

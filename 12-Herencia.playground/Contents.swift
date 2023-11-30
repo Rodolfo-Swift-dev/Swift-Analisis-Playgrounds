@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Herencia
 
@@ -14,6 +14,9 @@ import UIKit
 
 //subclase o clase hija
 //es la clase que hereda las propiedades de otra clase llamada
+
+
+
 
 
 //creacion de superclase
@@ -36,13 +39,14 @@ class Animal {
 //aquí heredamos las propiedades de la superclase, además de crear nuevos métodos o propiedades exclusivos de esta clase. Además tenemos que incluir la debida inicialicar las propiedades de instancia.
 
 
-//creacion de superclase
+//creacion de subclase
 class Dog: Animal {
     var legs: Int
     
-    init(legs: Int) {
+    init(legs: Int, name: String, age: Int ) {
         self.legs = legs
-        super.init(name: "SwiftBeta", age: 10)
+       //super.init(name: "Felipe", age: 10)  con este codigo podrimas inicializar estos valores y al momento de instanciar no seran solicitados
+        super.init(name: name, age: age)
     }
 
     func eat() {
@@ -57,12 +61,11 @@ class Dog: Animal {
 
 //instancia de objeto que hereda
 
-let dog = Dog(name: "SwiftBetaDog", age: 10, legs: 4)
+let dog = Dog(legs: 4, name: "Felipe", age: 20)
 dog.eat()
 
 // RESULTADO 👇
 // Eat meat
-
 
 
 //creacion de objeto que hereda
@@ -78,14 +81,13 @@ class Cat: Animal {
 //creacion de objeto que hereda
 
 class Chihuahua: Dog {
-
+    
+    
 }
 
-//instancia de objeto que heresa
+//instancia de objeto que hereda
 
-let chihuahua = Chihuahua(name: "SwiftBetaChihuahua",
-                          age: 10,
-                          legs: 4)
+let chihuahua = Chihuahua(legs: 4, name: "Puppy", age: 2)
 chihuahua.name
 chihuahua.eat()
 
@@ -97,19 +99,24 @@ chihuahua.eat()
 
 
 
+
+
 //Override métodos de la Superclase
 
 //en ocasiones heredamos métodos de una superclase, pero también existe la capacidad de sobreescribir métodos mediante la Keyword Override antes del nombre de método heredado a sobrescribir en la subclase de su implementación, luego unas llaves con bloque de código editado que me tomé y modifiqué método original añadiendo código personalizado según las necesidades
 
 
+
+
+
 //creacion de objeto que hereda y además sobreescribe método original de superclase
 
-class Dog: Animal {
+class Dog1: Animal {
     var legs: Int
 
     init(legs: Int) {
         self.legs = legs
-        super.init(name: "SwiftBeta", age: 10)
+        super.init(name: "Rodolfo", age: 10)
     }
 
     override func sound() {
@@ -125,18 +132,21 @@ class Dog: Animal {
 
 //instancia de objeto que hereda y tiene método override)
 
-let myDog = Dog(name: "SwiftBetaDog", age: 10, legs: 4)
+let myDog = Dog1(legs: 4)
 myDog.sound()
+
+
+
 
 
 //creacion de clase que hereda e incluye método de tipo(sleep)
 
-class Dog1: Animal {
+class Dog2: Animal {
     var legs: Int
     
     init(legs: Int) {
         self.legs = legs
-        super.init(name: "SwiftBeta", age: 10)
+        super.init(name: "Nacho", age: 10)
     }
     
     override func sound() {
@@ -152,20 +162,23 @@ class Dog1: Animal {
     }
 }
 
-//en el código anterior debimos anteponer la keyword class antes del nombre del método, como es una clase debe ser así, si fuera una estructura sería la keyword static
+//en el código anterior debimos anteponer la keyword class antes del nombre del método de Tipo, como es una clase debe ser así, si fuera una estructura sería la keyword static
 
 
 //creacion de subclase que hereda y además hace Owerride sobre método de tipo
 
-class Chihuahua: Dog1 {
+class Chihuahua1: Dog2 {
     override class func sleep() {
         print("Sleep 16 hours")
     }
 }
 
 
-Chihuahua.sleep()
+Chihuahua1.sleep()
 //con esto ya podríamos el nuevo valor que modificamos el método de tipo con la keyword class y override
+
+
+
 
 
 
@@ -176,7 +189,7 @@ Chihuahua.sleep()
 
 //creacion de superclase con propiedad
 
-class NewDog: Animal {
+class Dog3: Animal {
     var legs: Int
     var description: String { "Dog" }
 
@@ -192,7 +205,7 @@ class NewDog: Animal {
 
 //creacion de subclase con Override en propiedad
 
-class Chihuahua: Dog {
+class Chihuahua2: Dog3 {
     override var description: String {
         "Chihuahua 🐶"
     }
@@ -201,21 +214,22 @@ class Chihuahua: Dog {
 
 //instancia de objeto que hereda y sobreescribe propiedad
 
-let chihuahua = Chihuahua(name: "SwiftBetaChihuahua",
-                          age: 10,
-                          legs: 4)
-chihuahua.description
+let chihuahua2 = Chihuahua2(name: "Rodolfo", age: 20, legs: 5)
+chihuahua2.description
 
 // RESULTADO 👇
 // Chihuahua 🐶
 
 
 
+
+
+
 //creacion de superclase con propiedad  de tipo
 
-class Dog: Animal {
+class Dog4: Animal {
     var legs: Int
-    var description: String { "Dog”
+    var description: String { "Dog"
 }
     class var size: String { "medium" }
     
@@ -230,7 +244,7 @@ class Dog: Animal {
 
 //creacion de subclase con Override de una propiedad de tipo
 
-class Chihuahua: Dog {
+class Chihuahua3: Dog4 {
     override var description: String { "Chihuahua 🐶" }
     override class var size: String { "small" }
 }
@@ -238,7 +252,9 @@ class Chihuahua: Dog {
 
 //instancia de un objeto con sobreescribimiento de propiedades y propiedades de tipo
 
-print(Chihuahua.size)
+print(Chihuahua3.size)
+
+
 
 
 
@@ -268,10 +284,10 @@ final class Animals {
 
 
 //código error implementación herencia de una clase final
+//class Dog5: Animals {
 
-class Dog: Animals {
+//}
 
-}
 
 
 
@@ -286,10 +302,13 @@ class Dog: Animals {
 
 //creacion de clase con método que no se puede sobreescribir
 
-class Dog: Animal {
+class Dog6: Animal {
     var legs: Int
     var description: String { "Dog" }
-
+    init(legs: Int, name: String, age: Int) {
+        self.legs = legs
+        super.init(name: name, age: age)
+    }
     final func eat() {
         print("Eat meat")
     }
@@ -298,15 +317,17 @@ class Dog: Animal {
 
 //código error implementación herencia de una clase con un método que no se puede sobreescribir
 
-class Chihuahua: Dog {
-    override func eat() {
-        print("Eat Chocolate")
-    }
+class Chihuahua4: Dog6 {
+    //codigo erroneo
+    //override func eat() {
+        //print("Eat Chocolate")
+   // }
 }
 
 
 
 
+ 
 
 
 //evitar Override de las propiedades de la superclase
@@ -315,15 +336,13 @@ class Chihuahua: Dog {
 
 //creacion de clase con propiedad que no se puede sobreescribir
 
-class Dog: Animal {
+class Dog7: Animal {
     var legs: Int
     final var description: String { "Dog" }
     
     init(name: String, age: Int, legs: Int) {
         self.legs = legs
-        super.init(name: name, age:
-
-age)
+        super.init(name: name, age: age)
     }
 
     func eat() {
@@ -333,12 +352,14 @@ age)
 
 //código error implementación herencia de una clase con una propiedad que no se puede sobreescribir
 
-class Chihuahua: Dog {
-    override var description: String { "Chihuahua" }
+class Chihuahua5: Dog {
+    //codigo erroneo
+   // override var description: String { "Chihuahua" }
 }
 
 
 //El poder inhabilitar la capacidad de reescribir un método o propiedad nos permite asegurarnos que hay cierto código que no se va a alterar aunque usemos herencia. Eso nos garantiza mayor seguridad.
+
 
 
 
@@ -350,3 +371,4 @@ class Chihuahua: Dog {
 //mapa de herencia componente UiButton
 
 //.   UIButton -> UIControl -> UIView -> UIResponser -> NSObject
+
