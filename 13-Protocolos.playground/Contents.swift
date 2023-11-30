@@ -1,10 +1,15 @@
-import UIKit
+import Foundation
+
+
 
 //Protocolos
 
 //Un protocolo en Swift define métodos y propiedades que deben ser implementados en una Class, Struct o Enum. Los protocolos también son llamados interfaces o contratos
 
 //Un protocolo es un contrato que se debe cumplir, ¿quién debe cumplirlo? El tipo que conforma el protocolo.
+
+
+
 
 //Sintaxis de un protocolo
 
@@ -18,7 +23,7 @@ protocol NameProtocol {
 
 //creacion de un tipo que a adopta el n protocolo
 
-struct User: MyProtocol {
+struct User: NameProtocol {
     var age: Int
 }
 
@@ -29,9 +34,9 @@ struct User: MyProtocol {
 
 protocol AnotherProtocol { }
 
-protocol SwiftBetaProtocol { }
+protocol BetaProtocol { }
 
-struct Student: MyProtocol, AnotherProtocol, SwiftBetaProtocol {
+struct Student: NameProtocol, AnotherProtocol, BetaProtocol {
     
 }
 
@@ -45,14 +50,17 @@ struct Student: MyProtocol, AnotherProtocol, SwiftBetaProtocol {
 
 class Superclass { }
 protocol MyProtocol { }
-protocol AnotherProtocol { }
+protocol Protocol2 { }
 
-class Subclass: Superclass, MyProtocol, AnotherProtocol {
+class Subclass: Superclass, MyProtocol, Protocol2 {
 
 }
 
 
 //cabe señalar que si los protocolos adoptados tienen métodos o propiedades, debemos implementarlos en nuestras clases que adoptan los protocolos cada uno que tenga sin omitir alguno, de lo contrario tendremos un error
+
+
+
 
 
 
@@ -68,11 +76,10 @@ class Subclass: Superclass, MyProtocol, AnotherProtocol {
 
 //creacion de protocolo con propiedades de instancia
 
-protocol MyProtocol {
+protocol Protocol3 {
     var propertyOne: String { get set }
     var propertyTwo: Int { get }
 }
-
 
 //creacion de protocolo con propiedades de tipo
 
@@ -91,10 +98,11 @@ protocol Shippeable {
 
 
 
+
 //creacion de estructura que adopta protocolo creado
 
 struct Product: Shippeable {
-    var id: String
+    var id: Int
     var name: String
     var street: String
     var city: String
@@ -107,11 +115,10 @@ struct Product: Shippeable {
 
 //instancia de objeto que adopta protocolo
 
-let product = Product(id: "1",
-                      name: "SwiftBeta",
-                      street: Apple Street",
-                      city: "SwiftBetaLand",
-                      zip: "0000")
+let product = Product(id: 10, name: "Rodolfo", street: "San Juan", city: "Santiago", zip: "123456")
+
+
+
 
 
 
@@ -130,12 +137,17 @@ let product = Product(id: "1",
 
 protocol Calculable {
     func calculate() -> String
+    static func calculator() -> String
 }
 
 
 //creacion de estructura que conforme protocolo
 
 struct Calculator: Calculable {
+    static func calculator() -> String {
+        return "MORE Some value..."
+    }
+    
     func calculate() -> String {
         return "Some value..."
     }
@@ -143,7 +155,11 @@ struct Calculator: Calculable {
 
 
 
-//conformar protocolos con métodos que su implementación no sea obligatoria
+ 
+
+ 
+ 
+//conformar protocolos con métodos y propiedades que su implementación no sea obligatoria
 
 //podemos crear métodos en protocolos y en donde se conforme el protocolo tenemos la opción de que algunos métodos no sea obligatoria su implementación. Para esto es necesario
 //1. Solo funciona en las clases y no en las Struct
@@ -157,23 +173,29 @@ struct Calculator: Calculable {
 @objc
 protocol Printable {
     @objc optional func printResult() -> String
+    @objc optional var name : String { get }
 }
 
 
 //creacion de tipo que conforme protocolo con métodos sin implementación obligatoria
 
 class Logger: Printable {
-
+    var name : String
+    init(name: String) {
+        self.name = name
+    }
 }
 
 
 //instancia de objeto que adopta protocolo
 
-let logger = Logger()
+let logger = Logger(name: "Rodolfo")
 
 
 
 //cabe señalar que los parámetros dentro de los métodos de nuestro protocolo solo puede llevar el nombre y el tipo de datos que ingresa y retorna pero nunca valores o valores por defecto
+
+
 
 
 
@@ -194,22 +216,28 @@ protocol Initializable {
 
 //creacion objeto que conforma protocolo
 
-struct User: Initializable {
-    init(parameterOne: String,
-parameterTwo: Int) {
-        // Create initializer
+struct User1: Initializable {
+    var parameterOne : String
+    var parameterTwo: Int
+    init(parameterOne: String, parameterTwo: Int) {
+        self.parameterOne = parameterOne
+        self.parameterTwo = parameterTwo
     }
+    
+    
 }
 
 
 //instancia de objeto que conforma protocolo con inicializadores
 
-let user = User(parameterOne: "SwiftBeta",
-                parameterTwo: 10)
+let user = User1(parameterOne: "Rodolfo",
+                parameterTwo: 15)
 
 
 
 
+
+ 
 
 //Extensiones
 
@@ -221,6 +249,8 @@ let user = User(parameterOne: "SwiftBeta",
 //2. Implementacion dentro de una extensión del tipo que conforma el protocolo
 
 //3. Implementacion dentro de una extensión del propio protocolo
+
+
 
 
 
@@ -249,11 +279,11 @@ class Database {
 
 //tipo con extensión
 
-class Database {
+class Database1 {
 
 }
 
-extension Database {
+extension Database1 {
     func connect() {
         print("Connected")
     }
@@ -278,11 +308,17 @@ database.connect()
 database.addData()
 database.removeData()
 
+let database1 = Database1()
+
+database1.connect()
+database1.addData()
+database1.removeData()
 
 
 
 
-
+ 
+ 
 //extensiones con protocolos
 
 //a la hora de usar protocolos y extensions, tenemos 3 opciones. Una es añadir las implementaciones del protocolo al interior de un extensión directamente del protocolo (por defecto), añadir implementación del protocolo directamente en el tipo o añadir implementaciones del protocolo al interior de una extensión del tipo que conforma el protocolo
@@ -291,20 +327,25 @@ database.removeData()
 
 
 
-//extensiones en protocolos
+//extensiones en protocolos, de tipos que lo conforman
 
 //De esta manera no tendremos que crear la misma implementación en cada tipo que conforme el protocolo
 
+
+//Extension en Protocolos que son conformados por Tipos
+
 //creacion protocolo
 
-protocol Printable {
+
+
+protocol Printable1 {
     var information: String { get }
     func printResult()
 }
 
 //creacion extension de protocolo
 
-extension Printable {
+extension Printable1 {
     func printResult() {
         print("Message from Protocolo Extension \(information)")
     }
@@ -312,26 +353,28 @@ extension Printable {
 
 //creacion objeto que conforma el protocolo
 
-struct User: Printable {
-    var information: String { "SwiftBeta" }
+struct User2: Printable1 {
+    var information: String { "RodolfoDev" }
 }
-//cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo, no en la extension
+//cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo(Struct), no en la extension
 
 
 //instancia de objeto que conforma protocolo
 
-let user = User()
-user.printResult()
+let user2 = User2()
+user2.printResult()
 
 
 
 
 
-//Extension en tipos que conforman protocolos
+
+
+//Extension en TIPOS que conforman protocolos
 
 //creacion protocolo
 
-protocol Printa {
+protocol Printable2 {
     var information: String { get }
     func printResult()
 }
@@ -339,8 +382,9 @@ protocol Printa {
 
 //creacion objeto que conforma el protocolo
 
-struct User1: Printa {
-    var information: String { "SwiftBeta" }
+struct User3: Printable2 {
+    var information: String { "Rodolfo" }
+    
 }
 
 //cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo, no en la extension
@@ -348,7 +392,7 @@ struct User1: Printa {
 
 //creacion extensión de tipo que conforma protocolo
 
-extension User1 {
+extension User3 {
     func printResult() {
         print("Message from Protocolo Extension \(information)")
     }
@@ -356,6 +400,7 @@ extension User1 {
 
 //instancia de objeto que conforma protocolo
 
-let user1 = User1()
-user.printResult()
+let user3 = User3()
+user3.printResult()
+
 

@@ -127,8 +127,16 @@ import Foundation
 
 //13-Protocolos
 
-//-
-//-
+//-Sintaxis de un protocolo
+//-Conformar protocolo en una subclase
+//-Protocolo con propiedades de Tipo y de Instancia
+//-Protocolo con métodos de Tipo y de Instancia
+//-Protocolos con métodos y propiedades que su implementación no sea obligatoria
+//-Protocolo con inicializadores
+//-Extensiones
+//-Extensiones con protocolos
+//-Extension en Protocolos que son conformados por Tipos
+//-Extension en TIPOS que conforman protocolos
 
 
 //14-Genericos
