@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Level Access Private en Swift
 

@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Gestión de errores Swift
 
