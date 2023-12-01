@@ -141,13 +141,17 @@ import Foundation
 
 //14-Genericos
 
-//-
-//-
+//-Sintaxis funciones Genericas
+//-Creacion de método con parametros genericos de un solo tipo de datos
+//-Creacion de método con parametros genericos de mas de un solo tipo de datos
+//-Tipos genéricos en Swift
+//-Restricciones de tipo usando genericos
+//-Tipos asociativos(Protocolos) usando Genericos
 
 
 //15-Extensiones
 
-//-
+//-Sintaxis
 //-
 
 

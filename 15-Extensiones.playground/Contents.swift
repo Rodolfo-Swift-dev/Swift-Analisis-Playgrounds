@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 //Extensiones
 //las extensiones nos permiten añadir funcionalidad a los tipos( Struct, Class y Enum), protocolos y tipos de datos(String, Folat, Int…)
@@ -11,8 +11,8 @@ import UIKit
 //creacion extensión de tipo de dato String que añade método de concatenar String a otro String
 
 extension String {
-    mutating func concatenateSwiftBeta() {
-        self = self + " ¡Suscríbete a SwiftBeta! 🚀"
+    mutating func concatenate() {
+        self = self + " ¡Aprende Swift! 🚀"
     }
 }
 
@@ -22,8 +22,8 @@ extension String {
 
 //creacion de variable de tipo de dato String y uso de método de extensión de tipo de dato
 
-var myString = "User"
-myString.concatenateSwiftBeta()
+var myString = "Rodolfo"
+myString.concatenate()
 print(myString)
 
 //esto es muy útil poder extender funcionalidad de tipos de datos que no tenemos el codigo
@@ -47,12 +47,15 @@ print(4.add(b: 10))
 // RESULTADO 👇
 // 14
 
-//a través de notación de punto y tras crear la extensión con sus métodos es que podemos acceder estos métodos con nuevas funcionalidades
+//a través de notación de punto y tras crear la extensión con sus métodos es que podemos acceder estos métodos con nuevas funcionalidades.
 
 
 
 
 
+
+
+/*
 //extender tipos
 
 //podemos extender tipos (Struct, Class y Enum) para añadirle funcionalidad extra, aunque hayan sido creado estos tipos por nosotros
@@ -300,3 +303,4 @@ let user1 = User1()
 user.printResult()
 
 
+*/

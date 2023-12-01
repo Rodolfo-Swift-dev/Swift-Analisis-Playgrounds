@@ -1,8 +1,8 @@
-import UIKit
+import Foundation
 
 //Genéricos
 
-Los genéricos son una característica en Swift bien potente ya que nos permite escribir código que no esté vinculado a ningún tipo de datos en especifico y así poder trabajar con cualquier tipo de datos y no está limitado, haciendo el código más flexible y reutilizable
+//Los genéricos son una característica en Swift bien potente ya que nos permite escribir código que no esté vinculado a ningún tipo de datos en especifico y así poder trabajar con cualquier tipo de datos y no está limitado, haciendo el código más flexible y reutilizable
 
 //un ejemplo claro de genéricos son los Array, Set y Diccionarios. Estos no discriminan el tipo de datos a almacenar. No confundir con reglas de almacenamiento de varios tipos de datos dentro de colecciones
 
@@ -12,7 +12,6 @@ Los genéricos son una característica en Swift bien potente ya que nos permite 
 
 func swapTwoStrings(a: inout String, b: inout String) {
 
-String) {
     let tempA = a
     a = b
     b = tempA
@@ -21,15 +20,15 @@ String) {
 
 //creacion variables de tipo String
 
-var name = "SwiftBeta"
-var book = "El Libro de Swift
+var name = "Rodolfo"
+var book = "El Repo de Swift"
 
 
 //resultado con valores actuales
 
 print("name: \(name)\nbook: \(book)")
-// name: SwiftBeta
-// book: El libro de Swift
+// name: Rodolfo
+// book: El Repo de Swift
 
 
 //llamado a la función que invierte valores
@@ -40,8 +39,8 @@ swapTwoStrings(a: &name, b: &book)
 //resultado con valores actuales luego del llamado a la función
 
 print("name: \(name)\nbook: \(book)")
-// name: El libro de Swift
-// book: SwiftBeta
+// name: El Repo de Swift
+// book: Rodolfo
 
 
 
@@ -70,11 +69,18 @@ func swapTwoDoubles(a: inout Double, b: inout Double) {
 
 
 
+
+
+
+
 //Funciones genéricas
 
 //para crear una función genérica debemos agregar el siguiente código placeholder después del nombre de la funcion <T> y además el placeholder T como parámetro
 
-//creacion de método con parámetros inout
+
+
+
+//creacion de método generico de un solo tipo de datos, con parámetros inout
 //función que toma dos valores tipo Genericos y los invierte
 
 func swapTwoValues<T> (a: inout T, b: inout T) {
@@ -86,9 +92,8 @@ func swapTwoValues<T> (a: inout T, b: inout T) {
 
 //creacion variables de tipo String
 
-var myName = "SwiftBeta"
-var myBrand = "Aprende a programar en Swift"
-
+var myName = "Rodolfo"
+var myBrand = "Aprende a programar"
 
 //llamado a la función que invierte valores
 
@@ -100,8 +105,8 @@ swapTwoValues(a: &myName,
 
 print(myName)
 print(myBrand)
-// Aprende a programar en Swift
-// SwiftBeta
+// Aprende a programar
+// Rodolfo
 
 
 //creacion variables de tipo Int
@@ -129,6 +134,13 @@ print(lastDayOfTheMonth)
 //para poder ingresar parámetros de distintos tipos en un método genérico debemos añadir U, dentro de <T, U> y además pasamos como parámetro U
 
 
+
+
+
+
+
+
+
 //creacion método genérico que acepta dos parámetros de distinto tipo
 
 func printParameters<T, U>(valueA: T, valueB: U) {
@@ -137,16 +149,13 @@ func printParameters<T, U>(valueA: T, valueB: U) {
 }
 
 
-
-
-
 //Nombre de los tipos genericos
 
 //nuestros genéricos en los ejemplos anteriores solo se han llamado de forma básica pero pueden ser nombrados de forma descriptiva
 
 
-func printParameters<StringTipes, U>(IntTipes: StringTipes, valueB: IntTipes) {
-    print(valueA)
+func printParameter<AlphaNumeric, U>(numbers: AlphaNumeric, valueB: U) {
+    print(numbers)
     print(valueB)
 }
 
@@ -159,12 +168,16 @@ func printParameters<StringTipes, U>(IntTipes: StringTipes, valueB: IntTipes) {
 
 //Dict placeholders key and value
 
-@frozen public struct Dictionary<Key, Value> where Key : Hashable
+@frozen public struct Dictionary<Key, Value> where Key : Hashable {
+    
+}
 
 
 //Array placeholders Elements
 
-@frozen public struct Array<Element>
+@frozen public struct Array<Element> {
+    
+}
  
 
 //como podemos darnos cuenta en los Array con los Element y en los Dict con los Key y Valué, estos pueden ser de cualquier tipo de datos, siempre y cuando respete las reglas de tipos de datos de la colección
@@ -203,8 +216,8 @@ struct StackOfString {
 var stackOfString = StackOfString()
 
 //métodos de la instancia
-stackOfString.push("SwiftBeta")
-stackOfString.push("Aprender a Programar en Swift")
+stackOfString.push("Rodolfo")
+stackOfString.push("Aprende a Programar en Swift")
 stackOfString.pop()
 stackOfString.items
 
@@ -217,7 +230,7 @@ stackOfString.items
 
 struct Stack<Element> {
     var items = [Element]()
-    
+   
     mutating func push(_ item: Element) {
         items.append(item)
     }
@@ -225,7 +238,7 @@ struct Stack<Element> {
     mutating func pop() -> Element {
         return items.removeLast()
     }
-
+}
 //podemos ver que añadiendo el placeholder <Element> después del nombre del tipo y añadiendo el placeholder Element como tipo de dato cuando es requerido dentro del cuerpo de nuestro tipo.
 //con esto nuestro objeto es genérico y puede trabajar con cualquier tipo de datos
 
@@ -235,22 +248,23 @@ struct Stack<Element> {
 var stack = Stack<Int>()
 
 //acceso a métodos del objeto
+
 stack.push(1)
 stack.push(2)
 stack.push(3)
+stack.pop()
 
-
-
-//inicializacion de objeto genérico que recibe tipos Int
+//inicializacion de objeto genérico que recibe tipos String
 
 var genericStack = Stack<String>()
 
 
 //acceso a métodos del objeto
 
-genericStack.push("SwiftBeta")
+genericStack.push("Rodolfo")
 genericStack.push("Aprende Swift")
 genericStack.push("Aprende a Crear Apps")
+genericStack.pop()
 
 
 
@@ -262,16 +276,18 @@ genericStack.push("Aprende a Crear Apps")
 
 
 
+
+
 //restricciones de tipo usando genericos
 
 //la flexibilidad de los genéricos es impresionante pero podemos también añadir restricciones. Esto significa que podemos limitar el tipo de datos, ejemplo cuando queremos sumar y solo debemos trabajar con datos numericos
 
 //código erróneo de genérico
-struct Calculator<Value> {
-    func sum(a: Value, b: Value) -> Value {
-        a + b
-    }
-}
+//struct Calculator<Value> {
+  //  func sum(a: Value, b: Value) -> Value {
+   //     a + b
+   // }
+//}
 
 //como mencionábamos este código anterior tiene un método el cual no puede ejecutarse debido a que el dato ingresado pueda ser un valor no numérico como String o Bool.
 //para poder aplicar estas restricciones a los genéricos debemos hacer lo siguiente
@@ -279,7 +295,7 @@ struct Calculator<Value> {
 
 //creacion de objeto con genérico y restricciones de tipo
 
-struct Calculator<Value: AdditiveArithmetic> {
+struct Calculator1<Value: AdditiveArithmetic> {
     func sum(a: Value, b: Value) -> Value {
         a + b
     }
@@ -291,7 +307,7 @@ struct Calculator<Value: AdditiveArithmetic> {
 
 //podríamos ocupar la keyword where y hacer más conciso nuestro código
 
-struct Calculator<Value> where Value: AdditiveArithmetic {
+struct Calculator2<Value> where Value: AdditiveArithmetic {
     func sum(a: Value, b: Value) -> Value {
         a + b
     }
@@ -302,13 +318,18 @@ struct Calculator<Value> where Value: AdditiveArithmetic {
 
 //instancia de objeto genérico con restricción de tipo de dato
 
-let calculator = Calculator<Int>()
-print(calculator.sum(a: 2000, b: 3000))
+let calculator2 = Calculator2<Int>()
+print(calculator2.sum(a: 2000, b: 3000))
+
+//codigo erroneo
+//let calculator2 = Calculator2<String>()
 
 
 
 
-
+ 
+ 
+ 
 //tipos asociativos
 
 //también podemos usar genéricos en protocolos y para hacerlo debemos ocupar como placeholder la keyword associated types dentro del protocolo  y luego el nombre. Puede ser el nombre T, U como anteriormente le llamamos pero para esta ocasión le daremos un nombre más descriptivo, lo llamaremos Element
@@ -333,7 +354,7 @@ protocol Stackeable {
 
 //creacion de tipo que conforma protocolo genérico
 
-struct StackOfString: Stackeable {
+struct StackOfStrings: Stackeable {
     var items: [String]
     
     mutating func push(_ item: String) {
@@ -348,9 +369,11 @@ struct StackOfString: Stackeable {
 
 //creacion de instancia de objeto y utilización de métodos
 
-var stackOfString = StackOfString(items: [])
-stackOfString("[StackOfString] SwiftBeta")
-stackOfString("[StackOfString] Aprende Swift")
+var stackOfStrings = StackOfStrings(items: [])
+stackOfStrings.push("Rodolfo")
+stackOfStrings.push("Martin")
+stackOfStrings.push("Nacho")
+stackOfString.pop()
 
 //aquí vemos cómo creamos un protocolo genérico y el objeto que lo conforme puede con el tipo de datos deseado.
 //En el objeto creado le indicamos que el tipo de datos a utilizar por el objeto será String pero si quisiéramos que la implementación de métodos y propiedades fuera de cualquier tipo de datos podríamos indicarle a nuestra estructura o nuestro tipo que sea genérica quedando asi
@@ -358,7 +381,7 @@ stackOfString("[StackOfString] Aprende Swift")
 
 //creacion de objeto genérico que conforma protocolo genérico
 
-struct Stack<Element>: Stackeable {
+struct Stack1<Element>: Stackeable {
     var items: [Element]
     
     mutating func push(_ item: Element) {
@@ -373,14 +396,20 @@ struct Stack<Element>: Stackeable {
 
 //instancia de objeto genérico que conforma protocolo genérico y utilización de métodos
 
-var stack = Stack<String>(items: [])
-stack.push("[Stack] SwiftBeta")
-stack.push("[Stack] Aprende Swift")
+var stack1 = Stack1<String>(items: [])
+stack1.push("Rodolfo")
+stack1.push("Nacho")
+stack1.push("Martin")
+stack1.pop()
 
 print(stack.items)
 
-stack.pop()
+
 
 
 
 //Como has podido ver, los genéricos ayudan a reducir código pero pueden añadir más complejidad y también pueden dificultar la comprensión del código. Hay que intentar buscar el equilibrio y saber cuándo es mejor usar genéricos dentro de tu aplicación.
+
+
+
+//casos de uso
