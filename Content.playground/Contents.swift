@@ -152,7 +152,12 @@ import Foundation
 //15-Extensiones
 
 //-Sintaxis
-//-
+//-Extender Tipos creados por nosotros con metodos y propiedades
+//-Extender tipos con propiedades computadas
+//-Extender tipos con métodos o propiedades de tipos
+//-Extender tipos con inicializadores
+//-Extension en protocolos que son conformados por Tipos
+//-Extension en tipos que conforman Protocolos
 
 
 //16-Acces-Level

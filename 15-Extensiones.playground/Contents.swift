@@ -55,7 +55,7 @@ print(4.add(b: 10))
 
 
 
-/*
+
 //extender tipos
 
 //podemos extender tipos (Struct, Class y Enum) para añadirle funcionalidad extra, aunque hayan sido creado estos tipos por nosotros
@@ -78,7 +78,7 @@ struct User {
 
 //creacion de tipo sin método reset, el cual será añadido por una extensión
 
-struct User {
+struct User1 {
     var name: String
     
     mutating func update(name: String) {
@@ -86,7 +86,7 @@ struct User {
     }
 }
 
-extension User {
+extension User1 {
     mutating func reset() {
         self.name = ""
     }
@@ -98,8 +98,13 @@ extension User {
 
 //instancia de objeto con extensión o sin extensión ya que serían equivalentes
 
-var anotherUser = User(name: "SwiftBeta")
+var anotherUser = User(name: "Rodolfo")
 anotherUser.reset()
+var anotherUser1 = User1(name: "Rodolfo")
+anotherUser1.reset()
+
+
+
 
 
 
@@ -125,7 +130,7 @@ class Database {
 
 extension Database {
     var path: String {
-        "/home/Desktop/"
+        "\(name)/home/Desktop/"
     }
 }
 
@@ -141,6 +146,9 @@ print(database.path)
 
 
 
+ 
+ 
+
 
 //Extender tipos con métodos de tipos
 
@@ -149,23 +157,25 @@ print(database.path)
 
 //creacion de tipo u objeto
 
-struct User {
+struct User2 {
     var name: String
 }
 
 
 //creacion de extension de tipo con método de tipo
 
-extension User {
+extension User2 {
     static func getUserDatabase() -> String {
         return "/path/database/user.sql"
     }
+    static var newName : String { get{ return "Nacho-Martin"} }
 }
 
 
 //uso métodos de tipo, los cuales se pueden llamar directamente sin necesidad de Instanciar el tipo
 
-print(User.getUserDatabase())
+print(User2.getUserDatabase())
+print(User2.newName)
 
 
 
@@ -179,7 +189,7 @@ print(User.getUserDatabase())
 
 //creacion de tipo con propiedades
 
-struct User {
+struct User4 {
     let name: String
     let youtubeChannel: String
     let twitter: String
@@ -188,9 +198,9 @@ struct User {
 
 //instancia de tipo con inicializadores
 
-let swiftbeta = User(name: "SwiftBeta",
-                     youtubeChannel: "@swiftbeta",
-                     twitter: "swiftbeta_")
+let newUser = User4(name: "Rodolfo",
+                     youtubeChannel: "RodDev",
+                     twitter: "Rod-Dev")
 
 
 //aqui estamos instanciando un objeto con inicializadores por defecto pero podemos hacer inicializadores extra para nuestros tipos
@@ -198,10 +208,11 @@ let swiftbeta = User(name: "SwiftBeta",
 
 //creacion de extensión de tipo con inicializador
 
-extension User {
-    init(swiftbetaName: String = "SwiftBeta",
-         youtubeChannel: String = @swiftbeta",
-         twitter: String = "swiftbeta_") {
+
+extension User4{
+    init(swiftbetaName: String = "Rodolfo",
+         youtubeChannel: String = "RodDev",
+         twitter: String = "Rod-Dev") {
         self.init(name: swiftbetaName, youtubeChannel: youtubeChannel,
                   twitter: twitter)
     }
@@ -210,7 +221,7 @@ extension User {
 
 //instancia de objeto que tiene extensión con inicializador
 
-let newSwiftBeta = User()
+let newSwiftBeta = User4()
 print(newSwiftBeta)
 
 // RESULTADO 👇
@@ -221,6 +232,8 @@ print(newSwiftBeta)
 
 
 
+ 
+ 
 //extender protocolos
 
 //extensiones con protocolos
@@ -252,20 +265,24 @@ extension Printable {
 
 //creacion objeto que conforma el protocolo
 
-struct User: Printable {
-    var information: String { "SwiftBeta" }
+struct User5: Printable {
+    var information: String { "Rodolfo Swift" }
 }
-//cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo, no en la extension debido a que de
+//cabe señalar que en este ejemplo el valor del metodo del protocolo lo implementamos en la extension del protocolo, no en Tipo debido a que de esta manera no tendremos que crear la misma implementación en cada tipo que conforme el protocolo
+
+
 
 
 //instancia de objeto que conforma protocolo
 
-let user = User()
-user.printResult()
+let user5 = User5()
+user5.printResult()
 
 //en la extension del protocolo podemos implementar solo los métodos requeridos, no las propiedades, para implementar estas debemos implementarlas en el tipo.
 
 //cabe señalar que si tenemos un método implementado en una extensión del protocolo y además el mismo método lo implementamos en el tipo, luego de Instanciar el tipo y acceder a sus métodos al método que accederá será el del tipo, no el de la extension(como que existiera una jerarquia)
+
+
 
 
 
@@ -282,7 +299,7 @@ protocol Printa {
 
 //creacion objeto que conforma el protocolo
 
-struct User1: Printa {
+struct User6: Printa {
     var information: String { "SwiftBeta" }
 }
 
@@ -291,7 +308,7 @@ struct User1: Printa {
 
 //creacion extensión de tipo que conforma protocolo
 
-extension User1 {
+extension User6 {
     func printResult() {
         print("Message from Protocolo Extension \(information)")
     }
@@ -299,8 +316,8 @@ extension User1 {
 
 //instancia de objeto que conforma protocolo
 
-let user1 = User1()
-user.printResult()
+let user6 = User6()
+user6.printResult()
 
 
-*/
+//casos de uso

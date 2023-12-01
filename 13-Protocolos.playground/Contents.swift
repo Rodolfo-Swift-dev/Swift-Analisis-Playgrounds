@@ -323,7 +323,9 @@ database1.removeData()
 
 //a la hora de usar protocolos y extensions, tenemos 3 opciones. Una es añadir las implementaciones del protocolo al interior de un extensión directamente del protocolo (por defecto), añadir implementación del protocolo directamente en el tipo o añadir implementaciones del protocolo al interior de una extensión del tipo que conforma el protocolo
 
+//en la extension del protocolo podemos implementar solo los métodos requeridos, no las propiedades, para implementar estas debemos implementarlas en el tipo.
 
+//cabe señalar que si tenemos un método implementado en una extensión del protocolo y además el mismo método lo implementamos en el tipo, luego de Instanciar el tipo y acceder a sus métodos al método que accederá será el del tipo, no el de la extension(como que existiera una jerarquia)
 
 
 
