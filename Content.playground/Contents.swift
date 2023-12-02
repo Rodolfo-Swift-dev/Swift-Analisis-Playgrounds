@@ -162,14 +162,17 @@ import Foundation
 
 //16-Acces-Level
 
-//-
-//-
+//-Tipos control de acceso
+//-Private acces level en propiedades
+//-Private acces level en metodos
 
 
 //17-Gestion de Errores
 
-//-
-//-
+//Sintaxis tipo Error encapsulado en un Enum
+//-Creacion de objeto que es capaz de gestionar errores, throws, throw
+//-Captura y manejo de errores, do, catch, try
+//-Verificacion de errores, try?
 
 
 //18-Tipe Casting

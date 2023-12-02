@@ -21,7 +21,7 @@ import Foundation
 //los caracteres no cumplen con los permitidos
 //etc
 
-Cabe señalar que estos posibles errores los podemos encapsular en un tipo Enum que además conforme el protocolo Error
+//Cabe señalar que estos posibles errores los podemos encapsular en un tipo Enum que además conforme el protocolo Error
 
 //creacion de Enum Que conforma protocolo Error y captura posibles errores
 
@@ -35,11 +35,16 @@ enum DatabaseError: Error {
 
 
 
+
+
+
+
 //Creacion de objeto que es capaz de gestionar errores
 
-Struct User {
+//throws, throw
+struct User {
 
-enum DatabaseError: Error {
+enum DatabaseError1: Error {
     case userAlreadyExists
     case usernameTooShort
     case invalidCharacters
@@ -47,8 +52,8 @@ enum DatabaseError: Error {
 
 func saveUser(name: String) throws {
 
-    if name == "SwiftBeta" {
-        throw DatabaseError.userAlreadyExists
+    if name == "Rodolfo" {
+        throw DatabaseError1.userAlreadyExists
     } else {
         print("Saving user...")
     }
@@ -70,12 +75,15 @@ func saveUser(name: String) throws {
 
 
 
-//instancia de objeto y captura y manejo de error
 
+
+
+//instancia de objeto y captura y manejo de error
+//try, do, catch.
 let user = User()
 
 do {
-    try user.saveUser(name: "SwiftBeta")
+    try user.saveUser(name: "Rodolfo")
 } catch {
     print(error)
 }
@@ -83,15 +91,26 @@ do {
 print("End")
 
 
-//try
+
+
+
+
+
+
 //con la keyword try antes del llamado de la funcion y dentro de las llaves del do, le indicamos al compilador que estamos conscientes que puede lanzar un error y que aún así  intente ejecutar la función. A esta altura aún no capturamos nuestro error
 //do
 //Con la keyword do le indicamos que haga, que actúe. Dentro del do estará el try lanzando el método y en caso de que llegue a haber un error no se ejecuta el do y se ejecuta el catch
 //catch
-Con la keyword catch estamos capturando el error en caso de que lo hubiese. El catch trabaja en conjunto con el do y se activa uno o el otro.
+//Con la keyword catch estamos capturando el error en caso de que lo hubiese. El catch trabaja en conjunto con el do y se activa uno o el otro.
 
 //es importante mencionar que esta es la forma correcta de gestionar errores en Swift, con las keywords antes señaladas.
 //con la gestión de errores evitamos que nuestra App sea segura y no se bloquee ni cierre en ejecución, además de retroalimentarnos de los errores actuales y también poder transmitir información al usuario, como en el ejemplo anterior, si es que el nombre ya existe, le indicamos al usuario y le solicitamos que ingrese otro.
+
+
+
+                        
+                        
+
 
 
 
@@ -108,10 +127,11 @@ Con la keyword catch estamos capturando el error en caso de que lo hubiese. El c
 
 //instancia de objeto y que arroja error y no es capturado
 
-let user = User()
+let user1 = User()
 
-try? user.saveUser(name: "SwiftBeta")
+try? user1.saveUser(name: "Nacho")
 
 
 //aunque este método no es completo y la mejor forma es gestión y manejo de errores, pero tal vez en ciertas ocasiones necesitemos no tanta información ni manejar errores y aquí es donde podremos ocupar la cláusula try?
+
 
