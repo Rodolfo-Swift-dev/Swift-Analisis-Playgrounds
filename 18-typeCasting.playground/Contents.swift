@@ -1,6 +1,26 @@
 import Foundation
 
+
+
+
 //Type casting
+
+//type casting en swift es una manera de comprobar el tipo de una instancia o cambiar el tipo de una instancia por alguna superclase o subclase, todo esto con la finalidad de continuar con el flujo de nuestro programa
+
+//caracteristicas
+
+//flexibilidad
+//podemos manipular instancias de una clase o instancias de sus superclases o subclases
+
+//polimorfismo
+//principio clave en programación orientada a objetos
+//a una instancia de clase podremos  comprobar el estado real de cada instancia ya que la instancia puede ser estado de superclase o subclase
+
+//comprobacion de tipos en tiempo de ejecución
+// una vez hemos dado un tipo a una variable, no podemos cambiar su tipo. Pero en ocasiones tendremos que hacer comprobaciones en el tiempo de ejecución de nuestro código para saber exactamente el tipo de una instancia.
+
+//con las keyword is y as podremos comprobar el tipo de una instancia, hacer type casting
+
 
 class Animal{
     var name: String
@@ -27,7 +47,30 @@ let martin = Human(n: "Martin")
 let nemo = Fish(n: "nemo")
 
 let neighbors : [Any] = [nacho, martin, nemo,1]
+
+
 // is
+//usamos el operador is para comprobar el tipo de una istancia, retornando un true si la instancia es del tipo que especificamos o false si no lo es
+
+//creacion de variable tipo String
+
+var message = "¡Aprende Swift!"
+
+
+//consulta con keyword is si variable es de tipo String
+
+if message is String  {
+    print("Es de tipo String")
+} else {
+    print("NO es de tipo String")
+}
+
+// RESULTADO 👇
+// message es de tipo String
+
+//el operador o keyword is nos sirve para comprobar un tipo y dependiendo del resultado controlar el flujo del programa
+
+
 func findNemo(from animals : [Any]){
     for animal in animals{
         if animal is Fish{//TYPECHECKING
@@ -39,6 +82,10 @@ func findNemo(from animals : [Any]){
 findNemo(from: neighbors)
 
 
+
+
+
+/*
 //as!
 func findinNemo(from animals : [Any]){
     for animal in animals{
@@ -65,47 +112,8 @@ if let pescado = neighbors[2] as? Fish{//secure DOWNCAST
 }
 
 
-//Type casting
-
-//type casting en swift es una manera de comprobar el tipo de una instancia o cambiar el tipo de una instancia por alguna superclase o subclase, todo esto con la finalidad de continuar con el flujo de nuestro programa
-
-//caracteristicas
-
-//flexibilidad
-//podemos manipular instancias de una clase o instancias de sus superclases o subclases
-
-//polimorfismo
-//principio clave en programación orientada a objetos
-//a una instancia de clase podremos  comprobar el estado real de cada instancia ya que la instancia puede ser estado de superclase o subclase
-
-//comprobacion de tipos en tiempo de ejecución
-// una vez hemos dado un tipo a una variable, no podemos cambiar su tipo. Pero en ocasiones tendremos que hacer comprobaciones en el tiempo de ejecución de nuestro código para saber exactamente el tipo de una instancia.
-
-//con las keyword is y as podremos comprobar el tipo de una instancia, hacer type casting
 
 
-
-//is
-
-//usamos el operador is para comprobar el tipo de una istancia, retornando un true si la instancia es del tipo que especificamos o false si no lo es
-
-//creacion de variable tipo String
-
-var message = "¡Suscríbete a SwiftBeta!"
-
-
-//consulta con keyword is si variable es de tipo String
-
-if message is String {
-    print("Es de tipo String")
-} else {
-    print("NO es de tipo String")
-}
-
-// RESULTADO 👇
-// message es de tipo String
-
-//el operador o keyword is nos sirve para comprobar un tipo y dependiendo del resultado controlar el flujo del programa
 
 
 
@@ -219,3 +227,5 @@ for animal in animals {
 
 
 //En este caso, por cada elemento del Array comprobamos si se puede transformar en los tipos de la instancia que contiene el Array animal, y si es posible se ejecuta su scope
+
+*/
