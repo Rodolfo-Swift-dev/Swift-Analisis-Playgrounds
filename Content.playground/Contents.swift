@@ -185,5 +185,6 @@ import Foundation
 
 //19-Operador Ternario
 
-//-
-//-
+//-Sintaxis
+//-Operador ternario con Else
+//-Operador ternario sin Else
