@@ -19,7 +19,7 @@ import Foundation
 //comprobacion de tipos en tiempo de ejecución
 // una vez hemos dado un tipo a una variable, no podemos cambiar su tipo. Pero en ocasiones tendremos que hacer comprobaciones en el tiempo de ejecución de nuestro código para saber exactamente el tipo de una instancia.
 
-//con las keyword is y as podremos comprobar el tipo de una instancia, hacer type casting
+//con las keyword is, as! y as podremos comprobar el tipo de una instancia, hacer type casting
 
 
 class Animal{
@@ -49,24 +49,13 @@ let nemo = Fish(n: "nemo")
 let neighbors : [Any] = [nacho, martin, nemo,1]
 
 
+
+
 // is
+// as!
 //usamos el operador is para comprobar el tipo de una istancia, retornando un true si la instancia es del tipo que especificamos o false si no lo es
 
-//creacion de variable tipo String
-
-var message = "¡Aprende Swift!"
-
-
 //consulta con keyword is si variable es de tipo String
-
-if message is String  {
-    print("Es de tipo String")
-} else {
-    print("NO es de tipo String")
-}
-
-// RESULTADO 👇
-// message es de tipo String
 
 //el operador o keyword is nos sirve para comprobar un tipo y dependiendo del resultado controlar el flujo del programa
 
@@ -85,9 +74,11 @@ findNemo(from: neighbors)
 
 
 
-/*
-//as!
-func findinNemo(from animals : [Any]){
+
+
+
+//as
+func findinNemo1(from animals : [Any]){
     for animal in animals{
         if animal is Fish{//TYPECHECKING
             let pececillo = animal as! Fish// DOWNCAST
@@ -99,14 +90,16 @@ func findinNemo(from animals : [Any]){
         }
     }
 }
-print(findinNemo(from: neighbors))
+print(findinNemo1(from: neighbors))
 
 //ERROR en tiempo de ejecucion por que el downcast no corresponde a la subclase
 //let pescado = neighbors[0] as! fish
 
 //as?
 if let pescado = neighbors[2] as? Fish{//secure DOWNCAST
+    
     print(pescado.respirarBajoAgua())
+    
 }else{
     print("Not fish")
 }
@@ -124,6 +117,29 @@ if let pescado = neighbors[2] as? Fish{//secure DOWNCAST
 
 //Este operador consulta si un tipo se puede convertir
 
+
+
+func findinNemo2(from animals : [Any]){
+    for animal in animals{
+        if animal is Fish{//TYPECHECKING
+            //metodo inseguro sin verificar
+            if let pezcado = animal as? Fish{
+                print(pezcado.name)
+                print(pezcado.respirarBajoAgua())
+            }
+            //let pezcado = animal as! Fish// DOWNCAST
+           
+           
+            let animalFish = animal as Any// as UPCAST
+            
+        }
+    }
+}
+
+findinNemo2(from: neighbors)
+
+
+/*
 var message = "¡Suscríbete a SwiftBeta!"
 
 if let _ = message as? String {
@@ -131,17 +147,9 @@ if let _ = message as? String {
 } else {
     print("message NO es de tipo String")
 }
+*/
 
 //en el código anterior no tenemos problemas por que es un String pero si fuera una comprobación de si es un Int, ay veces que podremos convertir un String en dato Int(solo cuando tenga solo dígitos y punto o coma según la región)
-
-
-var stringNumber = "100"
-
-if let _ = stringNumber as? Int {
-    print("stringNumber es de tipo String")
-} else {
-    print("stringNumber NO es de tipo String")
-}
 
 
 //Este operador intenta transformar una instancia al tipo que le especificamos, por eso as se suele usar con ?, de esta manera si no hemos podido transformar el tipo especificado obtenemos un nil
@@ -157,7 +165,7 @@ if let _ = stringNumber as? Int {
 
 
 //en Swift podemos ocupar el poliformismo con herencia de clases y typecasting
-//ejemplo podemos tener una superclase animal que tiene propiedad de instancia ñame y subclases cat, dog y bird Que heredan de animal, cada subclase tendrá un método el cual será un sonido correspondiente al animal.
+//ejemplo podemos tener una superclase animal que tiene propiedad de instancia name y subclases cat, dog y bird Que heredan de animal, cada subclase tendrá un método el cual será un sonido correspondiente al animal.
 //si creáramos un arreglo de tipo animal en el cual incluyéramos una instancia de cat, dog y bird, no hay inconveniente ya que los 3 objetos son de tipo animal.
 //si iteraramos sobre el arreglo animals y quisiéramos ocupar el método correspondiente de cada animal como podríamos saber si es cat, dog o bird, ya que dentro del arreglo son de tipo animal.
 //as!
@@ -166,9 +174,12 @@ if let _ = stringNumber as? Int {
 //con as? Podemos consultar si un tipo puede ser convertido a otro tipo y si se puede, entonces se convierte, funciona en conjunto con if let, si se puede convertir se ejecuta el código y desempaquetamos el dato, si no se puede se salta el código, según las reglas del if
 
 
+
+
+
 //creacion de superclase
 
-class Animal {
+class Animal1 {
     var name: String
     init(name: String) {
         self.name = name
@@ -179,19 +190,19 @@ class Animal {
 
 //creacion de subclases
 
-class Dog: Animal {
+class Dog1: Animal1 {
     func ladrido() {
         print("\(name) ladrido: Guau Guau!")
     }
 }
 
-class Cat: Animal {
+class Cat1: Animal1 {
     func maullido() {
         print("\(name) maullido: Miau Miau!")
     }
 }
 
-class Bird: Animal {
+class Bird1: Animal1 {
     func canto() {
         print("\(name) canto: Pio Pio!")
     }
@@ -201,24 +212,29 @@ class Bird: Animal {
 
 //instancia de tipos que heredan de superclase Animal
 
-let animals: [Animal] = [Dog(name: "Perro"),
-                         Cat(name: "Gato"),
-                         Bird(name: "Pájaro")]
+let animals: [Animal1] = [Dog1(name: "Perro"),
+                         Cat1(name: "Gato"),
+                         Bird1(name: "Pájaro")]
 
 
 
 
 //ocupar métodos de forma correcta con type casting
 
-for animal in animals {
-    if let dog = animal as? Dog {
-        dog.ladrido()
-    } else if let cat = animal as? Cat {
-        cat.maullido()
-    } else if let bird = animal as? Bird {
-        bird.canto()
+func SoundAnimals(from animals : [Animal1]){
+    for animal in animals {
+        if let dog = animal as? Dog1 {
+            dog.ladrido()
+        } else if let cat = animal as? Cat1 {
+            cat.maullido()
+        } else if let bird = animal as? Bird1 {
+            bird.canto()
+        }
     }
 }
+SoundAnimals(from: animals)
+
+
 
 // RESULTADO 👇
 // Perro ladrido: Guau Guau!
@@ -228,4 +244,10 @@ for animal in animals {
 
 //En este caso, por cada elemento del Array comprobamos si se puede transformar en los tipos de la instancia que contiene el Array animal, y si es posible se ejecuta su scope
 
-*/
+
+
+
+//-is (TYPECHECKING)
+//-as (UPCAST)
+//-as! (DOWNCAST)
+//-as? (secure DOWNCAST)

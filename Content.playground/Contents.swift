@@ -50,7 +50,7 @@ import Foundation
 //-Switch
 //-For
 //-While
-//Repeat While
+//-Repeat While
 
 
 //6-Funciones
@@ -169,7 +169,7 @@ import Foundation
 
 //17-Gestion de Errores
 
-//Sintaxis tipo Error encapsulado en un Enum
+//-Sintaxis tipo Error encapsulado en un Enum
 //-Creacion de objeto que es capaz de gestionar errores, throws, throw
 //-Captura y manejo de errores, do, catch, try
 //-Verificacion de errores, try?
@@ -177,8 +177,10 @@ import Foundation
 
 //18-Tipe Casting
 
-//-
-//-
+//-is (TYPECHECKING)
+//-as (UPCAST)
+//-as! (DOWNCAST)
+//-as? (secure DOWNCAST)
 
 
 //19-Operador Ternario
