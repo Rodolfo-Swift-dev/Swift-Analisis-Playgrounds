@@ -116,19 +116,21 @@ protocol CanFly {
 class Bird {
     func haveWings() {
     }
+    func canHaveWings() {
+    }
 }
 class penguins: Bird {
     func canSwiming() {
     }
 }
-class eagle: Bird, CanFly {
+class Eagle: Bird, CanFly {
     func canFly() {
     }
     func attack() {
     }
 }
 
-
+let eagle = Eagle()
 
 
 //    4.    Principio de Segregación de Interfaces (ISP):
@@ -151,9 +153,9 @@ class Hawk: AllAnimal {
     func sleep() {
     }
     func swim() {
+        //  Anormal
     }
     func fly() {
-        //  Anormal
     }
 }
 
