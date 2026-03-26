@@ -1,0 +1,23 @@
+# Swift
+*.swift linguist-language=Swift
+*.playground linguist-language=Swift
+
+# Documentation
+*.md linguist-documentation
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+
+# Xcode
+*.xcodeproj linguist-generated
+*.xcworkspace linguist-generated
+*.pbxproj linguist-generated
