@@ -1,16 +1,16 @@
 # SOLID en Swift e iOS
 
-Los cinco principios aplicados a una misma funcionalidad de perfiles. La meta no es producir más capas: es controlar razones de cambio, contratos y dirección de dependencias.
+SOLID reúne cinco ideas para que un cambio afecte la menor cantidad posible de código. Esta guía las aplica a una pantalla de perfiles y muestra cuándo ayudan y cuándo solo agregan complejidad.
 
 ## Principios SOLID
 
-### S · Single Responsibility Principle
+### S · Una responsabilidad clara (SRP)
 
-**Idea:** Un tipo debe tener una razón cohesionada para cambiar. No significa obligatoriamente un método por tipo.
+**En simple:** Una pieza de código debería encargarse de una tarea que pueda explicarse con claridad.
 
-**Comportamiento:** Transporte, decodificación, cache y presentación pueden evolucionar independientemente. Un caso de uso puede conservar la responsabilidad de coordinarlos.
+**Qué ocurre:** Descargar, convertir, guardar y mostrar un perfil son tareas distintas. `ProfileImporter` las coordina, pero cada detalle puede cambiar sin reescribir los demás.
 
-**Límite:** Fragmentar cada instrucción en un tipo distinto aumenta navegación y acoplamiento sin mejorar cohesión.
+**Cuidado:** SRP no significa crear un tipo por cada línea o método. Si todo cambia por la misma razón y se entiende junto, puede permanecer junto.
 
 ```swift
 struct ProfileDecoder {
@@ -43,13 +43,13 @@ struct ProfileImporter {
 }
 ```
 
-### O · Open/Closed Principle
+### O · Agregar opciones sin romper lo existente (OCP)
 
-**Idea:** Una variación prevista debe poder extenderse sin reescribir el flujo estable que la consume.
+**En simple:** Si sabes que aparecerán nuevas opciones, intenta poder agregarlas sin reescribir el código que ya funciona.
 
-**Comportamiento:** `ProfileAnalytics` acepta nuevos proveedores que respeten el contrato sin agregar casos a un `switch`.
+**Qué ocurre:** `ProfileAnalytics` trabaja con cualquier objeto que cumpla `AnalyticsTracking`. Se puede agregar otro proveedor sin modificar el flujo que envía el evento.
 
-**Límite:** Cerrado no significa intocable. Corrige errores y cambia requisitos. No diseñes puntos de extensión para escenarios puramente hipotéticos.
+**Cuidado:** “Cerrado al cambio” no significa código intocable. Corrige errores y requisitos; crea extensiones solo para alternativas que realmente existen o están previstas.
 
 ```swift
 enum AnalyticsEvent: String {
@@ -80,13 +80,13 @@ analytics.profileOpened()
 // Agregar FirebaseAnalytics no modifica ProfileAnalytics.
 ```
 
-### L · Liskov Substitution Principle
+### L · Cumplir la misma promesa (LSP)
 
-**Idea:** Toda implementación aceptada por un contrato debe poder sustituirse sin romper las expectativas del consumidor.
+**En simple:** Si dos tipos prometen hacer lo mismo, quien los usa debería poder intercambiarlos y recibir un resultado equivalente.
 
-**Comportamiento:** Los loaders retornan datos no vacíos cuando existe un avatar y lanzan `notFound` cuando falta. El contrato abarca valores, errores, efectos, cancelación y aislamiento.
+**Qué ocurre:** Cada cargador de avatar debe devolver datos válidos cuando encuentra la imagen y lanzar `notFound` cuando no existe. La promesa incluye resultados y errores, no solo el nombre de la función.
 
-**Límite:** El compilador verifica firmas, pero no toda la semántica. Una implementación puede conformar al protocolo y aun así violar LSP.
+**Cuidado:** Swift comprueba que la función tenga la firma correcta, pero no que respete su significado. Un tipo puede cumplir el protocolo y aun así devolver resultados inesperados.
 
 ```swift
 protocol AvatarDataLoading {
@@ -105,13 +105,13 @@ struct CachedAvatarLoader: AvatarDataLoading {
 }
 ```
 
-### I · Interface Segregation Principle
+### I · Pedir solo lo necesario (ISP)
 
-**Idea:** Cada consumidor debe depender únicamente de las capacidades que utiliza.
+**En simple:** Cada pantalla o función debería conocer solo las operaciones que realmente necesita.
 
-**Comportamiento:** La pantalla de detalle conoce lectura, pero no escritura, borrado o carga de avatar.
+**Qué ocurre:** La pantalla de detalle recibe `ProfileReading` porque solo lee perfiles. No queda conectada por accidente a guardar, borrar o cargar avatares.
 
-**Límite:** Protocolos de una sola operación no son siempre mejores. Conserva juntas las capacidades que cambian y se consumen juntas.
+**Cuidado:** No todo método necesita su propio protocolo. Mantén juntas las operaciones que normalmente se usan y cambian juntas.
 
 ```swift
 protocol ProfileReading: Sendable {
@@ -126,13 +126,13 @@ let reader: any ProfileReading = repository
 let profile = try await reader.read(id: profileID)
 ```
 
-### D · Dependency Inversion Principle
+### D · Recibir herramientas desde fuera (DIP)
 
-**Idea:** Las reglas de alto nivel declaran sus necesidades y no construyen detalles como `URLSession`, `UserDefaults` o una base de datos.
+**En simple:** La lógica principal debería recibir las herramientas que necesita en vez de decidir y construir una herramienta concreta dentro.
 
-**Comportamiento:** El composition root inyecta un repositorio live en producción y un stub en pruebas.
+**Qué ocurre:** `ProfileViewModel` pide algo capaz de leer perfiles. Desde fuera se le entrega el repositorio real en la app o uno controlado en las pruebas.
 
-**Límite:** Dependency Injection es una técnica; Dependency Inversion describe la dirección. No requiere service locators ni frameworks globales.
+**Cuidado:** Inyección de dependencias es la forma de entregar esas herramientas; DIP es la idea de que la lógica no dependa del detalle concreto. No necesitas un framework ni un contenedor global.
 
 ```swift
 @MainActor
@@ -155,15 +155,15 @@ final class ProfileViewModel {
 }
 ```
 
-## Contratos y composición
+## Cómo conectar las piezas
 
-### Contrato observable
+### La promesa de un protocolo
 
-**Idea:** Un protocolo útil documenta más que sus métodos: define resultados, errores, precondiciones, efectos, cancelación y aislamiento.
+**En simple:** Un protocolo no solo enumera funciones; también debe dejar claro qué puede esperar quien las llama.
 
-**Comportamiento:** La misma prueba de contrato se ejecuta contra cada loader y detecta implementaciones no sustituibles.
+**Qué ocurre:** La misma prueba se ejecuta con cada cargador y confirma que todos devuelven datos válidos y comunican la ausencia con el mismo error.
 
-**Límite:** Los mocks que reproducen detalles internos hacen frágiles las pruebas. Verifica la conducta visible para el consumidor.
+**Cuidado:** No pruebes cada paso interno con mocks. Comprueba el resultado visible para evitar que una reorganización rompa pruebas aunque la función siga funcionando.
 
 ```swift
 func verifyAvatarContract(
@@ -177,13 +177,13 @@ func verifyAvatarContract(
 }
 ```
 
-### Composition root
+### Dónde se conectan las piezas
 
-**Idea:** Las implementaciones concretas se ensamblan en un límite de la app, no dentro de los casos de uso.
+**En simple:** Conviene elegir y conectar los objetos reales en un único lugar cercano al inicio de la app.
 
-**Comportamiento:** Solo el composition root conoce el cliente HTTP, el repositorio live y su conexión con el ViewModel.
+**Qué ocurre:** Ese lugar se conoce como composition root. Allí se crean el cliente de red, el repositorio y el ViewModel antes de construir la pantalla.
 
-**Límite:** Un contenedor global que resuelve dependencias desde cualquier lugar vuelve a ocultarlas y dificulta razonar sobre su vida útil.
+**Cuidado:** Un contenedor global accesible desde cualquier archivo vuelve a ocultar las dependencias y dificulta saber cuándo se crean y se liberan.
 
 ```swift
 @MainActor
@@ -197,11 +197,11 @@ func makeProfileScreen() -> ProfileViewController {
 
 ### SOLID y concurrencia
 
-**Idea:** Aislamiento y `Sendable` también forman parte de los contratos modernos.
+**En simple:** En código asíncrono también debes aclarar quién puede cambiar un dato y desde dónde.
 
-**Comportamiento:** Un actor protege cache mutable; `@MainActor` protege estado de presentación; las dependencias que cruzan actores son `Sendable`.
+**Qué ocurre:** Un `actor` protege la caché compartida, `@MainActor` protege el estado de la interfaz y `Sendable` marca valores seguros para pasar entre zonas aisladas.
 
-**Límite:** Un actor elimina accesos simultáneos de bajo nivel, pero su estado puede cambiar durante un `await`. Revalida invariantes después de la suspensión.
+**Cuidado:** Un actor evita cambios simultáneos directos, pero sus datos pueden cambiar mientras una función está pausada en `await`. Comprueba de nuevo lo que siga siendo importante al continuar.
 
 ```swift
 actor ProfileCache {
@@ -217,15 +217,15 @@ actor ProfileCache {
 }
 ```
 
-## Límites de SOLID
+## Aplicarlo con criterio
 
-### Concrete first
+### Comenzar simple
 
-**Idea:** Comienza con una implementación concreta y extrae una abstracción cuando aparezca una frontera o variación real.
+**En simple:** Empieza con el tipo más sencillo que resuelva el problema y agrega una abstracción cuando aparezca una necesidad concreta.
 
-**Comportamiento:** Los tipos concretos conservan información y permiten al compilador optimizar y diagnosticar mejor.
+**Qué ocurre:** Un tipo concreto muestra directamente qué se está usando. Un protocolo cobra valor cuando necesitas intercambiar implementaciones, separar módulos o controlar una prueba.
 
-**Límite:** Un protocolo con una implementación no es automáticamente incorrecto, pero debe justificar testabilidad, módulos, plataforma o inversión arquitectónica.
+**Cuidado:** Un protocolo con una sola implementación no es siempre incorrecto, pero debería resolver una frontera real y no existir solo “por si acaso”.
 
 ```swift
 // Empieza simple.
@@ -237,13 +237,13 @@ func profileTitle(for profile: Profile) -> String {
 // no solo para aumentar la cantidad de capas.
 ```
 
-### Señales de sobrearquitectura
+### Señales de demasiada arquitectura
 
-**Idea:** SOLID debe reducir el costo del cambio, no maximizar el número de tipos.
+**En simple:** SOLID debería facilitar los cambios, no convertir una acción sencilla en una cadena difícil de seguir.
 
-**Comportamiento:** Una buena abstracción muestra quién la consume, qué comportamiento promete y qué variación admite.
+**Qué ocurre:** Una abstracción útil tiene un consumidor claro, promete un resultado entendible y permite reemplazar algo que de verdad puede variar.
 
-**Límite:** Factories sin propósito, tipos que solo reenvían llamadas, herencia para reutilizar código y protocolos hipotéticos son señales de revisión.
+**Cuidado:** Revisa factories sin una decisión real, tipos que solo reenvían llamadas, herencia usada solo para compartir código y protocolos creados para casos imaginarios.
 
 ```swift
 // Revisa una capa si no puede responder:

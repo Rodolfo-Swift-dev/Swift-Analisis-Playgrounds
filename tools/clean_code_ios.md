@@ -1,16 +1,16 @@
 # Clean Code en Swift e iOS
 
-Una guía práctica para escribir código cuya intención, estado, errores y dependencias sean fáciles de entender y modificar. Los ejemplos se enfocan en límites reales de una app iOS y no en reglas arbitrarias de estilo.
+Una guía para escribir código fácil de leer, probar y cambiar. Cada tema explica qué problema resuelve, cómo se comporta Swift y cuándo una práctica puede complicar el proyecto.
 
 ## Claridad del código
 
-### 1. Nombres y diseño de APIs
+### 1. Nombres que explican el código
 
-**Idea:** La llamada debe explicar la operación sin obligar a abrir su implementación.
+**En simple:** Un buen nombre permite entender una llamada sin abrir la función para investigar qué hace.
 
-**Comportamiento:** Los tipos usan `UpperCamelCase`; funciones, variables y etiquetas usan `lowerCamelCase`. Las etiquetas externas forman parte de la lectura de la API.
+**Qué ocurre:** Swift usa `UpperCamelCase` para tipos y `lowerCamelCase` para funciones y variables. Las etiquetas, como `for` y `rate`, ayudan a leer la llamada como una frase.
 
-**Límite:** Un nombre largo solo es mejor cuando agrega información. Evita repetir datos que el contexto o los tipos ya expresan.
+**Cuidado:** Un nombre más largo no siempre es más claro. No repitas información que el tipo o el contexto ya muestran.
 
 ```swift
 // Bad
@@ -29,13 +29,13 @@ func discountedPrice(
 let total = discountedPrice(for: 100, rate: 0.20)
 ```
 
-### 2. let, var y alcance del estado
+### 2. Quién puede cambiar los datos
 
-**Idea:** El estado mutable debe tener un propietario claro y la menor visibilidad necesaria.
+**En simple:** Debe ser fácil saber qué dato puede cambiar y qué parte del programa tiene permiso para cambiarlo.
 
-**Comportamiento:** `let` impide reasignación; `var` permite mutación; `private(set)` expone lectura pública y restringe la escritura al tipo.
+**Qué ocurre:** `let` evita reasignar un valor, `var` permite modificarlo y `private(set)` deja que otros lo lean, pero solo el propio tipo puede escribirlo.
 
-**Límite:** La mutabilidad no es incorrecta. El riesgo aparece cuando es global, compartida o modificable desde demasiados lugares.
+**Cuidado:** Usar `var` no es malo. El problema aparece cuando demasiados lugares pueden cambiar el mismo dato y ya no se sabe quién produjo el resultado.
 
 ```swift
 struct ShoppingCart {
@@ -51,13 +51,13 @@ cart.addItem(price: 25)
 print(cart.total)
 ```
 
-### 3. Funciones y niveles de abstracción
+### 3. Funciones con una tarea clara
 
-**Idea:** Una función de alto nivel debe contar el caso de uso y delegar sus detalles.
+**En simple:** Una función debería contar una acción clara y dejar los detalles en funciones con nombres fáciles de seguir.
 
-**Comportamiento:** Separar validación y cálculo permite reutilizarlos y probarlos sin mezclar presentación.
+**Qué ocurre:** Al separar validación y cálculo, cada parte se puede leer, reutilizar y probar por separado.
 
-**Límite:** No existe un máximo universal de líneas. Extrae una función cuando nombre una intención, aísle un cambio o elimine duplicación real.
+**Cuidado:** No existe un número máximo de líneas válido para todas las funciones. Divide cuando el nuevo nombre aclare una intención o separe algo que puede cambiar.
 
 ```swift
 func checkoutTotal(for line: OrderLine) throws -> Double {
@@ -71,13 +71,13 @@ func subtotal(for line: OrderLine) -> Double {
 }
 ```
 
-### 4. Estados inválidos y tipos del dominio
+### 4. Evitar datos inválidos
 
-**Idea:** Si un valor posee reglas importantes, valídalo al construir un tipo que represente esas reglas.
+**En simple:** Si un dato tiene reglas importantes, compruébalas una vez al crearlo para no repetir la misma validación en toda la app.
 
-**Comportamiento:** Después de crear `DisplayName`, los consumidores pueden confiar en su invariante básica.
+**Qué ocurre:** `DisplayName` solo se crea con texto válido. Desde ese momento, el resto del código puede confiar en que el nombre no está vacío.
 
-**Límite:** No conviertas cada `String` en un tipo nuevo. Es útil cuando existen reglas propias o confundir valores puede provocar errores.
+**Cuidado:** No necesitas crear un tipo para cada `String`. Hazlo cuando el valor tenga reglas propias o pueda confundirse con otro dato.
 
 ```swift
 enum DisplayNameError: Error {
@@ -101,13 +101,13 @@ struct DisplayName: Equatable {
 
 ## Flujo, ausencia y errores
 
-### 5. Optional, optional binding y guard
+### 5. Valores que pueden faltar
 
-**Idea:** La ausencia debe formar parte explícita del tipo y resolverse según el significado del dominio.
+**En simple:** Un `Optional` indica de forma visible que un valor puede existir o puede faltar.
 
-**Comportamiento:** `??` entrega un fallback; optional binding extrae un valor existente; `guard` abandona temprano cuando una precondición no se cumple.
+**Qué ocurre:** `??` entrega un valor alternativo; optional binding (`if let` o `guard let`) abre el valor solo si existe; `guard` permite salir temprano si falta.
 
-**Límite:** No uses un fallback para ocultar un error. `force unwrap` termina el proceso si la suposición resulta falsa.
+**Cuidado:** Un valor alternativo no debe ocultar un error real. El force unwrap (`!`) cierra la app si el valor es `nil`, por eso exige una garantía verdadera.
 
 ```swift
 func greeting(displayName: String?) -> String {
@@ -120,13 +120,13 @@ func normalizedToken(_ token: String?) -> String? {
 }
 ```
 
-### 6. throws y errores con significado
+### 6. Errores que explican qué falló
 
-**Idea:** Conserva la razón del fallo cuando el consumidor necesita decidir cómo reaccionar.
+**En simple:** Si quien llama necesita reaccionar de forma distinta según el problema, el error debe decir qué falló.
 
-**Comportamiento:** `throws` obliga a propagar o manejar el error; un enum permite distinguir causas concretas.
+**Qué ocurre:** `throws` avisa que una función puede fallar y obliga a manejar o propagar ese fallo. Un `enum` separa causas como datos inválidos o nombre ausente.
 
-**Límite:** No encontrar un elemento puede ser normal. En ese caso, un `Optional` puede comunicar mejor el resultado que un error.
+**Cuidado:** No todo valor ausente es un error. Si “no encontrado” es un resultado normal, un `Optional` puede ser más claro que `throws`.
 
 ```swift
 enum ProfileDecodingError: Error {
@@ -155,13 +155,13 @@ func decodeName(from data: Data) throws -> String {
 }
 ```
 
-### 7. Comentarios, Quick Help y DocC
+### 7. Comentarios que aportan contexto
 
-**Idea:** El código explica qué ocurre; la documentación explica decisiones, contratos y restricciones.
+**En simple:** El código debería mostrar qué hace; el comentario debería explicar por qué se tomó una decisión o qué regla debe respetarse.
 
-**Comportamiento:** `///` aparece en Quick Help y puede procesarse con DocC. Parámetros, retorno y errores forman parte del contrato publicado.
+**Qué ocurre:** Los comentarios `///` aparecen en Quick Help y DocC. Allí puedes explicar parámetros, resultado, errores y reglas importantes para quien use la función.
 
-**Límite:** Un comentario que repite la sintaxis agrega ruido y puede quedar desactualizado.
+**Cuidado:** No describas línea por línea lo que el código ya dice. Ese comentario agrega ruido y puede quedar desactualizado.
 
 ```swift
 /// Calcula el cargo de servicio del checkout.
@@ -178,13 +178,13 @@ func serviceFee(for subtotal: Double) -> Double {
 
 ## Dependencias y arquitectura iOS
 
-### 8. Lógica pura y efectos secundarios
+### 8. Separar cálculos de acciones externas
 
-**Idea:** Mantén las transformaciones separadas de red, disco, analytics y otros efectos externos.
+**En simple:** Separa los cálculos de acciones como guardar, pedir datos por red o enviar analytics.
 
-**Comportamiento:** Una función pura produce la misma salida para las mismas entradas. Los efectos se hacen visibles mediante dependencias.
+**Qué ocurre:** Una función pura devuelve el mismo resultado con los mismos datos. Las acciones externas quedan visibles en propiedades como `analytics`, llamadas dependencias.
 
-**Límite:** No envuelvas operaciones triviales de la biblioteca estándar en protocolos sin una variación real.
+**Cuidado:** No crees protocolos para operaciones simples que nunca cambiarán. Una capa extra solo ayuda cuando existe una necesidad real de reemplazar o probar esa acción.
 
 ```swift
 func profileTitle(for profile: UserProfile) -> String {
@@ -205,13 +205,13 @@ struct ProfileOpeningHandler {
 }
 ```
 
-### 9. Inyección de dependencias
+### 9. Recibir dependencias desde fuera
 
-**Idea:** Las dependencias obligatorias deben llegar explícitamente, normalmente por el inicializador.
+**En simple:** Un tipo debería recibir las herramientas que necesita en vez de crearlas y ocultarlas dentro.
 
-**Comportamiento:** El caso de uso puede recibir un repositorio real, en memoria o simulado sin modificar su implementación.
+**Qué ocurre:** La inyección de dependencias pasa el repositorio por el `init`. Así, el mismo ViewModel puede usar datos reales, en memoria o preparados para una prueba.
 
-**Límite:** Inyección de dependencias no implica crear un protocolo para cada estructura concreta e inmutable.
+**Cuidado:** Inyectar dependencias no obliga a crear un protocolo para cada tipo. Usa una abstracción cuando realmente necesites más de una implementación o una frontera de prueba.
 
 ```swift
 protocol ProfileFetching: Sendable {
@@ -232,13 +232,13 @@ final class ProfileViewModel {
 }
 ```
 
-### 10. async/await, MainActor y cancelación
+### 10. Tareas asíncronas y estado de pantalla
 
-**Idea:** El aislamiento forma parte de la corrección y debe ser visible en el diseño.
+**En simple:** Cuando varias tareas pueden ejecutarse a la vez, el código debe dejar claro dónde se puede leer y cambiar cada estado.
 
-**Comportamiento:** `@MainActor` serializa el acceso al estado de presentación; `await` marca suspensión; `CancellationError` representa cancelación, no una falla de usuario.
+**Qué ocurre:** `@MainActor` protege el estado usado por la interfaz; `await` señala que la función puede pausarse; `CancellationError` indica que la tarea fue cancelada, no que el usuario cometió un error.
 
-**Límite:** No ejecutes decodificación o trabajo pesado en `MainActor`. Los actores evitan data races de bajo nivel, pero todavía debes proteger invariantes alrededor de cada `await`.
+**Cuidado:** No hagas cálculos pesados en `MainActor` porque pueden congelar la interfaz. Después de un `await`, comprueba de nuevo los datos que podrían haber cambiado mientras la tarea estaba pausada.
 
 ```swift
 @MainActor
@@ -261,13 +261,13 @@ final class ProfileViewModel {
 }
 ```
 
-### 11. ARC, weak y unowned
+### 11. Evitar ciclos de memoria
 
-**Idea:** Revisa quién conserva a quién cuando una clase almacena una closure.
+**En simple:** Si una clase guarda una closure que también conserva a esa clase, ninguna de las dos puede liberarse.
 
-**Comportamiento:** Una captura `weak` no conserva la instancia y se convierte en `nil` cuando esta se libera.
+**Qué ocurre:** ARC administra la memoria de las clases. Una captura `weak` no mantiene viva la instancia y pasa a `nil` cuando esa instancia se libera.
 
-**Límite:** No agregues `[weak self]` mecánicamente. `unowned` solamente es válido cuando la vida útil de la referencia está garantizada.
+**Cuidado:** No agregues `[weak self]` a todas las closures por costumbre. Usa `unowned` solo si puedes garantizar que la referencia seguirá viva; si no, la app puede cerrarse.
 
 ```swift
 final class SearchController {
@@ -284,13 +284,13 @@ final class SearchController {
 
 ## Verificación y evolución
 
-### 12. Pruebas de comportamiento
+### 12. Pruebas que verifican resultados
 
-**Idea:** Prueba resultados observables, no detalles privados de implementación.
+**En simple:** Una prueba debería comprobar lo que recibe quien usa el código, no cómo está construido por dentro.
 
-**Comportamiento:** Un spy registra interacciones; Swift Testing usa `@Test` y `#expect` dentro de un test target.
+**Qué ocurre:** Un spy registra acciones que interesa observar. Swift Testing usa `@Test` y `#expect` dentro de un target de pruebas.
 
-**Límite:** `assert` es útil para un playground, pero no reemplaza un test target ni su integración con Xcode y CI.
+**Cuidado:** `assert` ayuda a demostrar una idea en un playground, pero no reemplaza pruebas ejecutadas por Xcode y por la integración continua (CI).
 
 ```swift
 @Test
@@ -305,13 +305,13 @@ func openingProfileTracksEvent() {
 }
 ```
 
-### 13. DRY y abstracciones prematuras
+### 13. Reutilizar sin forzar
 
-**Idea:** DRY evita duplicar conocimiento y reglas, no cada fragmento visualmente parecido.
+**En simple:** DRY busca no repetir una misma regla, pero dos fragmentos parecidos no siempre representan la misma idea.
 
-**Comportamiento:** Mantener explícita una fórmula independiente evita acoplarla accidentalmente a otra regla.
+**Qué ocurre:** Mantener separadas las fórmulas del rectángulo y el triángulo permite que cada una cambie por su propia razón.
 
-**Límite:** Una pequeña repetición puede ser menos costosa que una abstracción falsa que luego cambia por dos razones.
+**Cuidado:** A veces repetir dos líneas es más claro que crear una solución compartida que después necesita excepciones para funcionar.
 
 ```swift
 // Dos dominios diferentes: no se fuerza una dependencia.
@@ -324,13 +324,13 @@ func triangleArea(base: Double, height: Double) -> Double {
 }
 ```
 
-### 14. Refactorización segura
+### 14. Ordenar sin cambiar resultados
 
-**Idea:** Refactorizar cambia la estructura interna sin cambiar el comportamiento observable.
+**En simple:** Refactorizar significa mejorar la organización del código manteniendo el mismo resultado para quien lo usa.
 
-**Comportamiento:** Las pruebas comparan entradas representativas antes y después de nombrar constantes y simplificar el flujo.
+**Qué ocurre:** Las pruebas confirman que entradas importantes producen el mismo resultado antes y después de ordenar el código.
 
-**Límite:** Agregar una nueva tasa, validación o resultado es un cambio funcional, aunque el código también quede más ordenado.
+**Cuidado:** Agregar una regla, validación o resultado nuevo no es solo refactorizar: también cambia el comportamiento y necesita pruebas nuevas.
 
 ```swift
 enum ShippingPolicy {
@@ -346,15 +346,15 @@ func shippingCost(subtotal: Double) -> Double {
 }
 ```
 
-## Límites de Clean Code
+## Aplicarlo con criterio
 
-### 15. Checklist contextual
+### 15. Lista de revisión
 
-**Idea:** El objetivo es hacer explícito el comportamiento requerido con la menor estructura suficiente.
+**En simple:** Clean Code busca que un cambio sea fácil y seguro, no que el proyecto tenga la mayor cantidad de capas.
 
-**Comportamiento:** Antes de agregar capas, identifica el estado, el contrato, la variación y el efecto secundario que necesitan protección.
+**Qué ocurre:** Antes de crear una abstracción, identifica qué dato cambia, qué resultado prometes, qué alternativa existe y qué acción externa necesitas controlar.
 
-**Límite:** Métricas como cantidad de líneas, número de protocolos o cobertura aislada no demuestran por sí solas que el diseño sea claro.
+**Cuidado:** Tener funciones cortas, muchos protocolos o alta cobertura no garantiza claridad. Lo importante es que el comportamiento sea comprensible y comprobable.
 
 ```swift
 // Preguntas antes de crear una abstracción:

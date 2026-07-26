@@ -127,7 +127,7 @@ def parse_guide(path)
     raise "#{path}: sección sin fichas: #{section[:title]}" if section[:cards].empty?
 
     section[:cards].each do |card|
-      %w[Idea Comportamiento Límite].each do |label|
+      ["En simple", "Qué ocurre", "Cuidado"].each do |label|
         raise "#{path}: #{card[:title]} no contiene #{label}" unless card[:details][label]
       end
       raise "#{path}: #{card[:title]} no contiene ejemplo" unless card[:code]
@@ -165,7 +165,7 @@ def render_page(config, guide)
             <dl>#{details}</dl>
             <div class="example">
               <div class="example-label">Ejemplo</div>
-              <pre><code>#{CGI.escapeHTML(card[:code])}</code><button class="copy-code" type="button">Copiar</button></pre>
+              <pre><code>#{CGI.escapeHTML(card[:code])}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
             </div>
           </div>
         </details>
@@ -187,9 +187,33 @@ def render_page(config, guide)
     %(<a href="#{url}" target="_blank" rel="noreferrer">#{CGI.escapeHTML(label)}</a>)
   end.join
 
-  guide_links = PAGES.map do |page|
-    active = page[:slug] == config[:slug] ? " active" : ""
-    %(<a class="guide-link#{active}" href="#{page[:slug]}.html">#{CGI.escapeHTML(page[:short_title])}</a>)
+  guide_links = [
+    {
+      slug: "swift",
+      title: "Swift",
+      detail: "20 capítulos",
+      href: "index.html"
+    },
+    *PAGES.map do |page|
+      {
+        slug: page[:slug],
+        title: page[:short_title],
+        detail: page[:slug] == "clean-code" ? "15 temas prácticos" : "10 temas de diseño",
+        href: "#{page[:slug]}.html"
+      }
+    end
+  ].map do |page|
+    current = page[:slug] == config[:slug]
+    content = <<~HTML.chomp
+      <span><strong>#{CGI.escapeHTML(page[:title])}</strong><small>#{current ? "Actual · " : ""}#{CGI.escapeHTML(page[:detail])}</small></span>
+      <span class="guide-link-action" aria-hidden="true">#{current ? "✓" : "→"}</span>
+    HTML
+
+    if current
+      %(<span class="guide-link active" aria-current="page">#{content}</span>)
+    else
+      %(<a class="guide-link" href="#{page[:href]}">#{content}</a>)
+    end
   end.join
 
   card_count = guide[:sections].sum { |section| section[:cards].length }
@@ -203,7 +227,8 @@ def render_page(config, guide)
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="#{CGI.escapeHTML(guide[:intro].join(" "))}">
-      <meta name="theme-color" content="#{config[:accent]}">
+      <meta name="theme-color" content="#{config[:accent]}" media="(prefers-color-scheme: light)">
+      <meta name="theme-color" content="#{config[:accent_dark]}" media="(prefers-color-scheme: dark)">
       <title>#{CGI.escapeHTML(guide[:title])} · Swift Study</title>
       <style>
         :root {
@@ -224,19 +249,21 @@ def render_page(config, guide)
           --shadow: 0 14px 38px rgba(22, 32, 40, 0.08);
         }
 
-        [data-theme="dark"] {
-          color-scheme: dark;
-          --background: #0c1318;
-          --surface: #14212a;
-          --surface-soft: #101b22;
-          --text: #edf4f6;
-          --muted: #9caeb8;
-          --line: #2a3a44;
-          --code: #080d11;
-          --code-text: #e8f1f4;
-          --sidebar: #081015;
-          --accent-soft: #1b3136;
-          --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+        @media (prefers-color-scheme: dark) {
+          :root {
+            color-scheme: dark;
+            --background: #0c1318;
+            --surface: #14212a;
+            --surface-soft: #101b22;
+            --text: #edf4f6;
+            --muted: #9caeb8;
+            --line: #2a3a44;
+            --code: #080d11;
+            --code-text: #e8f1f4;
+            --sidebar: #081015;
+            --accent-soft: #1b3136;
+            --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+          }
         }
 
         * { box-sizing: border-box; }
@@ -249,6 +276,13 @@ def render_page(config, guide)
         }
         button, input { font: inherit; }
         a { color: var(--accent-dark); text-underline-offset: 3px; }
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        summary:focus-visible {
+          outline: 3px solid var(--accent);
+          outline-offset: 3px;
+        }
         code {
           padding: .12rem .36rem;
           border: 1px solid var(--line);
@@ -297,28 +331,56 @@ def render_page(config, guide)
         .brand small { color: #91a4ae; }
         .guide-switcher {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 5px;
+          gap: 4px;
           margin: 24px 0 18px;
-          padding: 5px;
-          border: 1px solid #2e3f49;
-          border-radius: 11px;
+        }
+        .guide-switcher-label {
+          margin: 0 8px 4px;
+          color: #91a4ae;
+          font-size: .7rem;
+          font-weight: 700;
+          letter-spacing: .1em;
+          text-transform: uppercase;
         }
         .guide-link {
-          padding: 7px 4px;
-          border-radius: 7px;
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          min-height: 44px;
+          padding: 9px 10px;
+          border: 1px solid transparent;
+          border-radius: 9px;
           color: #9db0ba;
-          font-size: .73rem;
-          text-align: center;
           text-decoration: none;
         }
-        .guide-link:hover, .guide-link.active {
-          background: var(--accent);
+        .guide-link strong, .guide-link small { display: block; }
+        .guide-link strong {
+          color: #dbe6eb;
+          font-size: .82rem;
+        }
+        .guide-link small {
+          margin-top: 1px;
+          font-size: .7rem;
+        }
+        a.guide-link:hover {
+          border-color: #415661;
+          background: rgba(255,255,255,.06);
+        }
+        .guide-link.active {
+          border-color: var(--accent);
+          background: rgba(255,255,255,.08);
           color: #fff;
         }
+        .guide-link-action {
+          color: #91a4ae;
+          font-size: .78rem;
+          font-weight: 700;
+        }
+        .guide-link.active .guide-link-action { color: var(--accent); }
         .search-wrap { position: relative; }
         .search {
           width: 100%;
+          min-height: 44px;
           padding: 11px 38px 11px 12px;
           border: 1px solid #31434e;
           border-radius: 10px;
@@ -328,19 +390,21 @@ def render_page(config, guide)
         }
         .search:focus {
           border-color: var(--accent);
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+          box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .clear-search {
           position: absolute;
           top: 50%;
-          right: 7px;
-          width: 28px;
-          height: 28px;
+          right: 2px;
+          width: 40px;
+          height: 40px;
           transform: translateY(-50%);
           border: 0;
           background: transparent;
           color: #91a4ae;
+          cursor: pointer;
         }
+        .clear-search[hidden] { display: none; }
         .search-status {
           min-height: 21px;
           margin: 7px 2px 16px;
@@ -359,6 +423,7 @@ def render_page(config, guide)
           display: flex;
           align-items: center;
           gap: 9px;
+          min-height: 44px;
           margin: 2px 0;
           padding: 8px 9px;
           border-radius: 9px;
@@ -380,16 +445,18 @@ def render_page(config, guide)
         .section-link.active span { background: var(--accent); color: #fff; }
         .sidebar-actions {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(3, 1fr);
           gap: 7px;
           margin-top: 22px;
         }
         .sidebar-actions button {
+          min-height: 44px;
           padding: 8px;
           border: 1px solid #31434e;
           border-radius: 8px;
           background: transparent;
           color: #d5e1e6;
+          cursor: pointer;
         }
         .main {
           width: min(calc(100% - 300px), 1220px);
@@ -438,6 +505,9 @@ def render_page(config, guide)
           margin-top: 22px;
         }
         .hero-actions a {
+          display: inline-flex;
+          align-items: center;
+          min-height: 44px;
           padding: 9px 13px;
           border: 1px solid rgba(255,255,255,.42);
           border-radius: 9px;
@@ -535,11 +605,14 @@ def render_page(config, guide)
           position: absolute;
           top: 9px;
           right: 9px;
+          min-width: 44px;
+          min-height: 44px;
           padding: 5px 8px;
           border: 1px solid #41515b;
           border-radius: 7px;
           background: #22313a;
           color: #e4edf0;
+          cursor: pointer;
         }
         .sources {
           padding: 22px 4px;
@@ -572,6 +645,7 @@ def render_page(config, guide)
             background: var(--surface);
           }
           .mobile-bar button {
+            min-height: 44px;
             padding: 7px 10px;
             border: 1px solid var(--line);
             border-radius: 8px;
@@ -595,6 +669,10 @@ def render_page(config, guide)
           dt { margin-top: 7px; }
           pre { padding: 20px 16px; }
         }
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
+          .sidebar { transition: none; }
+        }
         @media print {
           .sidebar, .mobile-bar, .progress, .copy-code { display: none !important; }
           .main { width: 100%; margin: 0; padding: 0; }
@@ -609,20 +687,20 @@ def render_page(config, guide)
       <div class="progress" id="progress"></div>
       <div class="mobile-bar">
         <strong>#{CGI.escapeHTML(config[:short_title])} · iOS</strong>
-        <button id="menuButton" type="button">Contenido</button>
+        <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contenido</button>
       </div>
       <aside class="sidebar" id="sidebar">
         <a class="brand" href="index.html">
           <span class="brand-mark">S</span>
           <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
         </a>
-        <div class="guide-switcher">
-          <a class="guide-link" href="index.html">Swift</a>
+        <nav class="guide-switcher" aria-label="Guías de estudio">
+          <div class="guide-switcher-label">Guías de estudio</div>
           #{guide_links}
-        </div>
+        </nav>
         <div class="search-wrap">
           <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
-          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda">×</button>
+          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
         </div>
         <div class="search-status" id="searchStatus" aria-live="polite">#{card_count} subtemas disponibles</div>
         <div class="nav-label">Contenido</div>
@@ -630,7 +708,6 @@ def render_page(config, guide)
         <div class="sidebar-actions">
           <button id="expandAll" type="button">Expandir</button>
           <button id="collapseAll" type="button">Plegar</button>
-          <button id="themeToggle" type="button">Tema</button>
           <button id="printButton" type="button">Imprimir</button>
         </div>
       </aside>
@@ -642,8 +719,6 @@ def render_page(config, guide)
           <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
           <div class="hero-actions">
             <a href="#{source_url}" target="_blank" rel="noreferrer">Abrir playground</a>
-            <a href="index.html">Guía de Swift</a>
-            <a href="#{config[:slug] == "solid" ? "clean-code" : "solid"}.html">Guía de #{config[:slug] == "solid" ? "Clean Code" : "SOLID"}</a>
           </div>
         </header>
         #{sections}
@@ -660,6 +735,15 @@ def render_page(config, guide)
         const search = document.querySelector("#search");
         const searchStatus = document.querySelector("#searchStatus");
         const sidebar = document.querySelector("#sidebar");
+        const emptyState = document.querySelector("#emptyState");
+        const clearSearch = document.querySelector("#clearSearch");
+        const menuButton = document.querySelector("#menuButton");
+
+        const setSidebarOpen = (open) => {
+          sidebar.classList.toggle("open", open);
+          menuButton.setAttribute("aria-expanded", String(open));
+          menuButton.textContent = open ? "Cerrar" : "Contenido";
+        };
 
         const normalizeText = (value) => {
           const lowered = String(value || "").toLowerCase();
@@ -693,7 +777,8 @@ def render_page(config, guide)
           searchStatus.textContent = query
             ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
             : `${cards.length} subtemas disponibles`;
-          document.querySelector("#emptyState").style.display = matches ? "none" : "block";
+          clearSearch.hidden = !search.value;
+          emptyState.style.display = matches ? "none" : "block";
         };
 
         search.addEventListener("input", runSearch);
@@ -704,7 +789,7 @@ def render_page(config, guide)
           runSearch();
         });
 
-        document.querySelector("#clearSearch").addEventListener("click", () => {
+        clearSearch.addEventListener("click", () => {
           search.value = "";
           runSearch();
           search.focus();
@@ -730,33 +815,28 @@ def render_page(config, guide)
           });
         });
 
-        try {
-          const savedTheme = localStorage.getItem("swift-study-theme");
-          if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-        } catch {
-          // Algunos navegadores bloquean localStorage al abrir mediante file://.
-        }
-
-        document.querySelector("#themeToggle").addEventListener("click", () => {
-          const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-          document.documentElement.dataset.theme = next;
-          try {
-            localStorage.setItem("swift-study-theme", next);
-          } catch {
-            // El cambio funciona durante la sesión aunque no pueda persistirse.
+        document.querySelector("#printButton").addEventListener("click", () => window.print());
+        menuButton.addEventListener("click", () => setSidebarOpen(!sidebar.classList.contains("open")));
+        sectionLinks.forEach((link) => link.addEventListener("click", () => setSidebarOpen(false)));
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && sidebar.classList.contains("open")) {
+            setSidebarOpen(false);
+            menuButton.focus();
           }
         });
-
-        document.querySelector("#printButton").addEventListener("click", () => window.print());
-        document.querySelector("#menuButton").addEventListener("click", () => sidebar.classList.toggle("open"));
-        sectionLinks.forEach((link) => link.addEventListener("click", () => sidebar.classList.remove("open")));
 
         if ("IntersectionObserver" in window) {
           const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
               sectionLinks.forEach((link) => {
-                link.classList.toggle("active", link.dataset.target === entry.target.id);
+                const current = link.dataset.target === entry.target.id;
+                link.classList.toggle("active", current);
+                if (current) {
+                  link.setAttribute("aria-current", "location");
+                } else {
+                  link.removeAttribute("aria-current");
+                }
               });
             });
           }, { rootMargin: "-15% 0px -75% 0px" });

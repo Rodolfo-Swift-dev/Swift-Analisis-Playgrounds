@@ -373,7 +373,7 @@ def render_markdown(markdown)
     if in_code
       if line.start_with?("```")
         language_class = code_language.empty? ? "" : %( class="language-#{CGI.escapeHTML(code_language)}")
-        html << %(<pre><code#{language_class}>#{CGI.escapeHTML(code_lines.join("\n"))}</code><button class="copy-code" type="button" aria-label="Copiar código">Copiar</button></pre>)
+        html << %(<pre><code#{language_class}>#{CGI.escapeHTML(code_lines.join("\n"))}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>)
         in_code = false
         code_language = ""
         code_lines.clear
@@ -404,10 +404,6 @@ def render_markdown(markdown)
         html << "  <h1>#{inline_markdown(title)}</h1>"
         html << "  <p class=\"hero-summary\">20 capítulos · sintaxis · comportamiento · límites · nomenclatura oficial</p>"
         html << "  <p class=\"hero-note\">Los ejemplos son fragmentos breves de uso. Algunos dependen de tipos o variables definidos en su capítulo.</p>"
-        html << "  <div class=\"hero-guides\">"
-        html << "    <a href=\"clean-code.html\">Clean Code en iOS</a>"
-        html << "    <a href=\"solid.html\">SOLID en iOS</a>"
-        html << "  </div>"
         html << "</header>"
       elsif level == 2
         close_section.call
@@ -483,7 +479,7 @@ def render_markdown(markdown)
         html << "    </dl>"
         html << "    <div class=\"example-block\">"
         html << "      <div class=\"example-label\">Ejemplo de uso</div>"
-        html << %(<pre><code class="language-swift">#{CGI.escapeHTML(example)}</code><button class="copy-code" type="button" aria-label="Copiar código">Copiar</button></pre>)
+        html << %(<pre><code class="language-swift">#{CGI.escapeHTML(example)}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>)
         html << "    </div>"
         html << "  </div>"
         html << "</details>"
@@ -563,6 +559,8 @@ document = <<~HTML
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Guía de estudio de Swift: palabras clave, comportamiento, límites y nomenclatura oficial.">
+    <meta name="theme-color" content="#e6532f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#111b24" media="(prefers-color-scheme: dark)">
     <title>Swift · Guía de estudio</title>
     <style>
       :root {
@@ -586,23 +584,25 @@ document = <<~HTML
         --content-width: 900px;
       }
 
-      [data-theme="dark"] {
-        color-scheme: dark;
-        --background: #0d141a;
-        --surface: #15212a;
-        --surface-soft: #101b23;
-        --text: #edf3f5;
-        --muted: #9cafb9;
-        --line: #2a3a45;
-        --accent: #ff7655;
-        --accent-dark: #ff9a80;
-        --accent-soft: #3b211d;
-        --code-bg: #080d11;
-        --code-text: #e6f0f4;
-        --sidebar: #081016;
-        --sidebar-text: #dce7ec;
-        --sidebar-muted: #8296a2;
-        --shadow: 0 14px 38px rgba(0, 0, 0, 0.26);
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --background: #0d141a;
+          --surface: #15212a;
+          --surface-soft: #101b23;
+          --text: #edf3f5;
+          --muted: #9cafb9;
+          --line: #2a3a45;
+          --accent: #ff7655;
+          --accent-dark: #ff9a80;
+          --accent-soft: #3b211d;
+          --code-bg: #080d11;
+          --code-text: #e6f0f4;
+          --sidebar: #081016;
+          --sidebar-text: #dce7ec;
+          --sidebar-muted: #8296a2;
+          --shadow: 0 14px 38px rgba(0, 0, 0, 0.26);
+        }
       }
 
       * {
@@ -630,6 +630,14 @@ document = <<~HTML
         color: var(--accent-dark);
         text-decoration-thickness: 1px;
         text-underline-offset: 3px;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
       }
 
       code {
@@ -696,31 +704,70 @@ document = <<~HTML
 
       .guide-switcher {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
+        gap: 4px;
         margin-bottom: 18px;
-        padding: 5px;
-        border: 1px solid #31414c;
-        border-radius: 11px;
       }
 
-      .guide-switcher a {
-        padding: 7px 4px;
-        border-radius: 7px;
+      .guide-switcher-label {
+        margin: 0 8px 4px;
         color: var(--sidebar-muted);
-        font-size: 0.73rem;
-        text-align: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .guide-switcher .guide-link {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        min-height: 44px;
+        padding: 9px 10px;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        color: var(--sidebar-muted);
         text-decoration: none;
       }
 
-      .guide-switcher a:hover,
-      .guide-switcher a.active {
-        background: var(--accent);
+      .guide-switcher .guide-link strong,
+      .guide-switcher .guide-link small {
+        display: block;
+      }
+
+      .guide-switcher .guide-link strong {
+        color: var(--sidebar-text);
+        font-size: 0.82rem;
+      }
+
+      .guide-switcher .guide-link small {
+        margin-top: 1px;
+        font-size: 0.7rem;
+      }
+
+      .guide-switcher a.guide-link:hover {
+        border-color: #415661;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .guide-switcher .guide-link.active {
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.08);
         color: #fff;
+      }
+
+      .guide-link-action {
+        color: var(--sidebar-muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .guide-link.active .guide-link-action {
+        color: var(--accent);
       }
 
       .search {
         width: 100%;
+        min-height: 44px;
         padding: 11px 38px 11px 13px;
         border: 1px solid #31414c;
         border-radius: 10px;
@@ -741,10 +788,10 @@ document = <<~HTML
       .clear-search {
         position: absolute;
         top: 50%;
-        right: 7px;
+        right: 2px;
         display: grid;
-        width: 28px;
-        height: 28px;
+        width: 40px;
+        height: 40px;
         padding: 0;
         transform: translateY(-50%);
         place-items: center;
@@ -758,6 +805,10 @@ document = <<~HTML
       .clear-search:hover {
         background: rgba(255, 255, 255, 0.08);
         color: #fff;
+      }
+
+      .clear-search[hidden] {
+        display: none;
       }
 
       .search-status {
@@ -780,6 +831,7 @@ document = <<~HTML
         display: flex;
         align-items: center;
         gap: 10px;
+        min-height: 44px;
         margin: 2px 0;
         padding: 8px 10px;
         border-radius: 9px;
@@ -813,12 +865,13 @@ document = <<~HTML
 
       .sidebar-actions {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         margin-top: 24px;
       }
 
       .sidebar-actions button {
+        min-height: 44px;
         padding: 8px;
         border: 1px solid #31414c;
         border-radius: 9px;
@@ -895,22 +948,6 @@ document = <<~HTML
         font-size: 0.84rem;
       }
 
-      .hero-guides {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-        margin-top: 22px;
-      }
-
-      .hero-guides a {
-        padding: 8px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.42);
-        border-radius: 9px;
-        color: #fff;
-        font-size: 0.84rem;
-        text-decoration: none;
-      }
-
       .chapter {
         margin-bottom: 24px;
         border: 1px solid var(--line);
@@ -936,8 +973,8 @@ document = <<~HTML
 
       .chapter-toggle {
         display: grid;
-        flex: 0 0 34px;
-        height: 34px;
+        flex: 0 0 44px;
+        height: 44px;
         place-items: center;
         border: 1px solid var(--line);
         border-radius: 50%;
@@ -958,6 +995,7 @@ document = <<~HTML
       .source-link a {
         display: inline-flex;
         align-items: center;
+        min-height: 44px;
         padding: 5px 9px;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -1108,7 +1146,7 @@ document = <<~HTML
       }
 
       details.study-card > summary:hover {
-        background: color-mix(in srgb, var(--accent-soft) 52%, transparent);
+        background: var(--accent-soft);
       }
 
       details.study-card[open] > summary {
@@ -1208,6 +1246,8 @@ document = <<~HTML
         position: absolute;
         top: 10px;
         right: 10px;
+        min-width: 44px;
+        min-height: 44px;
         padding: 5px 9px;
         border: 1px solid #42525e;
         border-radius: 7px;
@@ -1243,11 +1283,10 @@ document = <<~HTML
           padding: 12px 16px;
           border-bottom: 1px solid var(--line);
           background: var(--surface);
-          background: color-mix(in srgb, var(--surface) 92%, transparent);
-          backdrop-filter: blur(12px);
         }
 
         .mobile-bar button {
+          min-height: 44px;
           padding: 7px 11px;
           border: 1px solid var(--line);
           border-radius: 8px;
@@ -1294,6 +1333,11 @@ document = <<~HTML
         .study-card dt {
           margin-top: 6px;
         }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .sidebar { transition: none; }
       }
 
       @media print {
@@ -1352,7 +1396,7 @@ document = <<~HTML
     <div class="progress" id="progress"></div>
     <div class="mobile-bar">
       <strong>Swift · Estudio</strong>
-      <button id="menuButton" type="button">Capítulos</button>
+      <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button>
     </div>
     <div class="layout">
       <aside class="sidebar" id="sidebar">
@@ -1363,14 +1407,24 @@ document = <<~HTML
             <small>20 capítulos</small>
           </div>
         </div>
-        <div class="guide-switcher">
-          <a class="active" href="index.html">Swift</a>
-          <a href="clean-code.html">Clean Code</a>
-          <a href="solid.html">SOLID</a>
-        </div>
+        <nav class="guide-switcher" aria-label="Guías de estudio">
+          <div class="guide-switcher-label">Guías de estudio</div>
+          <span class="guide-link active" aria-current="page">
+            <span><strong>Swift</strong><small>Actual · 20 capítulos</small></span>
+            <span class="guide-link-action" aria-hidden="true">✓</span>
+          </span>
+          <a class="guide-link" href="clean-code.html">
+            <span><strong>Clean Code</strong><small>15 temas prácticos</small></span>
+            <span class="guide-link-action" aria-hidden="true">→</span>
+          </a>
+          <a class="guide-link" href="solid.html">
+            <span><strong>SOLID</strong><small>10 temas de diseño</small></span>
+            <span class="guide-link-action" aria-hidden="true">→</span>
+          </a>
+        </nav>
         <div class="search-wrap">
           <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
-          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda">×</button>
+          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
         </div>
         <div class="search-status" id="searchStatus" aria-live="polite">20 capítulos disponibles</div>
         <div class="nav-label">Capítulos</div>
@@ -1380,7 +1434,6 @@ document = <<~HTML
         <div class="sidebar-actions">
           <button id="expandAll" type="button">Expandir</button>
           <button id="collapseAll" type="button">Plegar</button>
-          <button id="themeToggle" type="button">Tema</button>
           <button id="printButton" type="button">Imprimir</button>
         </div>
       </aside>
@@ -1398,33 +1451,38 @@ document = <<~HTML
       const search = document.querySelector("#search");
       const searchStatus = document.querySelector("#searchStatus");
       const emptyState = document.querySelector("#emptyState");
+      const clearSearch = document.querySelector("#clearSearch");
+      const menuButton = document.querySelector("#menuButton");
+
+      const setChapterExpanded = (chapter, expanded) => {
+        const button = chapter.querySelector(".chapter-toggle");
+        chapter.classList.toggle("collapsed", !expanded);
+        button.textContent = expanded ? "−" : "+";
+        button.setAttribute("aria-expanded", String(expanded));
+        button.setAttribute("aria-label", expanded ? "Plegar capítulo" : "Expandir capítulo");
+      };
+
+      const setSidebarOpen = (open) => {
+        sidebar.classList.toggle("open", open);
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.textContent = open ? "Cerrar" : "Capítulos";
+      };
 
       document.querySelectorAll(".chapter-toggle").forEach((button) => {
         button.addEventListener("click", () => {
           const chapter = button.closest(".chapter");
-          const collapsed = chapter.classList.toggle("collapsed");
-          button.textContent = collapsed ? "+" : "−";
-          button.setAttribute("aria-expanded", String(!collapsed));
+          setChapterExpanded(chapter, chapter.classList.contains("collapsed"));
         });
       });
 
       document.querySelector("#expandAll").addEventListener("click", () => {
-        chapters.forEach((chapter) => chapter.classList.remove("collapsed"));
+        chapters.forEach((chapter) => setChapterExpanded(chapter, true));
         document.querySelectorAll("details").forEach((detail) => { detail.open = true; });
-        document.querySelectorAll(".chapter-toggle").forEach((button) => {
-          button.textContent = "−";
-          button.setAttribute("aria-expanded", "true");
-        });
       });
 
       document.querySelector("#collapseAll").addEventListener("click", () => {
         document.querySelectorAll("details").forEach((detail) => { detail.open = false; });
-        numberedChapters.forEach((chapter) => chapter.classList.add("collapsed"));
-        numberedChapters.forEach((chapter) => {
-          const button = chapter.querySelector(".chapter-toggle");
-          button.textContent = "+";
-          button.setAttribute("aria-expanded", "false");
-        });
+        numberedChapters.forEach((chapter) => setChapterExpanded(chapter, false));
       });
 
       const normalizeText = (value) => {
@@ -1470,10 +1528,7 @@ document = <<~HTML
           }
 
           if (matches && query) {
-            chapter.classList.remove("collapsed");
-            const button = chapter.querySelector(".chapter-toggle");
-            button.textContent = "−";
-            button.setAttribute("aria-expanded", "true");
+            setChapterExpanded(chapter, true);
           }
         });
 
@@ -1482,6 +1537,7 @@ document = <<~HTML
           link.hidden = Boolean(target && target.hidden);
         });
 
+        clearSearch.hidden = !search.value;
         emptyState.style.display = matchingChapters ? "none" : "block";
         searchStatus.textContent = query
           ? `${matchingChapters} ${matchingChapters === 1 ? "capítulo" : "capítulos"} · ${matchingCards} ${matchingCards === 1 ? "subpunto" : "subpuntos"}`
@@ -1496,7 +1552,7 @@ document = <<~HTML
         runSearch();
       });
 
-      document.querySelector("#clearSearch").addEventListener("click", () => {
+      clearSearch.addEventListener("click", () => {
         search.value = "";
         runSearch();
         search.focus();
@@ -1515,32 +1571,29 @@ document = <<~HTML
         });
       });
 
-      try {
-        const savedTheme = localStorage.getItem("swift-study-theme");
-        if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-      } catch {
-        // Algunos navegadores bloquean localStorage cuando el archivo usa file://.
-      }
-
-      document.querySelector("#themeToggle").addEventListener("click", () => {
-        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        document.documentElement.dataset.theme = next;
-        try {
-          localStorage.setItem("swift-study-theme", next);
-        } catch {
-          // El cambio de tema sigue funcionando aunque no pueda persistirse.
+      document.querySelector("#printButton").addEventListener("click", () => window.print());
+      menuButton.addEventListener("click", () => setSidebarOpen(!sidebar.classList.contains("open")));
+      navLinks.forEach((link) => link.addEventListener("click", () => setSidebarOpen(false)));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && sidebar.classList.contains("open")) {
+          setSidebarOpen(false);
+          menuButton.focus();
         }
       });
-
-      document.querySelector("#printButton").addEventListener("click", () => window.print());
-      document.querySelector("#menuButton").addEventListener("click", () => sidebar.classList.toggle("open"));
-      navLinks.forEach((link) => link.addEventListener("click", () => sidebar.classList.remove("open")));
 
       if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            navLinks.forEach((link) => link.classList.toggle("active", link.dataset.target === entry.target.id));
+            navLinks.forEach((link) => {
+              const current = link.dataset.target === entry.target.id;
+              link.classList.toggle("active", current);
+              if (current) {
+                link.setAttribute("aria-current", "location");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            });
           });
         }, { rootMargin: "-15% 0px -75% 0px" });
 

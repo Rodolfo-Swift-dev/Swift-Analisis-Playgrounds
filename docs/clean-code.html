@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Una guía práctica para escribir código cuya intención, estado, errores y dependencias sean fáciles de entender y modificar. Los ejemplos se enfocan en límites reales de una app iOS y no en reglas arbitrarias de estilo.">
-  <meta name="theme-color" content="#0f8b8d">
+  <meta name="description" content="Una guía para escribir código fácil de leer, probar y cambiar. Cada tema explica qué problema resuelve, cómo se comporta Swift y cuándo una práctica puede complicar el proyecto.">
+  <meta name="theme-color" content="#0f8b8d" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#086d70" media="(prefers-color-scheme: dark)">
   <title>Clean Code en Swift e iOS · Swift Study</title>
   <style>
     :root {
@@ -25,19 +26,21 @@
       --shadow: 0 14px 38px rgba(22, 32, 40, 0.08);
     }
 
-    [data-theme="dark"] {
-      color-scheme: dark;
-      --background: #0c1318;
-      --surface: #14212a;
-      --surface-soft: #101b22;
-      --text: #edf4f6;
-      --muted: #9caeb8;
-      --line: #2a3a44;
-      --code: #080d11;
-      --code-text: #e8f1f4;
-      --sidebar: #081015;
-      --accent-soft: #1b3136;
-      --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --background: #0c1318;
+        --surface: #14212a;
+        --surface-soft: #101b22;
+        --text: #edf4f6;
+        --muted: #9caeb8;
+        --line: #2a3a44;
+        --code: #080d11;
+        --code-text: #e8f1f4;
+        --sidebar: #081015;
+        --accent-soft: #1b3136;
+        --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+      }
     }
 
     * { box-sizing: border-box; }
@@ -50,6 +53,13 @@
     }
     button, input { font: inherit; }
     a { color: var(--accent-dark); text-underline-offset: 3px; }
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
     code {
       padding: .12rem .36rem;
       border: 1px solid var(--line);
@@ -98,28 +108,56 @@
     .brand small { color: #91a4ae; }
     .guide-switcher {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
+      gap: 4px;
       margin: 24px 0 18px;
-      padding: 5px;
-      border: 1px solid #2e3f49;
-      border-radius: 11px;
+    }
+    .guide-switcher-label {
+      margin: 0 8px 4px;
+      color: #91a4ae;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
     }
     .guide-link {
-      padding: 7px 4px;
-      border-radius: 7px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: 44px;
+      padding: 9px 10px;
+      border: 1px solid transparent;
+      border-radius: 9px;
       color: #9db0ba;
-      font-size: .73rem;
-      text-align: center;
       text-decoration: none;
     }
-    .guide-link:hover, .guide-link.active {
-      background: var(--accent);
+    .guide-link strong, .guide-link small { display: block; }
+    .guide-link strong {
+      color: #dbe6eb;
+      font-size: .82rem;
+    }
+    .guide-link small {
+      margin-top: 1px;
+      font-size: .7rem;
+    }
+    a.guide-link:hover {
+      border-color: #415661;
+      background: rgba(255,255,255,.06);
+    }
+    .guide-link.active {
+      border-color: var(--accent);
+      background: rgba(255,255,255,.08);
       color: #fff;
     }
+    .guide-link-action {
+      color: #91a4ae;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .guide-link.active .guide-link-action { color: var(--accent); }
     .search-wrap { position: relative; }
     .search {
       width: 100%;
+      min-height: 44px;
       padding: 11px 38px 11px 12px;
       border: 1px solid #31434e;
       border-radius: 10px;
@@ -129,19 +167,21 @@
     }
     .search:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
     }
     .clear-search {
       position: absolute;
       top: 50%;
-      right: 7px;
-      width: 28px;
-      height: 28px;
+      right: 2px;
+      width: 40px;
+      height: 40px;
       transform: translateY(-50%);
       border: 0;
       background: transparent;
       color: #91a4ae;
+      cursor: pointer;
     }
+    .clear-search[hidden] { display: none; }
     .search-status {
       min-height: 21px;
       margin: 7px 2px 16px;
@@ -160,6 +200,7 @@
       display: flex;
       align-items: center;
       gap: 9px;
+      min-height: 44px;
       margin: 2px 0;
       padding: 8px 9px;
       border-radius: 9px;
@@ -181,16 +222,18 @@
     .section-link.active span { background: var(--accent); color: #fff; }
     .sidebar-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 7px;
       margin-top: 22px;
     }
     .sidebar-actions button {
+      min-height: 44px;
       padding: 8px;
       border: 1px solid #31434e;
       border-radius: 8px;
       background: transparent;
       color: #d5e1e6;
+      cursor: pointer;
     }
     .main {
       width: min(calc(100% - 300px), 1220px);
@@ -239,6 +282,9 @@
       margin-top: 22px;
     }
     .hero-actions a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
       padding: 9px 13px;
       border: 1px solid rgba(255,255,255,.42);
       border-radius: 9px;
@@ -336,11 +382,14 @@
       position: absolute;
       top: 9px;
       right: 9px;
+      min-width: 44px;
+      min-height: 44px;
       padding: 5px 8px;
       border: 1px solid #41515b;
       border-radius: 7px;
       background: #22313a;
       color: #e4edf0;
+      cursor: pointer;
     }
     .sources {
       padding: 22px 4px;
@@ -373,6 +422,7 @@
         background: var(--surface);
       }
       .mobile-bar button {
+        min-height: 44px;
         padding: 7px 10px;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -396,6 +446,10 @@
       dt { margin-top: 7px; }
       pre { padding: 20px 16px; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .sidebar { transition: none; }
+    }
     @media print {
       .sidebar, .mobile-bar, .progress, .copy-code { display: none !important; }
       .main { width: 100%; margin: 0; padding: 0; }
@@ -410,20 +464,23 @@
   <div class="progress" id="progress"></div>
   <div class="mobile-bar">
     <strong>Clean Code · iOS</strong>
-    <button id="menuButton" type="button">Contenido</button>
+    <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contenido</button>
   </div>
   <aside class="sidebar" id="sidebar">
     <a class="brand" href="index.html">
       <span class="brand-mark">S</span>
       <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
     </a>
-    <div class="guide-switcher">
-      <a class="guide-link" href="index.html">Swift</a>
-      <a class="guide-link active" href="clean-code.html">Clean Code</a><a class="guide-link" href="solid.html">SOLID</a>
-    </div>
+    <nav class="guide-switcher" aria-label="Guías de estudio">
+      <div class="guide-switcher-label">Guías de estudio</div>
+      <a class="guide-link" href="index.html"><span><strong>Swift</strong><small>20 capítulos</small></span>
+<span class="guide-link-action" aria-hidden="true">→</span></a><span class="guide-link active" aria-current="page"><span><strong>Clean Code</strong><small>Actual · 15 temas prácticos</small></span>
+<span class="guide-link-action" aria-hidden="true">✓</span></span><a class="guide-link" href="solid.html"><span><strong>SOLID</strong><small>10 temas de diseño</small></span>
+<span class="guide-link-action" aria-hidden="true">→</span></a>
+    </nav>
     <div class="search-wrap">
       <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
-      <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda">×</button>
+      <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
     </div>
     <div class="search-status" id="searchStatus" aria-live="polite">15 subtemas disponibles</div>
     <div class="nav-label">Contenido</div>
@@ -439,14 +496,13 @@
 <a class="section-link" href="#verificacion-y-evolucion" data-target="verificacion-y-evolucion">
   <span>4</span>Verificación y evolución
 </a>
-<a class="section-link" href="#limites-de-clean-code" data-target="limites-de-clean-code">
-  <span>5</span>Límites de Clean Code
+<a class="section-link" href="#aplicarlo-con-criterio" data-target="aplicarlo-con-criterio">
+  <span>5</span>Aplicarlo con criterio
 </a>
 </nav>
     <div class="sidebar-actions">
       <button id="expandAll" type="button">Expandir</button>
       <button id="collapseAll" type="button">Plegar</button>
-      <button id="themeToggle" type="button">Tema</button>
       <button id="printButton" type="button">Imprimir</button>
     </div>
   </aside>
@@ -454,12 +510,10 @@
     <header class="hero">
       <div class="eyebrow">DISEÑO Y MANTENIBILIDAD</div>
       <h1>Clean Code en Swift e iOS</h1>
-      <p>Una guía práctica para escribir código cuya intención, estado, errores y dependencias sean fáciles de entender y modificar. Los ejemplos se enfocan en límites reales de una app iOS y no en reglas arbitrarias de estilo.</p>
+      <p>Una guía para escribir código fácil de leer, probar y cambiar. Cada tema explica qué problema resuelve, cómo se comporta Swift y cuándo una práctica puede complicar el proyecto.</p>
       <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
       <div class="hero-actions">
         <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/Clean_Code/CleanCode.playground/Contents.swift" target="_blank" rel="noreferrer">Abrir playground</a>
-        <a href="index.html">Guía de Swift</a>
-        <a href="solid.html">Guía de SOLID</a>
       </div>
     </header>
     <section class="guide-section" id="claridad-del-codigo">
@@ -467,18 +521,18 @@
     <h2>Claridad del código</h2>
     <span>4 subtemas</span>
   </div>
-  <details class="study-card" id="1-nombres-y-diseno-de-apis">
+  <details class="study-card" id="1-nombres-que-explican-el-codigo">
   <summary>
-    <span class="card-title">1. Nombres y diseño de APIs</span>
+    <span class="card-title">1. Nombres que explican el código</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>La llamada debe explicar la operación sin obligar a abrir su implementación.</dd>
-<dt>Comportamiento</dt>
-<dd>Los tipos usan <code>UpperCamelCase</code>; funciones, variables y etiquetas usan <code>lowerCamelCase</code>. Las etiquetas externas forman parte de la lectura de la API.</dd>
-<dt>Límite</dt>
-<dd>Un nombre largo solo es mejor cuando agrega información. Evita repetir datos que el contexto o los tipos ya expresan.</dd>
+    <dl><dt>En simple</dt>
+<dd>Un buen nombre permite entender una llamada sin abrir la función para investigar qué hace.</dd>
+<dt>Qué ocurre</dt>
+<dd>Swift usa <code>UpperCamelCase</code> para tipos y <code>lowerCamelCase</code> para funciones y variables. Las etiquetas, como <code>for</code> y <code>rate</code>, ayudan a leer la llamada como una frase.</dd>
+<dt>Cuidado</dt>
+<dd>Un nombre más largo no siempre es más claro. No repitas información que el tipo o el contexto ya muestran.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -495,22 +549,22 @@ func discountedPrice(
     subtotal - (subtotal * discountRate)
 }
 
-let total = discountedPrice(for: 100, rate: 0.20)</code><button class="copy-code" type="button">Copiar</button></pre>
+let total = discountedPrice(for: 100, rate: 0.20)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="2-let-var-y-alcance-del-estado">
+<details class="study-card" id="2-quien-puede-cambiar-los-datos">
   <summary>
-    <span class="card-title">2. let, var y alcance del estado</span>
+    <span class="card-title">2. Quién puede cambiar los datos</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>El estado mutable debe tener un propietario claro y la menor visibilidad necesaria.</dd>
-<dt>Comportamiento</dt>
-<dd><code>let</code> impide reasignación; <code>var</code> permite mutación; <code>private(set)</code> expone lectura pública y restringe la escritura al tipo.</dd>
-<dt>Límite</dt>
-<dd>La mutabilidad no es incorrecta. El riesgo aparece cuando es global, compartida o modificable desde demasiados lugares.</dd>
+    <dl><dt>En simple</dt>
+<dd>Debe ser fácil saber qué dato puede cambiar y qué parte del programa tiene permiso para cambiarlo.</dd>
+<dt>Qué ocurre</dt>
+<dd><code>let</code> evita reasignar un valor, <code>var</code> permite modificarlo y <code>private(set)</code> deja que otros lo lean, pero solo el propio tipo puede escribirlo.</dd>
+<dt>Cuidado</dt>
+<dd>Usar <code>var</code> no es malo. El problema aparece cuando demasiados lugares pueden cambiar el mismo dato y ya no se sabe quién produjo el resultado.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -524,22 +578,22 @@ let total = discountedPrice(for: 100, rate: 0.20)</code><button class="copy-code
 
 var cart = ShoppingCart()
 cart.addItem(price: 25)
-print(cart.total)</code><button class="copy-code" type="button">Copiar</button></pre>
+print(cart.total)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="3-funciones-y-niveles-de-abstraccion">
+<details class="study-card" id="3-funciones-con-una-tarea-clara">
   <summary>
-    <span class="card-title">3. Funciones y niveles de abstracción</span>
+    <span class="card-title">3. Funciones con una tarea clara</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Una función de alto nivel debe contar el caso de uso y delegar sus detalles.</dd>
-<dt>Comportamiento</dt>
-<dd>Separar validación y cálculo permite reutilizarlos y probarlos sin mezclar presentación.</dd>
-<dt>Límite</dt>
-<dd>No existe un máximo universal de líneas. Extrae una función cuando nombre una intención, aísle un cambio o elimine duplicación real.</dd>
+    <dl><dt>En simple</dt>
+<dd>Una función debería contar una acción clara y dejar los detalles en funciones con nombres fáciles de seguir.</dd>
+<dt>Qué ocurre</dt>
+<dd>Al separar validación y cálculo, cada parte se puede leer, reutilizar y probar por separado.</dd>
+<dt>Cuidado</dt>
+<dd>No existe un número máximo de líneas válido para todas las funciones. Divide cuando el nuevo nombre aclare una intención o separe algo que puede cambiar.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -551,22 +605,22 @@ print(cart.total)</code><button class="copy-code" type="button">Copiar</button><
 
 func subtotal(for line: OrderLine) -&gt; Double {
     line.unitPrice * Double(line.quantity)
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="4-estados-invalidos-y-tipos-del-dominio">
+<details class="study-card" id="4-evitar-datos-invalidos">
   <summary>
-    <span class="card-title">4. Estados inválidos y tipos del dominio</span>
+    <span class="card-title">4. Evitar datos inválidos</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Si un valor posee reglas importantes, valídalo al construir un tipo que represente esas reglas.</dd>
-<dt>Comportamiento</dt>
-<dd>Después de crear <code>DisplayName</code>, los consumidores pueden confiar en su invariante básica.</dd>
-<dt>Límite</dt>
-<dd>No conviertas cada <code>String</code> en un tipo nuevo. Es útil cuando existen reglas propias o confundir valores puede provocar errores.</dd>
+    <dl><dt>En simple</dt>
+<dd>Si un dato tiene reglas importantes, compruébalas una vez al crearlo para no repetir la misma validación en toda la app.</dd>
+<dt>Qué ocurre</dt>
+<dd><code>DisplayName</code> solo se crea con texto válido. Desde ese momento, el resto del código puede confiar en que el nombre no está vacío.</dd>
+<dt>Cuidado</dt>
+<dd>No necesitas crear un tipo para cada <code>String</code>. Hazlo cuando el valor tenga reglas propias o pueda confundirse con otro dato.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -586,7 +640,7 @@ struct DisplayName: Equatable {
         }
         self.value = normalized
     }
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
@@ -597,18 +651,18 @@ struct DisplayName: Equatable {
     <h2>Flujo, ausencia y errores</h2>
     <span>3 subtemas</span>
   </div>
-  <details class="study-card" id="5-optional-optional-binding-y-guard">
+  <details class="study-card" id="5-valores-que-pueden-faltar">
   <summary>
-    <span class="card-title">5. Optional, optional binding y guard</span>
+    <span class="card-title">5. Valores que pueden faltar</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>La ausencia debe formar parte explícita del tipo y resolverse según el significado del dominio.</dd>
-<dt>Comportamiento</dt>
-<dd><code>??</code> entrega un fallback; optional binding extrae un valor existente; <code>guard</code> abandona temprano cuando una precondición no se cumple.</dd>
-<dt>Límite</dt>
-<dd>No uses un fallback para ocultar un error. <code>force unwrap</code> termina el proceso si la suposición resulta falsa.</dd>
+    <dl><dt>En simple</dt>
+<dd>Un <code>Optional</code> indica de forma visible que un valor puede existir o puede faltar.</dd>
+<dt>Qué ocurre</dt>
+<dd><code>??</code> entrega un valor alternativo; optional binding (<code>if let</code> o <code>guard let</code>) abre el valor solo si existe; <code>guard</code> permite salir temprano si falta.</dd>
+<dt>Cuidado</dt>
+<dd>Un valor alternativo no debe ocultar un error real. El force unwrap (<code>!</code>) cierra la app si el valor es <code>nil</code>, por eso exige una garantía verdadera.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -619,22 +673,22 @@ struct DisplayName: Equatable {
 func normalizedToken(_ token: String?) -&gt; String? {
     guard let token, !token.isEmpty else { return nil }
     return token.trimmingCharacters(in: .whitespaces)
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="6-throws-y-errores-con-significado">
+<details class="study-card" id="6-errores-que-explican-que-fallo">
   <summary>
-    <span class="card-title">6. throws y errores con significado</span>
+    <span class="card-title">6. Errores que explican qué falló</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Conserva la razón del fallo cuando el consumidor necesita decidir cómo reaccionar.</dd>
-<dt>Comportamiento</dt>
-<dd><code>throws</code> obliga a propagar o manejar el error; un enum permite distinguir causas concretas.</dd>
-<dt>Límite</dt>
-<dd>No encontrar un elemento puede ser normal. En ese caso, un <code>Optional</code> puede comunicar mejor el resultado que un error.</dd>
+    <dl><dt>En simple</dt>
+<dd>Si quien llama necesita reaccionar de forma distinta según el problema, el error debe decir qué falló.</dd>
+<dt>Qué ocurre</dt>
+<dd><code>throws</code> avisa que una función puede fallar y obliga a manejar o propagar ese fallo. Un <code>enum</code> separa causas como datos inválidos o nombre ausente.</dd>
+<dt>Cuidado</dt>
+<dd>No todo valor ausente es un error. Si “no encontrado” es un resultado normal, un <code>Optional</code> puede ser más claro que <code>throws</code>.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -661,22 +715,22 @@ func decodeName(from data: Data) throws -&gt; String {
         throw ProfileDecodingError.missingName
     }
     return payload.name
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="7-comentarios-quick-help-y-docc">
+<details class="study-card" id="7-comentarios-que-aportan-contexto">
   <summary>
-    <span class="card-title">7. Comentarios, Quick Help y DocC</span>
+    <span class="card-title">7. Comentarios que aportan contexto</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>El código explica qué ocurre; la documentación explica decisiones, contratos y restricciones.</dd>
-<dt>Comportamiento</dt>
-<dd><code>///</code> aparece en Quick Help y puede procesarse con DocC. Parámetros, retorno y errores forman parte del contrato publicado.</dd>
-<dt>Límite</dt>
-<dd>Un comentario que repite la sintaxis agrega ruido y puede quedar desactualizado.</dd>
+    <dl><dt>En simple</dt>
+<dd>El código debería mostrar qué hace; el comentario debería explicar por qué se tomó una decisión o qué regla debe respetarse.</dd>
+<dt>Qué ocurre</dt>
+<dd>Los comentarios <code>///</code> aparecen en Quick Help y DocC. Allí puedes explicar parámetros, resultado, errores y reglas importantes para quien use la función.</dd>
+<dt>Cuidado</dt>
+<dd>No describas línea por línea lo que el código ya dice. Ese comentario agrega ruido y puede quedar desactualizado.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -689,7 +743,7 @@ func decodeName(from data: Data) throws -&gt; String {
 /// - Returns: Cero cuando la tienda absorbe el cargo.
 func serviceFee(for subtotal: Double) -&gt; Double {
     subtotal &gt;= 50 ? 0 : 2.5
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
@@ -700,18 +754,18 @@ func serviceFee(for subtotal: Double) -&gt; Double {
     <h2>Dependencias y arquitectura iOS</h2>
     <span>4 subtemas</span>
   </div>
-  <details class="study-card" id="8-logica-pura-y-efectos-secundarios">
+  <details class="study-card" id="8-separar-calculos-de-acciones-externas">
   <summary>
-    <span class="card-title">8. Lógica pura y efectos secundarios</span>
+    <span class="card-title">8. Separar cálculos de acciones externas</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Mantén las transformaciones separadas de red, disco, analytics y otros efectos externos.</dd>
-<dt>Comportamiento</dt>
-<dd>Una función pura produce la misma salida para las mismas entradas. Los efectos se hacen visibles mediante dependencias.</dd>
-<dt>Límite</dt>
-<dd>No envuelvas operaciones triviales de la biblioteca estándar en protocolos sin una variación real.</dd>
+    <dl><dt>En simple</dt>
+<dd>Separa los cálculos de acciones como guardar, pedir datos por red o enviar analytics.</dd>
+<dt>Qué ocurre</dt>
+<dd>Una función pura devuelve el mismo resultado con los mismos datos. Las acciones externas quedan visibles en propiedades como <code>analytics</code>, llamadas dependencias.</dd>
+<dt>Cuidado</dt>
+<dd>No crees protocolos para operaciones simples que nunca cambiarán. Una capa extra solo ayuda cuando existe una necesidad real de reemplazar o probar esa acción.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -730,22 +784,22 @@ struct ProfileOpeningHandler {
         analytics.track(event: .profileOpened)
         return profileTitle(for: profile)
     }
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="9-inyeccion-de-dependencias">
+<details class="study-card" id="9-recibir-dependencias-desde-fuera">
   <summary>
-    <span class="card-title">9. Inyección de dependencias</span>
+    <span class="card-title">9. Recibir dependencias desde fuera</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Las dependencias obligatorias deben llegar explícitamente, normalmente por el inicializador.</dd>
-<dt>Comportamiento</dt>
-<dd>El caso de uso puede recibir un repositorio real, en memoria o simulado sin modificar su implementación.</dd>
-<dt>Límite</dt>
-<dd>Inyección de dependencias no implica crear un protocolo para cada estructura concreta e inmutable.</dd>
+    <dl><dt>En simple</dt>
+<dd>Un tipo debería recibir las herramientas que necesita en vez de crearlas y ocultarlas dentro.</dd>
+<dt>Qué ocurre</dt>
+<dd>La inyección de dependencias pasa el repositorio por el <code>init</code>. Así, el mismo ViewModel puede usar datos reales, en memoria o preparados para una prueba.</dd>
+<dt>Cuidado</dt>
+<dd>Inyectar dependencias no obliga a crear un protocolo para cada tipo. Usa una abstracción cuando realmente necesites más de una implementación o una frontera de prueba.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -764,22 +818,22 @@ final class ProfileViewModel {
     func profile(id: UUID) async throws -&gt; UserProfile {
         try await repository.fetchProfile(id: id)
     }
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="10-async-await-mainactor-y-cancelacion">
+<details class="study-card" id="10-tareas-asincronas-y-estado-de-pantalla">
   <summary>
-    <span class="card-title">10. async/await, MainActor y cancelación</span>
+    <span class="card-title">10. Tareas asíncronas y estado de pantalla</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>El aislamiento forma parte de la corrección y debe ser visible en el diseño.</dd>
-<dt>Comportamiento</dt>
-<dd><code>@MainActor</code> serializa el acceso al estado de presentación; <code>await</code> marca suspensión; <code>CancellationError</code> representa cancelación, no una falla de usuario.</dd>
-<dt>Límite</dt>
-<dd>No ejecutes decodificación o trabajo pesado en <code>MainActor</code>. Los actores evitan data races de bajo nivel, pero todavía debes proteger invariantes alrededor de cada <code>await</code>.</dd>
+    <dl><dt>En simple</dt>
+<dd>Cuando varias tareas pueden ejecutarse a la vez, el código debe dejar claro dónde se puede leer y cambiar cada estado.</dd>
+<dt>Qué ocurre</dt>
+<dd><code>@MainActor</code> protege el estado usado por la interfaz; <code>await</code> señala que la función puede pausarse; <code>CancellationError</code> indica que la tarea fue cancelada, no que el usuario cometió un error.</dd>
+<dt>Cuidado</dt>
+<dd>No hagas cálculos pesados en <code>MainActor</code> porque pueden congelar la interfaz. Después de un <code>await</code>, comprueba de nuevo los datos que podrían haber cambiado mientras la tarea estaba pausada.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -800,22 +854,22 @@ final class ProfileViewModel {
             state = .failed
         }
     }
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="11-arc-weak-y-unowned">
+<details class="study-card" id="11-evitar-ciclos-de-memoria">
   <summary>
-    <span class="card-title">11. ARC, weak y unowned</span>
+    <span class="card-title">11. Evitar ciclos de memoria</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Revisa quién conserva a quién cuando una clase almacena una closure.</dd>
-<dt>Comportamiento</dt>
-<dd>Una captura <code>weak</code> no conserva la instancia y se convierte en <code>nil</code> cuando esta se libera.</dd>
-<dt>Límite</dt>
-<dd>No agregues <code>[weak self]</code> mecánicamente. <code>unowned</code> solamente es válido cuando la vida útil de la referencia está garantizada.</dd>
+    <dl><dt>En simple</dt>
+<dd>Si una clase guarda una closure que también conserva a esa clase, ninguna de las dos puede liberarse.</dd>
+<dt>Qué ocurre</dt>
+<dd>ARC administra la memoria de las clases. Una captura <code>weak</code> no mantiene viva la instancia y pasa a <code>nil</code> cuando esa instancia se libera.</dd>
+<dt>Cuidado</dt>
+<dd>No agregues <code>[weak self]</code> a todas las closures por costumbre. Usa <code>unowned</code> solo si puedes garantizar que la referencia seguirá viva; si no, la app puede cerrarse.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -828,7 +882,7 @@ final class ProfileViewModel {
             self?.refreshCount += 1
         }
     }
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
@@ -839,18 +893,18 @@ final class ProfileViewModel {
     <h2>Verificación y evolución</h2>
     <span>3 subtemas</span>
   </div>
-  <details class="study-card" id="12-pruebas-de-comportamiento">
+  <details class="study-card" id="12-pruebas-que-verifican-resultados">
   <summary>
-    <span class="card-title">12. Pruebas de comportamiento</span>
+    <span class="card-title">12. Pruebas que verifican resultados</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Prueba resultados observables, no detalles privados de implementación.</dd>
-<dt>Comportamiento</dt>
-<dd>Un spy registra interacciones; Swift Testing usa <code>@Test</code> y <code>#expect</code> dentro de un test target.</dd>
-<dt>Límite</dt>
-<dd><code>assert</code> es útil para un playground, pero no reemplaza un test target ni su integración con Xcode y CI.</dd>
+    <dl><dt>En simple</dt>
+<dd>Una prueba debería comprobar lo que recibe quien usa el código, no cómo está construido por dentro.</dd>
+<dt>Qué ocurre</dt>
+<dd>Un spy registra acciones que interesa observar. Swift Testing usa <code>@Test</code> y <code>#expect</code> dentro de un target de pruebas.</dd>
+<dt>Cuidado</dt>
+<dd><code>assert</code> ayuda a demostrar una idea en un playground, pero no reemplaza pruebas ejecutadas por Xcode y por la integración continua (CI).</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -863,22 +917,22 @@ func openingProfileTracksEvent() {
 
     #expect(title == &quot;Perfil de Rodolfo&quot;)
     #expect(analytics.receivedEvents == [.profileOpened])
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="13-dry-y-abstracciones-prematuras">
+<details class="study-card" id="13-reutilizar-sin-forzar">
   <summary>
-    <span class="card-title">13. DRY y abstracciones prematuras</span>
+    <span class="card-title">13. Reutilizar sin forzar</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>DRY evita duplicar conocimiento y reglas, no cada fragmento visualmente parecido.</dd>
-<dt>Comportamiento</dt>
-<dd>Mantener explícita una fórmula independiente evita acoplarla accidentalmente a otra regla.</dd>
-<dt>Límite</dt>
-<dd>Una pequeña repetición puede ser menos costosa que una abstracción falsa que luego cambia por dos razones.</dd>
+    <dl><dt>En simple</dt>
+<dd>DRY busca no repetir una misma regla, pero dos fragmentos parecidos no siempre representan la misma idea.</dd>
+<dt>Qué ocurre</dt>
+<dd>Mantener separadas las fórmulas del rectángulo y el triángulo permite que cada una cambie por su propia razón.</dd>
+<dt>Cuidado</dt>
+<dd>A veces repetir dos líneas es más claro que crear una solución compartida que después necesita excepciones para funcionar.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -889,22 +943,22 @@ func rectangleArea(width: Double, height: Double) -&gt; Double {
 
 func triangleArea(base: Double, height: Double) -&gt; Double {
     base * height / 2
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="14-refactorizacion-segura">
+<details class="study-card" id="14-ordenar-sin-cambiar-resultados">
   <summary>
-    <span class="card-title">14. Refactorización segura</span>
+    <span class="card-title">14. Ordenar sin cambiar resultados</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>Refactorizar cambia la estructura interna sin cambiar el comportamiento observable.</dd>
-<dt>Comportamiento</dt>
-<dd>Las pruebas comparan entradas representativas antes y después de nombrar constantes y simplificar el flujo.</dd>
-<dt>Límite</dt>
-<dd>Agregar una nueva tasa, validación o resultado es un cambio funcional, aunque el código también quede más ordenado.</dd>
+    <dl><dt>En simple</dt>
+<dd>Refactorizar significa mejorar la organización del código manteniendo el mismo resultado para quien lo usa.</dd>
+<dt>Qué ocurre</dt>
+<dd>Las pruebas confirman que entradas importantes producen el mismo resultado antes y después de ordenar el código.</dd>
+<dt>Cuidado</dt>
+<dd>Agregar una regla, validación o resultado nuevo no es solo refactorizar: también cambia el comportamiento y necesita pruebas nuevas.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -918,29 +972,29 @@ func shippingCost(subtotal: Double) -&gt; Double {
         return 0
     }
     return ShippingPolicy.standardCost
-}</code><button class="copy-code" type="button">Copiar</button></pre>
+}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
 
 </section>
-<section class="guide-section" id="limites-de-clean-code">
+<section class="guide-section" id="aplicarlo-con-criterio">
   <div class="section-heading">
-    <h2>Límites de Clean Code</h2>
+    <h2>Aplicarlo con criterio</h2>
     <span>1 subtema</span>
   </div>
-  <details class="study-card" id="15-checklist-contextual">
+  <details class="study-card" id="15-lista-de-revision">
   <summary>
-    <span class="card-title">15. Checklist contextual</span>
+    <span class="card-title">15. Lista de revisión</span>
     <span class="card-action">Ver detalle</span>
   </summary>
   <div class="card-body">
-    <dl><dt>Idea</dt>
-<dd>El objetivo es hacer explícito el comportamiento requerido con la menor estructura suficiente.</dd>
-<dt>Comportamiento</dt>
-<dd>Antes de agregar capas, identifica el estado, el contrato, la variación y el efecto secundario que necesitan protección.</dd>
-<dt>Límite</dt>
-<dd>Métricas como cantidad de líneas, número de protocolos o cobertura aislada no demuestran por sí solas que el diseño sea claro.</dd>
+    <dl><dt>En simple</dt>
+<dd>Clean Code busca que un cambio sea fácil y seguro, no que el proyecto tenga la mayor cantidad de capas.</dd>
+<dt>Qué ocurre</dt>
+<dd>Antes de crear una abstracción, identifica qué dato cambia, qué resultado prometes, qué alternativa existe y qué acción externa necesitas controlar.</dd>
+<dt>Cuidado</dt>
+<dd>Tener funciones cortas, muchos protocolos o alta cobertura no garantiza claridad. Lo importante es que el comportamiento sea comprensible y comprobable.</dd>
 </dl>
     <div class="example">
       <div class="example-label">Ejemplo</div>
@@ -949,7 +1003,7 @@ func shippingCost(subtotal: Double) -&gt; Double {
 // 2. ¿Qué consumidor necesita este contrato?
 // 3. ¿Qué error, estado o efecto hace explícito?
 // 4. ¿Puede probarse por comportamiento?
-// 5. ¿Es más simple que usar el tipo concreto?</code><button class="copy-code" type="button">Copiar</button></pre>
+// 5. ¿Es más simple que usar el tipo concreto?</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
     </div>
   </div>
 </details>
@@ -969,6 +1023,15 @@ func shippingCost(subtotal: Double) -&gt; Double {
     const search = document.querySelector("#search");
     const searchStatus = document.querySelector("#searchStatus");
     const sidebar = document.querySelector("#sidebar");
+    const emptyState = document.querySelector("#emptyState");
+    const clearSearch = document.querySelector("#clearSearch");
+    const menuButton = document.querySelector("#menuButton");
+
+    const setSidebarOpen = (open) => {
+      sidebar.classList.toggle("open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.textContent = open ? "Cerrar" : "Contenido";
+    };
 
     const normalizeText = (value) => {
       const lowered = String(value || "").toLowerCase();
@@ -1002,7 +1065,8 @@ func shippingCost(subtotal: Double) -&gt; Double {
       searchStatus.textContent = query
         ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
         : `${cards.length} subtemas disponibles`;
-      document.querySelector("#emptyState").style.display = matches ? "none" : "block";
+      clearSearch.hidden = !search.value;
+      emptyState.style.display = matches ? "none" : "block";
     };
 
     search.addEventListener("input", runSearch);
@@ -1013,7 +1077,7 @@ func shippingCost(subtotal: Double) -&gt; Double {
       runSearch();
     });
 
-    document.querySelector("#clearSearch").addEventListener("click", () => {
+    clearSearch.addEventListener("click", () => {
       search.value = "";
       runSearch();
       search.focus();
@@ -1039,33 +1103,28 @@ func shippingCost(subtotal: Double) -&gt; Double {
       });
     });
 
-    try {
-      const savedTheme = localStorage.getItem("swift-study-theme");
-      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-    } catch {
-      // Algunos navegadores bloquean localStorage al abrir mediante file://.
-    }
-
-    document.querySelector("#themeToggle").addEventListener("click", () => {
-      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      document.documentElement.dataset.theme = next;
-      try {
-        localStorage.setItem("swift-study-theme", next);
-      } catch {
-        // El cambio funciona durante la sesión aunque no pueda persistirse.
+    document.querySelector("#printButton").addEventListener("click", () => window.print());
+    menuButton.addEventListener("click", () => setSidebarOpen(!sidebar.classList.contains("open")));
+    sectionLinks.forEach((link) => link.addEventListener("click", () => setSidebarOpen(false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && sidebar.classList.contains("open")) {
+        setSidebarOpen(false);
+        menuButton.focus();
       }
     });
-
-    document.querySelector("#printButton").addEventListener("click", () => window.print());
-    document.querySelector("#menuButton").addEventListener("click", () => sidebar.classList.toggle("open"));
-    sectionLinks.forEach((link) => link.addEventListener("click", () => sidebar.classList.remove("open")));
 
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           sectionLinks.forEach((link) => {
-            link.classList.toggle("active", link.dataset.target === entry.target.id);
+            const current = link.dataset.target === entry.target.id;
+            link.classList.toggle("active", current);
+            if (current) {
+              link.setAttribute("aria-current", "location");
+            } else {
+              link.removeAttribute("aria-current");
+            }
           });
         });
       }, { rootMargin: "-15% 0px -75% 0px" });
