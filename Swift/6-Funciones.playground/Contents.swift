@@ -1,6 +1,6 @@
-import Foundation
-
 //Funciones
+//Error frecuente: tratar un parámetro variádico como si la llamada recibiera un
+//Array o ignorar un resultado que forma parte del comportamiento de la función.
 
 //Bloque de código que se puede llamar en diferentes partes de nuestro programa.
 //estas llevan nombre, parámetros o no, y puede retornar datos o no.
@@ -9,9 +9,8 @@ import Foundation
 
 //crear una función
 func add(a: Int, b: Int) -> Int {
-    return a + b
+  return a + b
 }
-
 
 //Llamar a una función y conservar o utilizar su resultado
 let additionResult = add(a: 10, b: 2)
@@ -19,8 +18,6 @@ print(additionResult)
 
 //o mandarla a llamar desde otra funcion o método
 print(add(a: 10, b: 2))
-
-
 
 //tipos de una función
 //el tipo de una función es el tipo de datos de los parámetros y los tipos de datos de retorno
@@ -30,61 +27,49 @@ print(add(a: 10, b: 2))
 let math = add(a:b:)
 
 //ahora podemos ocupar esa variable o constante  como una función
-print(math(2,3))
+print(math(2, 3))
 
-func show(message : String, name: String)-> String {
-    return message + " " + name + "!"
+func show(message: String, name: String) -> String {
+  return message + " " + name + "!"
 }
 let message = show(message: "Hello", name: "Rodolfo")
 print(message)
 
-
-
 //Funcion retorno de tuplas
 //recomendable para el retorno de pocos valores, cuando son muchos valores se recomienda estructuras o clases
-func getTuple ()-> (String, String) {
-    let name = "Rodolfo"
-    let action = "Suscríbete"
-    return (name, action)
+func getTuple() -> (String, String) {
+  let name = "Rodolfo"
+  let action = "Suscríbete"
+  return (name, action)
 }
 let (name, action) = getTuple()
 print(name)
 print(action)
 
-
-
 //Nombres de parámetros en funciones
-
 
 //Funciones con parámetros internos y parámetros externos
 //el primer nombre corresponde al parametro externo y se usará cuando sea llamada la función
 //el segundo nombre corresponde al parametro interno que se usará dentro de la función, al momento de crearla.
-func login(withUsername username: String,
-           withPassword password: String) -> Bool {
-          if username.count > 10 {
-        return true
-    } else {
-        return false
-    }
+func login(
+  withUsername username: String,
+  withPassword password: String
+) -> Bool {
+  username.count > 10 && password.count >= 8
 }
 let isLogged = login(withUsername: "Rodolfo", withPassword: "123456789")
-
-
-
-
+print(isLogged)
 
 //Omitir un nombre de parametro
 //dentro de los parámetros podemos crear parámetros dentro de la función y si quisiéramos sin nombre externo tan solo escribiendo un guion bajo _ como parámetro externo
 
 func validateUser(_ value: String) -> Bool {
-    return value.count > 5
+  return value.count > 5
 }
 //luego al momento de llamar a la función se escribe directamente el parámetro sin su nombre
 let isValidUser = validateUser("Rodolfo")
 print(isValidUser)
 print(validateUser("rodolfo"))
-
-
 
 //Funciones con mismo nombre
 //se puede tener 2 funciones con el mismo nombre en Swift, pero estas deben tener distinto tipo(tipos de datos de  parámetros)->tipo dato retorno
@@ -92,14 +77,11 @@ print(validateUser("rodolfo"))
 //func getTwoValues() -> (String, String)
 //func getTwoValues(paramOne name: String, paramTwo surname: String) -> (String, String)
 
-
-
-
 //valores por defecto parámetros de funciones
 //Un parámetro puede declarar un valor por defecto. La llamada puede omitirlo o
 //proporcionar otro valor, como muestran los dos ejemplos siguientes.
 func createDatabase(name: String, path: String = "/") {
-    print(path)
+  print("Database \(name) at \(path)")
 }
 
 //dos ejemplos de llamado a la función  con uno sin indicar valor de parámetro por lo que se ocupará valor por defecto y el otro ejemplo indicando valor de parámetro
@@ -107,13 +89,10 @@ func createDatabase(name: String, path: String = "/") {
 createDatabase(name: "Rodolfo")
 createDatabase(name: "Rodolfo", path: "/users/root")
 
-
-
-
 //Parametros Variadic en funciones
 //usamos estos parámetros cuando queremos ingresar como valor a un parametro en el llamado de la función, más de 1 valor
 func validate(names: String...) {
-    print("Names \(names)")
+  print("Names \(names)")
 }
 
 validate(names: "Rodolfo", "Martin", "Nacho")
@@ -124,17 +103,15 @@ validate(names: "Rodolfo", "Martin", "Nacho")
 validate()
 
 func validates(names: [String]) {
-    print("Names \(names)")
+  print("Names \(names)")
 }
 validates(names: ["Rodolfo", "Nacho", "Martin"])
-
-
 
 //parametros InOut en funciones
 //podemos modificar el dato de parámetro que ingresemos siempre y cuando ocupemos la siguiente sintaxis de inout y &
 func validate(names: inout [String]) {
-    names = ["Rodolfo", "Gonzalez", "Hernandez"]
-    print("Names \(names)")
+  names = ["Rodolfo", "Gonzalez", "Hernandez"]
+  print("Names \(names)")
 }
 var arrayOfNames = ["nacho", "martin"]
 validate(names: &arrayOfNames)
@@ -143,27 +120,23 @@ validate(names: &arrayOfNames)
 //Ocupando el signo & antes del parametro cuando estamos llamando a la funcion
 //con esto podemos acceder al valor de un parametro dentro de una función y poder modificarlo
 
-
-
-
 //Funciones dentro de funciones
 //podemos crear funciones dentro de funciones, las cuales solo podrán ser llamada dentro de la misma función,  no fuera
 
 func validate(password: String) {
-    if password.count > 5 {
-        printSuccess()
-    } else {
-        printError()
-    }
-    func printSuccess() {
-        print("Valid Password")
-    }
-    func printError() {
-        print("Error")
-    }
+  if password.count > 5 {
+    printSuccess()
+  } else {
+    printError()
+  }
+  func printSuccess() {
+    print("Valid Password")
+  }
+  func printError() {
+    print("Error")
+  }
 }
 validate(password: "12345678")
 //este es un ejemplo para ver lo flexibles que son las funciones en Swift, pero no es muy recomendable ya que es mejor crear tipos para mejorar la lógica del programa y clases y estructuras para organizar mejor el código
-
 
 //casos de usos

@@ -25,15 +25,15 @@ import Foundation
 // MARK: - Modelo utilizado en los ejemplos
 
 struct UserProfile: Equatable, Sendable {
-    let id: UUID
-    let name: String
-    let email: String
+  let id: UUID
+  let name: String
+  let email: String
 }
 
 let sampleProfile = UserProfile(
-    id: UUID(),
-    name: "Rodolfo",
-    email: "rodolfo@example.com"
+  id: UUID(),
+  name: "Rodolfo",
+  email: "rodolfo@example.com"
 )
 
 // MARK: - 1. Nombres y claridad en el punto de uso
@@ -54,7 +54,7 @@ let sampleProfile = UserProfile(
  */
 
 func discountedPrice(for subtotal: Double, rate discountRate: Double) -> Double {
-    subtotal - (subtotal * discountRate)
+  subtotal - (subtotal * discountRate)
 }
 
 let checkoutPrice = discountedPrice(for: 100, rate: 0.20)
@@ -85,11 +85,11 @@ assert(checkoutPrice == 80)
  */
 
 struct ShoppingCart {
-    private(set) var total = 0.0
+  private(set) var total = 0.0
 
-    mutating func addItem(price: Double) {
-        total += price
-    }
+  mutating func addItem(price: Double) {
+    total += price
+  }
 }
 
 var shoppingCart = ShoppingCart()
@@ -110,8 +110,8 @@ assert(shoppingCart.total == 25)
 // MARK: - 3. Funciones pequeñas y un nivel de abstracción
 
 struct OrderLine {
-    let unitPrice: Double
-    let quantity: Int
+  let unitPrice: Double
+  let quantity: Int
 }
 
 /*
@@ -130,25 +130,25 @@ struct OrderLine {
  */
 
 enum OrderValidationError: Error {
-    case invalidQuantity
-    case negativePrice
+  case invalidQuantity
+  case negativePrice
 }
 
 func validate(_ line: OrderLine) throws {
-    guard line.quantity > 0 else {
-        throw OrderValidationError.invalidQuantity
-    }
-    guard line.unitPrice >= 0 else {
-        throw OrderValidationError.negativePrice
-    }
+  guard line.quantity > 0 else {
+    throw OrderValidationError.invalidQuantity
+  }
+  guard line.unitPrice >= 0 else {
+    throw OrderValidationError.negativePrice
+  }
 }
 
 func subtotal(for line: OrderLine) -> Double {
-    line.unitPrice * Double(line.quantity)
+  line.unitPrice * Double(line.quantity)
 }
 
 func totalApplyingVolumeDiscount(to subtotal: Double) -> Double {
-    subtotal > 100 ? subtotal * 0.9 : subtotal
+  subtotal > 100 ? subtotal * 0.9 : subtotal
 }
 
 /*
@@ -157,8 +157,8 @@ func totalApplyingVolumeDiscount(to subtotal: Double) -> Double {
  */
 
 func checkoutTotal(for line: OrderLine) throws -> Double {
-    try validate(line)
-    return totalApplyingVolumeDiscount(to: subtotal(for: line))
+  try validate(line)
+  return totalApplyingVolumeDiscount(to: subtotal(for: line))
 }
 
 let orderTotal = try checkoutTotal(for: OrderLine(unitPrice: 60, quantity: 2))
@@ -182,23 +182,23 @@ assert(orderTotal == 108)
  */
 
 enum DisplayNameError: Error {
-    case empty
+  case empty
 }
 
 struct DisplayName: Sendable {
-    let value: String
+  let value: String
 
-    init(_ value: String) throws {
-        let normalizedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !normalizedValue.isEmpty else {
-            throw DisplayNameError.empty
-        }
-        self.value = normalizedValue
+  init(_ value: String) throws {
+    let normalizedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !normalizedValue.isEmpty else {
+      throw DisplayNameError.empty
     }
+    self.value = normalizedValue
+  }
 }
 
 struct ProfileDraft: Sendable {
-    let displayName: DisplayName
+  let displayName: DisplayName
 }
 
 let displayName = try DisplayName("  Rodolfo  ")
@@ -230,7 +230,7 @@ assert(profileDraft.displayName.value == "Rodolfo")
  */
 
 func greeting(displayName: String?) -> String {
-    "Hola, \(displayName ?? "Invitado")"
+  "Hola, \(displayName ?? "Invitado")"
 }
 
 assert(greeting(displayName: nil) == "Hola, Invitado")
@@ -240,10 +240,10 @@ assert(greeting(displayName: nil) == "Hola, Invitado")
  */
 
 func normalizedToken(_ token: String?) -> String? {
-    guard let token, !token.isEmpty else {
-        return nil
-    }
-    return token.trimmingCharacters(in: .whitespacesAndNewlines)
+  guard let token, !token.isEmpty else {
+    return nil
+  }
+  return token.trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
 assert(normalizedToken(" abc ") == "abc")
@@ -260,12 +260,12 @@ assert(normalizedToken(nil) == nil)
 // MARK: - 6. Errores que conservan información
 
 enum ProfileDecodingError: Error {
-    case invalidPayload
-    case missingName
+  case invalidPayload
+  case missingName
 }
 
 private struct ProfilePayload: Decodable {
-    let name: String
+  let name: String
 }
 
 /*
@@ -281,17 +281,17 @@ private struct ProfilePayload: Decodable {
  */
 
 func decodeName(from data: Data) throws -> String {
-    let payload: ProfilePayload
-    do {
-        payload = try JSONDecoder().decode(ProfilePayload.self, from: data)
-    } catch {
-        throw ProfileDecodingError.invalidPayload
-    }
+  let payload: ProfilePayload
+  do {
+    payload = try JSONDecoder().decode(ProfilePayload.self, from: data)
+  } catch {
+    throw ProfileDecodingError.invalidPayload
+  }
 
-    guard !payload.name.isEmpty else {
-        throw ProfileDecodingError.missingName
-    }
-    return payload.name
+  guard !payload.name.isEmpty else {
+    throw ProfileDecodingError.missingName
+  }
+  return payload.name
 }
 
 let profileData = Data(#"{"name":"Rodolfo"}"#.utf8)
@@ -324,7 +324,7 @@ assert(decodedName == "Rodolfo")
 /// - Parameter subtotal: Valor previo a impuestos y envío.
 /// - Returns: `0` cuando la tienda absorbe el cargo; `2.5` en los demás casos.
 func serviceFee(for subtotal: Double) -> Double {
-    subtotal >= 50 ? 0 : 2.5
+  subtotal >= 50 ? 0 : 2.5
 }
 
 assert(serviceFee(for: 60) == 0)
@@ -339,17 +339,17 @@ assert(serviceFee(for: 60) == 0)
 // MARK: - 8. Separar lógica pura de efectos secundarios
 
 enum AnalyticsEvent: String, Sendable {
-    case profileOpened = "profile_opened"
+  case profileOpened = "profile_opened"
 }
 
 protocol AnalyticsTracking {
-    func track(event: AnalyticsEvent)
+  func track(event: AnalyticsEvent)
 }
 
 struct ConsoleAnalyticsTracker: AnalyticsTracking {
-    func track(event: AnalyticsEvent) {
-        print("Analytics:", event.rawValue)
-    }
+  func track(event: AnalyticsEvent) {
+    print("Analytics:", event.rawValue)
+  }
 }
 
 /*
@@ -358,7 +358,7 @@ struct ConsoleAnalyticsTracker: AnalyticsTracking {
  */
 
 func profileTitle(for profile: UserProfile) -> String {
-    profile.name.isEmpty ? "Perfil" : "Perfil de \(profile.name)"
+  profile.name.isEmpty ? "Perfil" : "Perfil de \(profile.name)"
 }
 
 /*
@@ -366,16 +366,16 @@ func profileTitle(for profile: UserProfile) -> String {
  */
 
 struct ProfileOpeningHandler {
-    private let analytics: any AnalyticsTracking
+  private let analytics: any AnalyticsTracking
 
-    init(analytics: any AnalyticsTracking) {
-        self.analytics = analytics
-    }
+  init(analytics: any AnalyticsTracking) {
+    self.analytics = analytics
+  }
 
-    func execute(profile: UserProfile) -> String {
-        analytics.track(event: .profileOpened)
-        return profileTitle(for: profile)
-    }
+  func execute(profile: UserProfile) -> String {
+    analytics.track(event: .profileOpened)
+    return profileTitle(for: profile)
+  }
 }
 
 let consoleHandler = ProfileOpeningHandler(analytics: ConsoleAnalyticsTracker())
@@ -392,26 +392,26 @@ assert(consoleTitle == "Perfil de Rodolfo")
 // MARK: - 9. Inyección de dependencias y testabilidad
 
 protocol ProfileFetching: Sendable {
-    func fetchProfile(id: UUID) async throws -> UserProfile
+  func fetchProfile(id: UUID) async throws -> UserProfile
 }
 
 enum ProfileRepositoryError: Error, Sendable {
-    case notFound
+  case notFound
 }
 
 struct InMemoryProfileRepository: ProfileFetching {
-    private let profiles: [UUID: UserProfile]
+  private let profiles: [UUID: UserProfile]
 
-    init(profiles: [UUID: UserProfile]) {
-        self.profiles = profiles
-    }
+  init(profiles: [UUID: UserProfile]) {
+    self.profiles = profiles
+  }
 
-    func fetchProfile(id: UUID) throws -> UserProfile {
-        guard let profile = profiles[id] else {
-            throw ProfileRepositoryError.notFound
-        }
-        return profile
+  func fetchProfile(id: UUID) throws -> UserProfile {
+    guard let profile = profiles[id] else {
+      throw ProfileRepositoryError.notFound
     }
+    return profile
+  }
 }
 
 /*
@@ -429,35 +429,35 @@ struct InMemoryProfileRepository: ProfileFetching {
 
 @MainActor
 final class ProfileViewModel {
-    enum State: Equatable {
-        case idle
-        case loading
-        case loaded(UserProfile)
-        case failed(message: String)
+  enum State: Equatable {
+    case idle
+    case loading
+    case loaded(UserProfile)
+    case failed(message: String)
+  }
+
+  private let repository: any ProfileFetching
+  private(set) var state: State = .idle
+
+  init(repository: any ProfileFetching) {
+    self.repository = repository
+  }
+
+  func load(id: UUID) async {
+    state = .loading
+
+    do {
+      state = .loaded(try await repository.fetchProfile(id: id))
+    } catch is CancellationError {
+      state = .idle
+    } catch {
+      state = .failed(message: "No fue posible cargar el perfil")
     }
-
-    private let repository: any ProfileFetching
-    private(set) var state: State = .idle
-
-    init(repository: any ProfileFetching) {
-        self.repository = repository
-    }
-
-    func load(id: UUID) async {
-        state = .loading
-
-        do {
-            state = .loaded(try await repository.fetchProfile(id: id))
-        } catch is CancellationError {
-            state = .idle
-        } catch {
-            state = .failed(message: "No fue posible cargar el perfil")
-        }
-    }
+  }
 }
 
 let memoryRepository = InMemoryProfileRepository(
-    profiles: [sampleProfile.id: sampleProfile]
+  profiles: [sampleProfile.id: sampleProfile]
 )
 let loadedProfile = try memoryRepository.fetchProfile(id: sampleProfile.id)
 assert(loadedProfile == sampleProfile)
@@ -482,18 +482,18 @@ assert(profileViewModel.state == .loaded(sampleProfile))
 // MARK: - 11. ARC y ciclos de retención
 
 final class SearchController {
-    var onRefresh: (() -> Void)?
-    private(set) var refreshCount = 0
+  var onRefresh: (() -> Void)?
+  private(set) var refreshCount = 0
 
-    func configureRefresh() {
-        /*
-         onRefresh es almacenado por self. Capturar self fuertemente aquí
-         produciría el ciclo self -> closure -> self.
-         */
-        onRefresh = { [weak self] in
-            self?.refreshCount += 1
-        }
+  func configureRefresh() {
+    /*
+     onRefresh es almacenado por self. Capturar self fuertemente aquí
+     produciría el ciclo self -> closure -> self.
+     */
+    onRefresh = { [weak self] in
+      self?.refreshCount += 1
     }
+  }
 }
 
 let searchController = SearchController()
@@ -512,21 +512,21 @@ assert(searchController.refreshCount == 1)
 // MARK: - 12. Pruebas del comportamiento
 
 final class AnalyticsSpy: AnalyticsTracking {
-    private(set) var receivedEvents: [AnalyticsEvent] = []
+  private(set) var receivedEvents: [AnalyticsEvent] = []
 
-    func track(event: AnalyticsEvent) {
-        receivedEvents.append(event)
-    }
+  func track(event: AnalyticsEvent) {
+    receivedEvents.append(event)
+  }
 }
 
 func verifyProfileOpeningHandler() {
-    let analytics = AnalyticsSpy()
-    let handler = ProfileOpeningHandler(analytics: analytics)
+  let analytics = AnalyticsSpy()
+  let handler = ProfileOpeningHandler(analytics: analytics)
 
-    let title = handler.execute(profile: sampleProfile)
+  let title = handler.execute(profile: sampleProfile)
 
-    assert(title == "Perfil de Rodolfo")
-    assert(analytics.receivedEvents == [.profileOpened])
+  assert(title == "Perfil de Rodolfo")
+  assert(analytics.receivedEvents == [.profileOpened])
 }
 
 verifyProfileOpeningHandler()
@@ -565,7 +565,7 @@ verifyProfileOpeningHandler()
  */
 
 func rectangleArea(width: Double, height: Double) -> Double {
-    width * height
+  width * height
 }
 
 /*
@@ -575,7 +575,7 @@ func rectangleArea(width: Double, height: Double) -> Double {
  */
 
 func triangleArea(base: Double, height: Double) -> Double {
-    base * height / 2
+  base * height / 2
 }
 
 assert(rectangleArea(width: 10, height: 4) == 40)
@@ -590,15 +590,15 @@ assert(triangleArea(base: 10, height: 4) == 20)
 // MARK: - 14. Refactorización conserva comportamiento
 
 func legacyShippingCost(subtotal: Double) -> Double {
-    if subtotal >= 50 {
-        return 0
-    }
-    return 4.99
+  if subtotal >= 50 {
+    return 0
+  }
+  return 4.99
 }
 
 enum ShippingPolicy {
-    static let freeShippingThreshold = 50.0
-    static let standardCost = 4.99
+  static let freeShippingThreshold = 50.0
+  static let standardCost = 4.99
 }
 
 /*
@@ -607,14 +607,14 @@ enum ShippingPolicy {
  */
 
 func shippingCost(subtotal: Double) -> Double {
-    guard subtotal < ShippingPolicy.freeShippingThreshold else {
-        return 0
-    }
-    return ShippingPolicy.standardCost
+  guard subtotal < ShippingPolicy.freeShippingThreshold else {
+    return 0
+  }
+  return ShippingPolicy.standardCost
 }
 
 for subtotal in [0.0, 49.99, 50, 120] {
-    assert(legacyShippingCost(subtotal: subtotal) == shippingCost(subtotal: subtotal))
+  assert(legacyShippingCost(subtotal: subtotal) == shippingCost(subtotal: subtotal))
 }
 
 // MARK: - Checklist final

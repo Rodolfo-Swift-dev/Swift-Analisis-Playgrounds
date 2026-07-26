@@ -1,16 +1,49 @@
 #!/usr/bin/env ruby
 
 require "cgi"
+require "fileutils"
 
 ROOT = File.expand_path("..", __dir__)
+LANGUAGE = ENV.fetch("GUIDE_LANGUAGE", "es")
+raise "GUIDE_LANGUAGE debe ser es o en" unless %w[es en].include?(LANGUAGE)
+
+ENGLISH = LANGUAGE == "en"
 REPOSITORY_URL = "https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds"
+UI = {
+  design_guides: ENGLISH ? "iOS design guides" : "Guías de diseño iOS",
+  study_guides: ENGLISH ? "Study guides" : "Guías de estudio",
+  chapters: ENGLISH ? "20 chapters" : "20 capítulos",
+  practical_topics: ENGLISH ? "15 practical topics" : "15 temas prácticos",
+  design_topics: ENGLISH ? "10 design topics" : "10 temas de diseño",
+  current: ENGLISH ? "Current · " : "Actual · ",
+  detail: ENGLISH ? "View details" : "Ver detalle",
+  hide: ENGLISH ? "Hide" : "Ocultar",
+  example: ENGLISH ? "Example" : "Ejemplo",
+  copy: ENGLISH ? "Copy" : "Copiar",
+  copied: ENGLISH ? "Copied" : "Copiado",
+  unavailable: ENGLISH ? "Unavailable" : "No disponible",
+  search: ENGLISH ? "Search concept…" : "Buscar concepto…",
+  clear_search: ENGLISH ? "Clear search" : "Limpiar búsqueda",
+  available: ENGLISH ? "topics available" : "subtemas disponibles",
+  content: ENGLISH ? "Contents" : "Contenido",
+  close: ENGLISH ? "Close" : "Cerrar",
+  expand: ENGLISH ? "Expand" : "Expandir",
+  collapse: ENGLISH ? "Collapse" : "Plegar",
+  print: ENGLISH ? "Print" : "Imprimir",
+  topic: ENGLISH ? "topic" : "subtema",
+  topics: ENGLISH ? "topics" : "subtemas",
+  no_results: ENGLISH ? "No topics match that search." : "No se encontraron subtemas con esa búsqueda.",
+  sources: ENGLISH ? "Main sources:" : "Fuentes principales:",
+  open_playground: ENGLISH ? "Open playground" : "Abrir playground",
+  hero_note: ENGLISH ? "Web examples focus on one concept. The linked playground contains the complete, runnable, and verified implementation." : "Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada."
+}.freeze
 
 PAGES = [
   {
     slug: "clean-code",
-    source: File.join(ROOT, "tools", "clean_code_ios.md"),
-    output: File.join(ROOT, "docs", "clean-code.html"),
-    eyebrow: "DISEÑO Y MANTENIBILIDAD",
+    source: File.join(ROOT, "tools", ENGLISH ? "clean_code_ios_en.md" : "clean_code_ios.md"),
+    output: File.join(ROOT, "docs", ENGLISH ? "en/clean-code.html" : "clean-code.html"),
+    eyebrow: ENGLISH ? "DESIGN AND MAINTAINABILITY" : "DISEÑO Y MANTENIBILIDAD",
     short_title: "Clean Code",
     playground: "Clean_Code/CleanCode.playground/Contents.swift",
     accent: "#0f8b8d",
@@ -26,9 +59,9 @@ PAGES = [
   },
   {
     slug: "solid",
-    source: File.join(ROOT, "tools", "solid_ios.md"),
-    output: File.join(ROOT, "docs", "solid.html"),
-    eyebrow: "PRINCIPIOS DE DISEÑO",
+    source: File.join(ROOT, "tools", ENGLISH ? "solid_ios_en.md" : "solid_ios.md"),
+    output: File.join(ROOT, "docs", ENGLISH ? "en/solid.html" : "solid.html"),
+    eyebrow: ENGLISH ? "DESIGN PRINCIPLES" : "PRINCIPIOS DE DISEÑO",
     short_title: "SOLID",
     playground: "SOLID/SOLID.playground/Contents.swift",
     accent: "#5661d8",
@@ -123,11 +156,13 @@ def parse_guide(path)
   raise "#{path}: falta título" unless guide[:title]
   raise "#{path}: no contiene secciones" if guide[:sections].empty?
 
+  required_labels = ENGLISH ? ["In simple terms", "What happens", "Watch out"] : ["En simple", "Qué ocurre", "Cuidado"]
+
   guide[:sections].each do |section|
     raise "#{path}: sección sin fichas: #{section[:title]}" if section[:cards].empty?
 
     section[:cards].each do |card|
-      ["En simple", "Qué ocurre", "Cuidado"].each do |label|
+      required_labels.each do |label|
         raise "#{path}: #{card[:title]} no contiene #{label}" unless card[:details][label]
       end
       raise "#{path}: #{card[:title]} no contiene ejemplo" unless card[:code]
@@ -159,13 +194,18 @@ def render_page(config, guide)
         <details class="study-card" id="#{card[:id]}">
           <summary>
             <span class="card-title">#{CGI.escapeHTML(card[:title])}</span>
-            <span class="card-action">Ver detalle</span>
+            <span class="card-action">#{UI[:detail]}</span>
           </summary>
           <div class="card-body">
             <dl>#{details}</dl>
             <div class="example">
-              <div class="example-label">Ejemplo</div>
-              <pre><code>#{CGI.escapeHTML(card[:code])}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+              <div class="example-label">#{UI[:example]}</div>
+              <div class="code-block">
+                <div class="code-toolbar">
+                  <button class="copy-code" type="button" aria-label="#{UI[:copy]}" aria-live="polite">#{UI[:copy]}</button>
+                </div>
+                <pre><code>#{CGI.escapeHTML(card[:code])}</code></pre>
+              </div>
             </div>
           </div>
         </details>
@@ -176,7 +216,7 @@ def render_page(config, guide)
       <section class="guide-section" id="#{section[:id]}">
         <div class="section-heading">
           <h2>#{CGI.escapeHTML(section[:title])}</h2>
-          <span>#{section[:cards].length} #{section[:cards].length == 1 ? "subtema" : "subtemas"}</span>
+          <span>#{section[:cards].length} #{section[:cards].length == 1 ? UI[:topic] : UI[:topics]}</span>
         </div>
         #{cards}
       </section>
@@ -191,21 +231,21 @@ def render_page(config, guide)
     {
       slug: "swift",
       title: "Swift",
-      detail: "20 capítulos",
+      detail: UI[:chapters],
       href: "index.html"
     },
     *PAGES.map do |page|
       {
         slug: page[:slug],
         title: page[:short_title],
-        detail: page[:slug] == "clean-code" ? "15 temas prácticos" : "10 temas de diseño",
+        detail: page[:slug] == "clean-code" ? UI[:practical_topics] : UI[:design_topics],
         href: "#{page[:slug]}.html"
       }
     end
   ].map do |page|
     current = page[:slug] == config[:slug]
     content = <<~HTML.chomp
-      <span><strong>#{CGI.escapeHTML(page[:title])}</strong><small>#{current ? "Actual · " : ""}#{CGI.escapeHTML(page[:detail])}</small></span>
+      <span><strong>#{CGI.escapeHTML(page[:title])}</strong><small>#{current ? UI[:current] : ""}#{CGI.escapeHTML(page[:detail])}</small></span>
       <span class="guide-link-action" aria-hidden="true">#{current ? "✓" : "→"}</span>
     HTML
 
@@ -219,10 +259,12 @@ def render_page(config, guide)
   card_count = guide[:sections].sum { |section| section[:cards].length }
   intro = guide[:intro].map { |paragraph| "<p>#{inline(paragraph)}</p>" }.join
   source_url = "#{REPOSITORY_URL}/blob/main/#{config[:playground]}"
+  result_singular = ENGLISH ? "topic found" : "subtema encontrado"
+  result_plural = ENGLISH ? "topics found" : "subtemas encontrados"
 
   <<~HTML
     <!doctype html>
-    <html lang="es">
+    <html lang="#{LANGUAGE}">
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -333,6 +375,31 @@ def render_page(config, guide)
           display: grid;
           gap: 4px;
           margin: 24px 0 18px;
+        }
+        .language-switcher {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin: 0 8px 18px;
+          color: #91a4ae;
+          font-size: .76rem;
+          font-weight: 750;
+        }
+        .language-switcher a,
+        .language-switcher span {
+          display: grid;
+          min-width: 40px;
+          min-height: 40px;
+          place-items: center;
+          border: 1px solid #31434e;
+          border-radius: 8px;
+          color: #dbe6eb;
+          text-decoration: none;
+        }
+        .language-switcher span {
+          border-color: var(--accent);
+          background: rgba(255,255,255,.08);
+          color: #fff;
         }
         .guide-switcher-label {
           margin: 0 8px 4px;
@@ -557,7 +624,7 @@ def render_page(config, guide)
         .card-title { font-weight: 760; }
         .card-action { color: var(--muted); font-size: .74rem; white-space: nowrap; }
         .study-card[open] .card-action { font-size: 0; }
-        .study-card[open] .card-action::after { content: "Ocultar"; font-size: .74rem; }
+        .study-card[open] .card-action::after { content: "#{UI[:hide]}"; font-size: .74rem; }
         .card-body { padding: 18px; }
         dl {
           display: grid;
@@ -585,12 +652,22 @@ def render_page(config, guide)
           letter-spacing: .1em;
           text-transform: uppercase;
         }
+        .code-block {
+          overflow: hidden;
+          border-radius: 12px;
+          background: var(--code);
+        }
+        .code-toolbar {
+          display: flex;
+          justify-content: flex-end;
+          min-height: 44px;
+          padding: 0 9px;
+          border-bottom: 1px solid #41515b;
+        }
         pre {
-          position: relative;
           overflow-x: auto;
           margin: 0;
           padding: 22px;
-          border-radius: 12px;
           background: var(--code);
           color: var(--code-text);
         }
@@ -602,9 +679,6 @@ def render_page(config, guide)
           font-size: .86rem;
         }
         .copy-code {
-          position: absolute;
-          top: 9px;
-          right: 9px;
           min-width: 44px;
           min-height: 44px;
           padding: 5px 8px;
@@ -674,7 +748,7 @@ def render_page(config, guide)
           .sidebar { transition: none; }
         }
         @media print {
-          .sidebar, .mobile-bar, .progress, .copy-code { display: none !important; }
+          .sidebar, .mobile-bar, .progress, .code-toolbar, .copy-code { display: none !important; }
           .main { width: 100%; margin: 0; padding: 0; }
           .hero { border: 1px solid #aaa; background: #fff; color: #000; box-shadow: none; }
           .hero p { color: #333; }
@@ -687,28 +761,31 @@ def render_page(config, guide)
       <div class="progress" id="progress"></div>
       <div class="mobile-bar">
         <strong>#{CGI.escapeHTML(config[:short_title])} · iOS</strong>
-        <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contenido</button>
+        <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">#{UI[:content]}</button>
       </div>
       <aside class="sidebar" id="sidebar">
         <a class="brand" href="index.html">
           <span class="brand-mark">S</span>
-          <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
+          <span><strong>Swift Study</strong><small>#{UI[:design_guides]}</small></span>
         </a>
-        <nav class="guide-switcher" aria-label="Guías de estudio">
-          <div class="guide-switcher-label">Guías de estudio</div>
+        <nav class="guide-switcher" aria-label="#{UI[:study_guides]}">
+          <div class="guide-switcher-label">#{UI[:study_guides]}</div>
           #{guide_links}
         </nav>
+        <nav class="language-switcher" aria-label="Language / Idioma">
+          #{ENGLISH ? %(<a href="../#{config[:slug]}.html" hreflang="es">ES</a><span aria-current="page">EN</span>) : %(<span aria-current="page">ES</span><a href="en/#{config[:slug]}.html" hreflang="en">EN</a>)}
+        </nav>
         <div class="search-wrap">
-          <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
-          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+          <input class="search" id="search" type="search" placeholder="#{UI[:search]}" aria-label="#{UI[:search]}" autocomplete="off">
+          <button class="clear-search" id="clearSearch" type="button" aria-label="#{UI[:clear_search]}" hidden>×</button>
         </div>
-        <div class="search-status" id="searchStatus" aria-live="polite">#{card_count} subtemas disponibles</div>
-        <div class="nav-label">Contenido</div>
+        <div class="search-status" id="searchStatus" aria-live="polite">#{card_count} #{UI[:available]}</div>
+        <div class="nav-label">#{UI[:content]}</div>
         <nav>#{section_navigation}</nav>
         <div class="sidebar-actions">
-          <button id="expandAll" type="button">Expandir</button>
-          <button id="collapseAll" type="button">Plegar</button>
-          <button id="printButton" type="button">Imprimir</button>
+          <button id="expandAll" type="button">#{UI[:expand]}</button>
+          <button id="collapseAll" type="button">#{UI[:collapse]}</button>
+          <button id="printButton" type="button">#{UI[:print]}</button>
         </div>
       </aside>
       <main class="main">
@@ -716,15 +793,15 @@ def render_page(config, guide)
           <div class="eyebrow">#{CGI.escapeHTML(config[:eyebrow])}</div>
           <h1>#{CGI.escapeHTML(guide[:title])}</h1>
           #{intro}
-          <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
+          <p class="hero-note">#{UI[:hero_note]}</p>
           <div class="hero-actions">
-            <a href="#{source_url}" target="_blank" rel="noreferrer">Abrir playground</a>
+            <a href="#{source_url}" target="_blank" rel="noreferrer">#{UI[:open_playground]}</a>
           </div>
         </header>
         #{sections}
-        <div class="empty" id="emptyState">No se encontraron subtemas con esa búsqueda.</div>
+        <div class="empty" id="emptyState">#{UI[:no_results]}</div>
         <footer class="sources">
-          <strong>Fuentes principales:</strong>
+          <strong>#{UI[:sources]}</strong>
           #{sources}
         </footer>
       </main>
@@ -742,7 +819,7 @@ def render_page(config, guide)
         const setSidebarOpen = (open) => {
           sidebar.classList.toggle("open", open);
           menuButton.setAttribute("aria-expanded", String(open));
-          menuButton.textContent = open ? "Cerrar" : "Contenido";
+          menuButton.textContent = open ? "#{UI[:close]}" : "#{UI[:content]}";
         };
 
         const normalizeText = (value) => {
@@ -775,8 +852,8 @@ def render_page(config, guide)
           });
 
           searchStatus.textContent = query
-            ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
-            : `${cards.length} subtemas disponibles`;
+            ? `${matches} ${matches === 1 ? "#{result_singular}" : "#{result_plural}"}`
+            : `${cards.length} #{UI[:available]}`;
           clearSearch.hidden = !search.value;
           emptyState.style.display = matches ? "none" : "block";
         };
@@ -804,14 +881,14 @@ def render_page(config, guide)
 
         document.querySelectorAll(".copy-code").forEach((button) => {
           button.addEventListener("click", async () => {
-            const value = button.parentElement.querySelector("code").textContent;
+            const value = button.closest(".code-block").querySelector("code").textContent;
             try {
               await navigator.clipboard.writeText(value);
-              button.textContent = "Copiado";
+              button.textContent = "#{UI[:copied]}";
             } catch {
-              button.textContent = "No disponible";
+              button.textContent = "#{UI[:unavailable]}";
             }
-            setTimeout(() => { button.textContent = "Copiar"; }, 1100);
+            setTimeout(() => { button.textContent = "#{UI[:copy]}"; }, 1100);
           });
         });
 
@@ -856,6 +933,7 @@ end
 
 PAGES.each do |config|
   guide = parse_guide(config[:source])
+  FileUtils.mkdir_p(File.dirname(config[:output]))
   File.write(config[:output], render_page(config, guide), mode: "w", encoding: "UTF-8")
   puts "Generated #{config[:output]}"
 end

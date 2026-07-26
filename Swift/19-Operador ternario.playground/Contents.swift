@@ -1,4 +1,6 @@
 //Operador ternario
+//Error frecuente: usar el ternario para efectos secundarios o anidar decisiones
+//hasta volver la expresión difícil de leer.
 //
 //Es una expresión con tres partes:
 //condición ? valorSiEsVerdadera : valorSiEsFalsa
@@ -25,11 +27,11 @@ let score = 82
 let grade: String
 
 if score >= 90 {
-    grade = "Excelente"
+  grade = "Excelente"
 } else if score >= 60 {
-    grade = "Aprobado"
+  grade = "Aprobado"
 } else {
-    grade = "Reprobado"
+  grade = "Reprobado"
 }
 
 print(grade)

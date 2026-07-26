@@ -210,6 +210,26 @@
       color: var(--accent);
     }
 
+    .language-switcher {
+      display: flex;
+      gap: 6px;
+      margin: 0 0 18px 8px;
+      font-size: 0.78rem;
+    }
+
+    .language-switcher a,
+    .language-switcher span {
+      padding: 4px 8px;
+      border-radius: 7px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+    }
+
+    .language-switcher [aria-current="page"] {
+      background: var(--accent);
+      color: #fff;
+    }
+
     .search {
       width: 100%;
       min-height: 44px;
@@ -661,7 +681,7 @@
       text-transform: uppercase;
     }
 
-    .example-block pre {
+    .example-block .code-block {
       margin: 0;
     }
 
@@ -669,12 +689,25 @@
       padding-left: 1.4rem;
     }
 
-    pre {
-      position: relative;
-      overflow-x: auto;
+    .code-block {
       margin: 18px 0;
-      padding: 22px;
+      overflow: hidden;
       border-radius: 14px;
+      background: var(--code-bg);
+    }
+
+    .code-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      min-height: 44px;
+      padding: 0 10px;
+      border-bottom: 1px solid #42525e;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 0;
+      padding: 22px;
       background: var(--code-bg);
       color: var(--code-text);
     }
@@ -688,9 +721,6 @@
     }
 
     .copy-code {
-      position: absolute;
-      top: 10px;
-      right: 10px;
       min-width: 44px;
       min-height: 44px;
       padding: 5px 9px;
@@ -800,6 +830,7 @@
       .mobile-bar,
       .progress,
       .chapter-toggle,
+      .code-toolbar,
       .copy-code {
         display: none !important;
       }
@@ -867,8 +898,11 @@
           <span class="guide-link-action" aria-hidden="true">→</span>
         </a>
       </nav>
+      <nav class="language-switcher" aria-label="Idioma">
+        <span aria-current="page">ES</span><a href="en/index.html" hreflang="en">EN</a>
+      </nav>
       <div class="search-wrap">
-        <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
+        <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto…" autocomplete="off">
         <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
       </div>
       <div class="search-status" id="searchStatus" aria-live="polite">20 capítulos disponibles</div>
@@ -1019,7 +1053,7 @@
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">print(&quot;Hola, Swift&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">print(&quot;Hola, Swift&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1037,7 +1071,7 @@
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">// Este comentario no se ejecuta</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">// Este comentario no se ejecuta</code></pre></div>
     </div>
   </div>
 </details>
@@ -1055,8 +1089,8 @@
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">/* Comentario
-   de varias líneas */</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">/* Comentario
+   de varias líneas */</code></pre></div>
     </div>
   </div>
 </details>
@@ -1075,7 +1109,7 @@
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let pi = 3.14159</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let pi = 3.14159</code></pre></div>
     </div>
   </div>
 </details>
@@ -1093,8 +1127,8 @@
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var score = 0
-score += 1</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var score = 0
+score += 1</code></pre></div>
     </div>
   </div>
 </details>
@@ -1112,7 +1146,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let age: Int = 36</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let age: Int = 36</code></pre></div>
     </div>
   </div>
 </details>
@@ -1130,7 +1164,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let language = &quot;Swift&quot; // String inferido</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let language = &quot;Swift&quot; // String inferido</code></pre></div>
     </div>
   </div>
 </details>
@@ -1148,7 +1182,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let count: Int = 3</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let count: Int = 3</code></pre></div>
     </div>
   </div>
 </details>
@@ -1166,7 +1200,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let opacity: Float = 0.5</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let opacity: Float = 0.5</code></pre></div>
     </div>
   </div>
 </details>
@@ -1184,7 +1218,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let price: Double = 19.99</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let price: Double = 19.99</code></pre></div>
     </div>
   </div>
 </details>
@@ -1202,7 +1236,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let greeting: String = &quot;Hola&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let greeting: String = &quot;Hola&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -1220,7 +1254,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let isReady: Bool = true</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let isReady: Bool = true</code></pre></div>
     </div>
   </div>
 </details>
@@ -1239,7 +1273,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let result = (8 + 2) * 3 / 5</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let result = (8 + 2) * 3 / 5</code></pre></div>
     </div>
   </div>
 </details>
@@ -1257,7 +1291,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let remainder = 9 % 4 // 1</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let remainder = 9 % 4 // 1</code></pre></div>
     </div>
   </div>
 </details>
@@ -1275,7 +1309,7 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let canEnter = age &gt;= 18</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let canEnter = age &gt;= 18</code></pre></div>
     </div>
   </div>
 </details>
@@ -1293,8 +1327,8 @@ score += 1</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var total = 10
-total += 5</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var total = 10
+total += 5</code></pre></div>
     </div>
   </div>
 </details>
@@ -1312,7 +1346,7 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let valid = hasName &amp;&amp; hasEmail</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let valid = hasName &amp;&amp; hasEmail</code></pre></div>
     </div>
   </div>
 </details>
@@ -1330,7 +1364,7 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let allowed = isAdmin || isOwner</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let allowed = isAdmin || isOwner</code></pre></div>
     </div>
   </div>
 </details>
@@ -1348,7 +1382,7 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let isHidden = !isVisible</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let isHidden = !isVisible</code></pre></div>
     </div>
   </div>
 </details>
@@ -1367,7 +1401,7 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let message = &quot;Edad: \(age)&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let message = &quot;Edad: \(age)&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -1385,11 +1419,13 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let fullName = firstName + &quot; &quot; + lastName</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let fullName = firstName + &quot; &quot; + lastName</code></pre></div>
     </div>
   </div>
 </details>
 <p>Claves del capítulo: <code>print</code>, <code>let</code>, <code>var</code>, <code>Int</code>, <code>Float</code>, <code>Double</code>, <code>String</code>, <code>Bool</code>, operadores e interpolación.</p>
+<h3 id="0-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Esperar conversiones numéricas implícitas o confundir la división entre enteros con una división decimal. Swift exige tipos compatibles: <code>5 / 2</code> produce <code>2</code>, mientras que <code>5.0 / 2.0</code> produce <code>2.5</code>.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="1-typealias" data-search="1. typealias">
@@ -1422,8 +1458,8 @@ total += 5</code><button class="copy-code" type="button" aria-label="Copiar cód
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">typealias Celsius = Double
-let temperature: Celsius = 21.5</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">typealias Celsius = Double
+let temperature: Celsius = 21.5</code></pre></div>
     </div>
   </div>
 </details>
@@ -1441,8 +1477,8 @@ let temperature: Celsius = 21.5</code><button class="copy-code" type="button" ar
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">typealias CharacterName = String
-let hero: CharacterName = &quot;Ayla&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">typealias CharacterName = String
+let hero: CharacterName = &quot;Ayla&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -1460,9 +1496,9 @@ let hero: CharacterName = &quot;Ayla&quot;</code><button class="copy-code" type=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User { let name: String }
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User { let name: String }
 typealias Client = User
-let client = Client(name: &quot;Ana&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+let client = Client(name: &quot;Ana&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1480,15 +1516,17 @@ let client = Client(name: &quot;Ana&quot;)</code><button class="copy-code" type=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">typealias Completion = (Result&lt;String, Error&gt;) -&gt; Void
-func load(completion: Completion) { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">typealias Completion = (Result&lt;String, Error&gt;) -&gt; Void
+func load(completion: Completion) { }</code></pre></div>
     </div>
   </div>
 </details>
 <p>Comportamiento esencial:</p>
-<pre><code class="language-swift">typealias Celsius = Double
-let temperature: Celsius = 12.2</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">typealias Celsius = Double
+let temperature: Celsius = 12.2</code></pre></div>
 <p>Límite esencial: <code>typealias</code> mejora la lectura, pero no agrega validación, identidad ni seguridad de tipo adicional. Para eso se necesita crear un <code>struct</code>, <code>class</code> o <code>enum</code>.</p>
+<h3 id="1-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Creer que <code>typealias</code> crea un tipo distinto. <code>typealias UserID = String</code> solo agrega otro nombre: un <code>UserID</code> sigue aceptando cualquier <code>String</code>.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="2-tuplas" data-search="2. tuplas">
@@ -1524,7 +1562,7 @@ let temperature: Celsius = 12.2</code><button class="copy-code" type="button" ar
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let person: (String, Int, Bool) = (&quot;Ana&quot;, 28, true)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let person: (String, Int, Bool) = (&quot;Ana&quot;, 28, true)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1542,8 +1580,8 @@ let temperature: Celsius = 12.2</code><button class="copy-code" type="button" ar
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let person = (&quot;Ana&quot;, 28)
-print(person.0) // Ana</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let person = (&quot;Ana&quot;, 28)
+print(person.0) // Ana</code></pre></div>
     </div>
   </div>
 </details>
@@ -1561,7 +1599,7 @@ print(person.0) // Ana</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let person = (name: &quot;Ana&quot;, age: 28)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let person = (name: &quot;Ana&quot;, age: 28)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1579,8 +1617,8 @@ print(person.0) // Ana</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let person = (name: &quot;Ana&quot;, age: 28)
-print(person.name)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let person = (name: &quot;Ana&quot;, age: 28)
+print(person.name)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1599,8 +1637,8 @@ print(person.name)</code><button class="copy-code" type="button" aria-label="Cop
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let point = (3, 7)
-let (x, y) = point</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let point = (3, 7)
+let (x, y) = point</code></pre></div>
     </div>
   </div>
 </details>
@@ -1618,8 +1656,8 @@ let (x, y) = point</code><button class="copy-code" type="button" aria-label="Cop
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let user = (&quot;Ana&quot;, 28)
-let (name, _) = user</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let user = (&quot;Ana&quot;, 28)
+let (name, _) = user</code></pre></div>
     </div>
   </div>
 </details>
@@ -1638,7 +1676,7 @@ let (name, _) = user</code><button class="copy-code" type="button" aria-label="C
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let result = (user: (name: &quot;Ana&quot;, age: 28), active: true)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let result = (user: (name: &quot;Ana&quot;, age: 28), active: true)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1656,9 +1694,9 @@ let (name, _) = user</code><button class="copy-code" type="button" aria-label="C
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func bounds() -&gt; (min: Int, max: Int) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func bounds() -&gt; (min: Int, max: Int) {
     (0, 100)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -1676,13 +1714,15 @@ let (name, _) = user</code><button class="copy-code" type="button" aria-label="C
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let operation: (result: Int?, error: String?) =
-    (nil, &quot;División por cero&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let operation: (result: Int?, error: String?) =
+    (nil, &quot;División por cero&quot;)</code></pre></div>
     </div>
   </div>
 </details>
 <p>Usos presentes: agrupar datos relacionados, retornar varios valores, descomponer resultados y manejar pequeños grupos temporales.</p>
 <p>Límite esencial: una tupla es de tamaño fijo y no es una colección dinámica. Cuando el modelo necesita métodos, validaciones o una identidad clara, se debe preferir <code>struct</code>.</p>
+<h3 id="2-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Tratar una tupla como si conformara <code>Sequence</code> o fuera una colección. No admite directamente operaciones como <code>sorted()</code>; tampoco conviene representar éxito y error con una pareja de opcionales que permita estados inválidos.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="3-optional" data-search="3. optional">
@@ -1719,8 +1759,8 @@ let (name, _) = user</code><button class="copy-code" type="button" aria-label="C
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var nickname: String? = &quot;Rodo&quot;
-nickname = nil</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var nickname: String? = &quot;Rodo&quot;
+nickname = nil</code></pre></div>
     </div>
   </div>
 </details>
@@ -1738,7 +1778,7 @@ nickname = nil</code><button class="copy-code" type="button" aria-label="Copiar 
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var selectedUser: User? = nil</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var selectedUser: User? = nil</code></pre></div>
     </div>
   </div>
 </details>
@@ -1757,9 +1797,9 @@ nickname = nil</code><button class="copy-code" type="button" aria-label="Copiar 
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if let name = nickname {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if let name = nickname {
     print(name)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -1777,8 +1817,8 @@ nickname = nil</code><button class="copy-code" type="button" aria-label="Copiar 
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">guard let name = nickname else { return }
-print(name)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">guard let name = nickname else { return }
+print(name)</code></pre></div>
     </div>
   </div>
 </details>
@@ -1797,7 +1837,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let count = nickname!.count // Falla si nickname es nil</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let count = nickname!.count // Falla si nickname es nil</code></pre></div>
     </div>
   </div>
 </details>
@@ -1815,7 +1855,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let displayName = nickname ?? &quot;Sin nombre&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let displayName = nickname ?? &quot;Sin nombre&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -1833,7 +1873,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let firstLetter = nickname?.first</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let firstLetter = nickname?.first</code></pre></div>
     </div>
   </div>
 </details>
@@ -1851,9 +1891,9 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if nickname != nil {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if nickname != nil {
     print(&quot;Existe, pero aún es String?&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -1872,7 +1912,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let length = nickname.map { $0.count }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let length = nickname.map { $0.count }</code></pre></div>
     </div>
   </div>
 </details>
@@ -1890,20 +1930,22 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let capitals = [&quot;CL&quot;: &quot;Santiago&quot;]; let city = capitals[&quot;CL&quot;]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let capitals = [&quot;CL&quot;: &quot;Santiago&quot;]; let city = capitals[&quot;CL&quot;]</code></pre></div>
     </div>
   </div>
 </details>
 <p>Flujo seguro recomendado:</p>
-<pre><code class="language-swift">guard let value = optional else {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">guard let value = optional else {
     return
 }
-// value ya no es opcional aquí</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+// value ya no es opcional aquí</code></pre></div>
 <p>Orden de seguridad:</p>
 <ol class="ordered-list">
   <li>Preferir <code>if let</code>, <code>guard let</code>, <code>??</code> o <code>?.</code>.</li>
   <li>Usar <code>!</code> únicamente cuando la existencia del valor esté garantizada por una regla verificable.</li>
 </ol>
+<h3 id="3-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Forzar un opcional con <code>!</code> sin una garantía verificable. Si el valor es <code>nil</code>, el programa termina en ejecución; un valor por defecto con <code>??</code> tampoco debe ocultar silenciosamente un dato obligatorio.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="4-colecciones" data-search="4. colecciones">
@@ -1940,7 +1982,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var names: [String] = [&quot;Ana&quot;, &quot;Luis&quot;]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var names: [String] = [&quot;Ana&quot;, &quot;Luis&quot;]</code></pre></div>
     </div>
   </div>
 </details>
@@ -1958,7 +2000,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let firstName = names[0]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let firstName = names[0]</code></pre></div>
     </div>
   </div>
 </details>
@@ -1976,7 +2018,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let numberOfNames = names.count</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let numberOfNames = names.count</code></pre></div>
     </div>
   </div>
 </details>
@@ -1994,7 +2036,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if names.isEmpty { print(&quot;Sin nombres&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if names.isEmpty { print(&quot;Sin nombres&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2012,7 +2054,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let edges = (names.first, names.last)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let edges = (names.first, names.last)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2030,7 +2072,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">names.append(&quot;Eva&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">names.append(&quot;Eva&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2048,7 +2090,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">names.insert(&quot;Rosa&quot;, at: 1)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">names.insert(&quot;Rosa&quot;, at: 1)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2066,7 +2108,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let hasAna = names.contains(&quot;Ana&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let hasAna = names.contains(&quot;Ana&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2084,7 +2126,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">names.removeAll()</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">names.removeAll()</code></pre></div>
     </div>
   </div>
 </details>
@@ -2102,7 +2144,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let zeros = Array(repeating: 0, count: 4)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let zeros = Array(repeating: 0, count: 4)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2121,7 +2163,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var tags: Set&lt;String&gt; = [&quot;swift&quot;, &quot;ios&quot;, &quot;swift&quot;]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var tags: Set&lt;String&gt; = [&quot;swift&quot;, &quot;ios&quot;, &quot;swift&quot;]</code></pre></div>
     </div>
   </div>
 </details>
@@ -2139,7 +2181,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let insertion = tags.insert(&quot;xcode&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let insertion = tags.insert(&quot;xcode&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2157,7 +2199,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let usesSwift = tags.contains(&quot;swift&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let usesSwift = tags.contains(&quot;swift&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2175,7 +2217,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let anyTag: String? = tags.first</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let anyTag: String? = tags.first</code></pre></div>
     </div>
   </div>
 </details>
@@ -2193,7 +2235,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let all = Set([1, 2]).union(Set([2, 3]))</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let all = Set([1, 2]).union(Set([2, 3]))</code></pre></div>
     </div>
   </div>
 </details>
@@ -2211,7 +2253,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let common = Set([1, 2]).intersection(Set([2, 3]))</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let common = Set([1, 2]).intersection(Set([2, 3]))</code></pre></div>
     </div>
   </div>
 </details>
@@ -2229,7 +2271,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let onlyA = Set([1, 2]).subtracting(Set([2, 3]))</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let onlyA = Set([1, 2]).subtracting(Set([2, 3]))</code></pre></div>
     </div>
   </div>
 </details>
@@ -2247,7 +2289,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let different = Set([1, 2]).symmetricDifference(Set([2, 3]))</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let different = Set([1, 2]).symmetricDifference(Set([2, 3]))</code></pre></div>
     </div>
   </div>
 </details>
@@ -2265,7 +2307,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let included = Set([1, 2]).isSubset(of: Set([1, 2, 3]))</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let included = Set([1, 2]).isSubset(of: Set([1, 2, 3]))</code></pre></div>
     </div>
   </div>
 </details>
@@ -2284,7 +2326,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var ages: [String: Int] = [&quot;Ana&quot;: 28]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var ages: [String: Int] = [&quot;Ana&quot;: 28]</code></pre></div>
     </div>
   </div>
 </details>
@@ -2302,7 +2344,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let age: Int? = ages[&quot;Ana&quot;]</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let age: Int? = ages[&quot;Ana&quot;]</code></pre></div>
     </div>
   </div>
 </details>
@@ -2320,7 +2362,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">ages[&quot;Luis&quot;] = 31</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">ages[&quot;Luis&quot;] = 31</code></pre></div>
     </div>
   </div>
 </details>
@@ -2338,7 +2380,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">ages[&quot;Ana&quot;] = nil // Elimina la entrada</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">ages[&quot;Ana&quot;] = nil // Elimina la entrada</code></pre></div>
     </div>
   </div>
 </details>
@@ -2356,7 +2398,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let previous = ages.updateValue(32, forKey: &quot;Luis&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let previous = ages.updateValue(32, forKey: &quot;Luis&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2374,7 +2416,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let removed = ages.removeValue(forKey: &quot;Luis&quot;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let removed = ages.removeValue(forKey: &quot;Luis&quot;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2392,7 +2434,7 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">for (name, age) in ages { print(name, age) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">for (name, age) in ages { print(name, age) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2400,6 +2442,8 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Orden, índices o duplicados → <code>Array</code>.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Unicidad y operaciones de conjuntos → <code>Set</code>.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Acceso mediante una clave → <code>Dictionary</code>.</div></div>
+<h3 id="4-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Usar índices, <code>first!</code> o <code>removeFirst()</code> sin comprobar que la colección contiene elementos. También es incorrecto depender del orden de un <code>Set</code>, porque ese orden no es estable.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="5-controlflow" data-search="5. controlflow">
@@ -2438,9 +2482,9 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if temperature &gt; 30 {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if temperature &gt; 30 {
     print(&quot;Hace calor&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2458,11 +2502,11 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if score &gt;= 90 {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if score &gt;= 90 {
     print(&quot;Excelente&quot;)
 } else if score &gt;= 60 {
     print(&quot;Aprobado&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2480,11 +2524,11 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if isConnected {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if isConnected {
     loadData()
 } else {
     showOfflineMessage()
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2503,8 +2547,8 @@ print(name)</code><button class="copy-code" type="button" aria-label="Copiar có
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">guard isAuthenticated else { return }
-showProfile()</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">guard isAuthenticated else { return }
+showProfile()</code></pre></div>
     </div>
   </div>
 </details>
@@ -2522,8 +2566,8 @@ showProfile()</code><button class="copy-code" type="button" aria-label="Copiar c
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">guard let user = currentUser else { return }
-print(user.name)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">guard let user = currentUser else { return }
+print(user.name)</code></pre></div>
     </div>
   </div>
 </details>
@@ -2542,10 +2586,10 @@ print(user.name)</code><button class="copy-code" type="button" aria-label="Copia
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch status {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch status {
 case .success: print(&quot;OK&quot;)
 case .failure: print(&quot;Error&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2563,10 +2607,10 @@ case .failure: print(&quot;Error&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch number {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch number {
 case 0: print(&quot;Cero&quot;)
 default: print(&quot;Otro&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2584,10 +2628,10 @@ default: print(&quot;Otro&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch number {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch number {
 case 0: print(&quot;Cero&quot;)
 default: break
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2605,10 +2649,10 @@ default: break
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch age {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch age {
 case let value where value &gt;= 18: print(&quot;Adulto&quot;)
 default: print(&quot;Menor&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2626,9 +2670,9 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">for number in numbers {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">for number in numbers {
     if number &lt; 0 { break }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2647,9 +2691,9 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">for name in names {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">for name in names {
     print(name)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2667,9 +2711,9 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">for number in numbers where number.isMultiple(of: 2) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">for number in numbers where number.isMultiple(of: 2) {
     print(number)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2687,7 +2731,7 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">for _ in 1...3 { print(&quot;Hola&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">for _ in 1...3 { print(&quot;Hola&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2706,9 +2750,9 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">while attempts &lt; 3 {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">while attempts &lt; 3 {
     attempts += 1
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2726,15 +2770,17 @@ default: print(&quot;Menor&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">repeat {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">repeat {
     attempts += 1
-} while attempts &lt; 3</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+} while attempts &lt; 3</code></pre></div>
     </div>
   </div>
 </details>
 <p>Comparación clave:</p>
-<pre><code class="language-text">while        = preguntar → ejecutar
-repeat-while = ejecutar → preguntar</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">while        = preguntar → ejecutar
+repeat-while = ejecutar → preguntar</code></pre></div>
+<h3 id="5-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Escribir un <code>switch</code> no exhaustivo, usar en <code>where</code> una variable distinta de la vinculada por el patrón o crear un ciclo cuya condición nunca cambia. El compilador detecta algunos casos, pero no puede demostrar que todo ciclo terminará.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="6-funciones" data-search="6. funciones">
@@ -2773,9 +2819,9 @@ repeat-while = ejecutar → preguntar</code><button class="copy-code" type="butt
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func greet(name: String) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func greet(name: String) {
     print(&quot;Hola, \(name)&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2793,9 +2839,9 @@ repeat-while = ejecutar → preguntar</code><button class="copy-code" type="butt
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func double(_ value: Int) -&gt; Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func double(_ value: Int) -&gt; Int {
     value * 2
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2813,10 +2859,10 @@ repeat-while = ejecutar → preguntar</code><button class="copy-code" type="butt
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func absolute(_ value: Int) -&gt; Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func absolute(_ value: Int) -&gt; Int {
     if value &gt;= 0 { return value }
     return -value
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2834,7 +2880,7 @@ repeat-while = ejecutar → preguntar</code><button class="copy-code" type="butt
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let operation: (Int, Int) -&gt; Int = { $0 + $1 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let operation: (Int, Int) -&gt; Int = { $0 + $1 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2852,8 +2898,8 @@ repeat-while = ejecutar → preguntar</code><button class="copy-code" type="butt
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func add(_ a: Int, _ b: Int) -&gt; Int { a + b }
-let operation = add</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func add(_ a: Int, _ b: Int) -&gt; Int { a + b }
+let operation = add</code></pre></div>
     </div>
   </div>
 </details>
@@ -2871,9 +2917,9 @@ let operation = add</code><button class="copy-code" type="button" aria-label="Co
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func coordinates() -&gt; (x: Int, y: Int) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func coordinates() -&gt; (x: Int, y: Int) {
     (10, 20)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2892,9 +2938,9 @@ let operation = add</code><button class="copy-code" type="button" aria-label="Co
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func greet(to person: String) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func greet(to person: String) {
     print(person)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2912,9 +2958,9 @@ let operation = add</code><button class="copy-code" type="button" aria-label="Co
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func square(_ value: Int) -&gt; Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func square(_ value: Int) -&gt; Int {
     value * value
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2932,7 +2978,7 @@ let operation = add</code><button class="copy-code" type="button" aria-label="Co
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func connect(host: String, port: Int = 443) { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func connect(host: String, port: Int = 443) { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2950,8 +2996,8 @@ let operation = add</code><button class="copy-code" type="button" aria-label="Co
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func convert(_ value: Int) -&gt; String { String(value) }
-func convert(_ value: Double) -&gt; String { String(value) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func convert(_ value: Int) -&gt; String { String(value) }
+func convert(_ value: Double) -&gt; String { String(value) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -2970,9 +3016,9 @@ func convert(_ value: Double) -&gt; String { String(value) }</code><button class
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func average(_ values: Double...) -&gt; Double {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func average(_ values: Double...) -&gt; Double {
     values.reduce(0, +) / Double(values.count)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -2990,9 +3036,9 @@ func convert(_ value: Double) -&gt; String { String(value) }</code><button class
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func increment(_ value: inout Int) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func increment(_ value: inout Int) {
     value += 1
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3010,8 +3056,8 @@ func convert(_ value: Double) -&gt; String { String(value) }</code><button class
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var count = 0
-increment(&amp;count)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var count = 0
+increment(&amp;count)</code></pre></div>
     </div>
   </div>
 </details>
@@ -3030,16 +3076,18 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func validate(_ value: Int) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func validate(_ value: Int) {
     func isPositive() -&gt; Bool { value &gt; 0 }
     print(isPositive())
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
 <p>Firma que debes saber leer:</p>
-<pre><code class="language-swift">func add(a: Int, b: Int) -&gt; Int
-// tipo: (Int, Int) -&gt; Int</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func add(a: Int, b: Int) -&gt; Int
+// tipo: (Int, Int) -&gt; Int</code></pre></div>
+<h3 id="6-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Considerar que un parámetro variádico es idéntico a recibir un array. Dentro de la función se ve como una colección, pero al llamar se pasan argumentos separados; además, ignorar resultados útiles puede ocultar errores de lógica.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="7-clases-y-estructuras" data-search="7. clases y estructuras">
@@ -3081,10 +3129,10 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Point {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Point {
     var x: Int
     var y: Int
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3104,9 +3152,9 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">final class Session {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">final class Session {
     var token = &quot;&quot;
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3124,7 +3172,7 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User { var name: String }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User { var name: String }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3142,7 +3190,7 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Counter { mutating func increment() { value += 1 }; var value = 0 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Counter { mutating func increment() { value += 1 }; var value = 0 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3161,10 +3209,10 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class User {
     let name: String
     init(name: String) { self.name = name }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3182,8 +3230,8 @@ increment(&amp;count)</code><button class="copy-code" type="button" aria-label="
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Point { var x: Int; var y: Int }
-let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Point { var x: Int; var y: Int }
+let point = Point(x: 2, y: 4)</code></pre></div>
     </div>
   </div>
 </details>
@@ -3201,10 +3249,10 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class User {
     init(name: String) { }
     convenience init() { self.init(name: &quot;Invitado&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3222,9 +3270,9 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Connection {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Connection {
     deinit { print(&quot;Conexión liberada&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3242,9 +3290,9 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Matrix {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Matrix {
     subscript(row: Int, column: Int) -&gt; Int { 0 }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3263,7 +3311,7 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3281,7 +3329,7 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User: Identifiable { let id: Int }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User: Identifiable { let id: Int }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3299,22 +3347,24 @@ let point = Point(x: 2, y: 4)</code><button class="copy-code" type="button" aria
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User { var displayName: String { name.uppercased() } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User { var displayName: String { name.uppercased() } }</code></pre></div>
     </div>
   </div>
 </details>
 <h3 id="7-diferencia-de-comportamiento">Diferencia de comportamiento</h3>
-<pre><code class="language-swift">// struct: copia independiente
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">// struct: copia independiente
 var b = a
 b.value = 2       // a no cambia
 
 // class: referencia compartida
 var b = a
-b.value = 2       // a observa el cambio</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+b.value = 2       // a observa el cambio</code></pre></div>
 <p>Límite conceptual importante: <code>struct</code> no significa “siempre en el stack” y <code>class</code> no significa “siempre accesible solo desde el heap”. Swift puede optimizar la memoria. La diferencia que debe guiar el diseño es <strong>valor frente a identidad compartida</strong>.</p>
 <p>Elección:</p>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Datos independientes y modelos simples → <code>struct</code>.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Identidad compartida, herencia u Objective-C → <code>class</code>.</div></div>
+<h3 id="7-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Presentar stack y heap como garantías de <code>struct</code> y <code>class</code>, afirmar que las estructuras son inmutables por defecto o escribir inicializadores manuales sin necesidad. La decisión correcta se basa en semántica de valor o identidad compartida.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="8-metodos" data-search="8. métodos">
@@ -3349,10 +3399,10 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Counter {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Counter {
     var value = 0
     func show() { print(value) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3370,10 +3420,10 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User {
     let name: String
     func printName() { print(self.name) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3391,10 +3441,10 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Counter {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Counter {
     var value = 0
     mutating func increment() { value += 1 }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3412,10 +3462,10 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Counter {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Counter {
     var value = 0
     func increment() { value += 1 }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3434,9 +3484,9 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Account {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Account {
     private func validate() -&gt; Bool { true }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3455,10 +3505,10 @@ b.value = 2       // a observa el cambio</code><button class="copy-code" type="b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Math {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Math {
     static func square(_ value: Int) -&gt; Int { value * value }
 }
-let result = Math.square(4)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+let result = Math.square(4)</code></pre></div>
     </div>
   </div>
 </details>
@@ -3476,18 +3526,20 @@ let result = Math.square(4)</code><button class="copy-code" type="button" aria-l
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Animal {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Animal {
     class func sound() -&gt; String { &quot;...&quot; }
 }
 class Dog: Animal {
     override class func sound() -&gt; String { &quot;Guau&quot; }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
 <p>Comparación:</p>
-<pre><code class="language-text">instance.method() = método de instancia
-Type.method()     = método de tipo</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">instance.method() = método de instancia
+Type.method()     = método de tipo</code></pre></div>
+<h3 id="8-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Escribir <code>@mutating</code>, exigir <code>self</code> donde no hace falta o asumir que una clase solo puede usar <code>class func</code>. La palabra correcta es <code>mutating</code>; <code>static</code> evita sobrescritura y <code>class</code> la permite.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="9-propiedades" data-search="9. propiedades">
@@ -3525,7 +3577,7 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User { var name: String }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User { var name: String }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3539,11 +3591,11 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
       <dt>Comportamiento</dt>
       <dd>Comparte una propiedad en el tipo.</dd>
       <dt>Límite o regla</dt>
-      <dd>No requiere una instancia.</dd>
+      <dd>No requiere una instancia; si es mutable y compartida, debe aislarse o sincronizarse para evitar carreras de datos.</dd>
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct AppSettings { static var language = &quot;es&quot; }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct AppSettings { @MainActor static var language = &quot;es&quot; }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3561,9 +3613,9 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Animal {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Animal {
     class var category: String { &quot;Animal&quot; }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3582,11 +3634,11 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Rectangle {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Rectangle {
     var width: Double
     var height: Double
     var area: Double { width * height }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3604,11 +3656,11 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Rectangle {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Rectangle {
     var width: Double
     var height: Double
     var area: Double { get { width * height } }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3626,14 +3678,14 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Rectangle {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Rectangle {
     var width: Double
     var height: Double
     var area: Double {
         get { width * height }
         set { width = newValue / height }
     }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3651,10 +3703,10 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var area: Double {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var area: Double {
     get { width * height }
     set { width = newValue / height }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3673,9 +3725,9 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var score = 0 {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var score = 0 {
     willSet { print(&quot;Nuevo: \(newValue)&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3693,9 +3745,9 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var score = 0 {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var score = 0 {
     didSet { print(&quot;Actual: \(score)&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3713,7 +3765,7 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">didSet { print(&quot;Antes: \(oldValue)&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">didSet { print(&quot;Antes: \(oldValue)&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3732,10 +3784,10 @@ Type.method()     = método de tipo</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">@propertyWrapper
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">@propertyWrapper
 struct Clamped {
     var wrappedValue: Int
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3753,10 +3805,10 @@ struct Clamped {
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var wrappedValue: Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var wrappedValue: Int {
     get { storage }
     set { storage = min(newValue, 100) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -3774,16 +3826,18 @@ struct Clamped {
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">@Clamped var progress = 0</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">@Clamped var progress = 0</code></pre></div>
     </div>
   </div>
 </details>
 <p>Relación:</p>
-<pre><code class="language-text">almacenada = conserva estado
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">almacenada = conserva estado
 computada  = calcula estado
 willSet    = observa antes
 didSet     = observa después
-wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+wrapper    = reutiliza reglas de lectura/escritura</code></pre></div>
+<h3 id="9-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Confundir propiedades almacenadas con computadas, aplicar un property wrapper a la instancia equivocada o interpretar <code>didSet</code> como si recibiera el valor nuevo. Su parámetro implícito <code>oldValue</code> contiene el valor anterior.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="10-closures" data-search="10. closures">
@@ -3824,7 +3878,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let double = { (value: Int) -&gt; Int in value * 2 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let double = { (value: Int) -&gt; Int in value * 2 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3842,7 +3896,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let double = { (value: Int) -&gt; Int in value * 2 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let double = { (value: Int) -&gt; Int in value * 2 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3860,7 +3914,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let completion: () -&gt; Void = { print(&quot;Listo&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let completion: () -&gt; Void = { print(&quot;Listo&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3878,7 +3932,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let descending = names.sorted { first, second in first &gt; second }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let descending = names.sorted { first, second in first &gt; second }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3896,7 +3950,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let doubled = numbers.map { $0 * 2 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let doubled = numbers.map { $0 * 2 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3914,7 +3968,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let sorted = names.sorted { $0 &gt; $1 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let sorted = names.sorted { $0 &gt; $1 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3932,7 +3986,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let sorted = names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let sorted = names.sorted(by: &gt;)</code></pre></div>
     </div>
   </div>
 </details>
@@ -3951,7 +4005,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let doubled = numbers.map { $0 * 2 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let doubled = numbers.map { $0 * 2 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3970,7 +4024,7 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">loadData { result in print(result) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">loadData { result in print(result) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -3988,11 +4042,11 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">request {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">request {
     print(&quot;Éxito&quot;)
 } onFailure: {
     print(&quot;Error&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4011,10 +4065,10 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func makeCounter() -&gt; () -&gt; Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func makeCounter() -&gt; () -&gt; Int {
     var value = 0
     return { value += 1; return value }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4032,8 +4086,8 @@ wrapper    = reutiliza reglas de lectura/escritura</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">var total = 0
-let add = { total += 1 }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">var total = 0
+let add = { total += 1 }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4051,9 +4105,9 @@ let add = { total += 1 }</code><button class="copy-code" type="button" aria-labe
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let counter = makeCounter()
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let counter = makeCounter()
 let sameCounter = counter
-print(counter(), sameCounter())</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+print(counter(), sameCounter())</code></pre></div>
     </div>
   </div>
 </details>
@@ -4072,9 +4126,22 @@ print(counter(), sameCounter())</code><button class="copy-code" type="button" ar
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func load(completion: @escaping () -&gt; Void) {
-    DispatchQueue.main.async { completion() }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">final class Loader {
+    private var pending: (() -&gt; Void)?
+
+    func load(completion: @escaping () -&gt; Void) {
+        pending = completion
+    }
+
+    func finish() {
+        pending?()
+        pending = nil
+    }
+}
+
+let loader = Loader()
+loader.load { print(&quot;Listo&quot;) }
+loader.finish()</code></pre></div>
     </div>
   </div>
 </details>
@@ -4092,22 +4159,24 @@ print(counter(), sameCounter())</code><button class="copy-code" type="button" ar
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func assertPositive(_ value: @autoclosure () -&gt; Bool) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func assertPositive(_ value: @autoclosure () -&gt; Bool) {
     if !value() { print(&quot;Inválido&quot;) }
 }
-assertPositive(score &gt; 0)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+assertPositive(score &gt; 0)</code></pre></div>
     </div>
   </div>
 </details>
 <p>Optimización sintáctica mostrada:</p>
-<pre><code class="language-swift">names.sorted(by: { (a: String, b: String) -&gt; Bool in return a &gt; b })
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">names.sorted(by: { (a: String, b: String) -&gt; Bool in return a &gt; b })
 names.sorted { a, b in a &gt; b }
 names.sorted { $0 &gt; $1 }
-names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+names.sorted(by: &gt;)</code></pre></div>
 <p>Ejecución diferida:</p>
-<pre><code class="language-text">closure normal = se entrega código
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">closure normal = se entrega código
 @escaping      = el código puede sobrevivir a la función
-@autoclosure   = una expresión se envuelve automáticamente como código diferido</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+@autoclosure   = una expresión se envuelve automáticamente como código diferido</code></pre></div>
+<h3 id="10-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Usar una firma de closure incompatible, aplicar trailing-closure syntax donde no corresponde o capturar <code>self</code> fuertemente en un closure almacenado sin revisar el ciclo de referencias. <code>weak</code> no se agrega por costumbre: se usa cuando la relación realmente puede formar un ciclo.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="11-enum" data-search="11. enum">
@@ -4145,9 +4214,9 @@ names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Direction {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Direction {
     case north, south, east, west
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4165,7 +4234,7 @@ names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum State { case loading; case loaded }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum State { case loading; case loaded }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4183,7 +4252,7 @@ names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let direction: Direction = .north</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let direction: Direction = .north</code></pre></div>
     </div>
   </div>
 </details>
@@ -4201,12 +4270,12 @@ names.sorted(by: &gt;)</code><button class="copy-code" type="button" aria-label=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch direction {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch direction {
 case .north: print(&quot;Norte&quot;)
 case .south: print(&quot;Sur&quot;)
 case .east: print(&quot;Este&quot;)
 case .west: print(&quot;Oeste&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4224,10 +4293,10 @@ case .west: print(&quot;Oeste&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch direction {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch direction {
 case .north: break
 case .south, .east, .west: print(&quot;Otra&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4245,10 +4314,10 @@ case .south, .east, .west: print(&quot;Otra&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch direction {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch direction {
 case .north: print(&quot;Norte&quot;)
 default: print(&quot;Otra&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4267,10 +4336,10 @@ default: print(&quot;Otra&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Status {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Status {
     case success, failure
     var message: String { self == .success ? &quot;OK&quot; : &quot;Error&quot; }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4288,10 +4357,10 @@ default: print(&quot;Otra&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Status {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Status {
     case success
     func printValue() { print(self) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4309,7 +4378,7 @@ default: print(&quot;Otra&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Status { static func defaultValue() -&gt; Status { .success }; case success }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Status { static func defaultValue() -&gt; Status { .success }; case success }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4328,8 +4397,8 @@ default: print(&quot;Otra&quot;)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Weekday: CaseIterable { case monday, tuesday }
-for day in Weekday.allCases { print(day) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Weekday: CaseIterable { case monday, tuesday }
+for day in Weekday.allCases { print(day) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4348,7 +4417,7 @@ for day in Weekday.allCases { print(day) }</code><button class="copy-code" type=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Field { case text(value: String) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Field { case text(value: String) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4366,9 +4435,9 @@ for day in Weekday.allCases { print(day) }</code><button class="copy-code" type=
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">switch field {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">switch field {
 case .text(let value): print(value)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4387,7 +4456,7 @@ case .text(let value): print(value)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Endpoint: String { case users = &quot;/users&quot; }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Endpoint: String { case users = &quot;/users&quot; }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4405,7 +4474,7 @@ case .text(let value): print(value)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let path = Endpoint.users.rawValue</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let path = Endpoint.users.rawValue</code></pre></div>
     </div>
   </div>
 </details>
@@ -4423,17 +4492,19 @@ case .text(let value): print(value)
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum Planet: Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum Planet: Int {
     case mercury = 1, venus, earth
 }
-print(Planet.earth.rawValue) // 3</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+print(Planet.earth.rawValue) // 3</code></pre></div>
     </div>
   </div>
 </details>
 <p>Diferencia:</p>
-<pre><code class="language-text">valor asociado = dato variable entregado al crear el caso
-raw value       = dato fijo definido junto al caso</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">valor asociado = dato variable entregado al crear el caso
+raw value       = dato fijo definido junto al caso</code></pre></div>
 <p>Los enums tienen semántica de valor: asignarlos a otra variable crea una copia independiente.</p>
+<h3 id="11-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Decir que un <code>case</code> se usa “sin inicialización” o construir valores del enum que después no se utilizan. Cada <code>case</code> crea un valor válido; además, un <code>default</code> innecesario puede impedir que el compilador avise al agregar casos nuevos.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="12-herencia" data-search="12. herencia">
@@ -4470,7 +4541,7 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4488,7 +4559,7 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Animal { func sound() { } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Animal { func sound() { } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4506,7 +4577,7 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal { func fetch() { } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal { func fetch() { } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4525,11 +4596,11 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal {
     init(name: String) {
         super.init(name: name)
     }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4547,10 +4618,10 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">override func sound() {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">override func sound() {
     super.sound()
     print(&quot;Guau&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4569,9 +4640,9 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal {
     override func sound() { print(&quot;Guau&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4589,9 +4660,9 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal {
     override var description: String { &quot;Perro&quot; }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4609,8 +4680,8 @@ raw value       = dato fijo definido junto al caso</code><button class="copy-cod
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Animal { class func category() -&gt; String { &quot;Animal&quot; } }
-class Dog: Animal { override class func category() -&gt; String { &quot;Perro&quot; } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Animal { class func category() -&gt; String { &quot;Animal&quot; } }
+class Dog: Animal { override class func category() -&gt; String { &quot;Perro&quot; } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4629,7 +4700,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">final class TokenStore { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">final class TokenStore { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4647,9 +4718,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Validator {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Validator {
     final func validate() -&gt; Bool { true }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4667,15 +4738,17 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Model {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Model {
     final var identifier: String { &quot;fixed&quot; }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
 <p>Jerarquía usada como referencia:</p>
-<pre><code class="language-text">UIButton → UIControl → UIView → UIResponder → NSObject</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">UIButton → UIControl → UIView → UIResponder → NSObject</code></pre></div>
 <p>Límite esencial: Swift permite herencia de implementación solo entre clases. Estructuras y enums amplían comportamiento mediante protocolos, composición y extensiones.</p>
+<h3 id="12-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Usar una subclase equivocada para intentar demostrar <code>final</code>, confundir <code>static</code> con algo exclusivo de estructuras o elegir herencia solo para reutilizar código. La herencia debe expresar una relación real; para combinar capacidades suele convenir composición.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="13-protocolos" data-search="13. protocolos">
@@ -4714,9 +4787,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Named {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Named {
     var name: String { get }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4734,9 +4807,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User: Named {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User: Named {
     let name: String
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4754,7 +4827,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct User: Named, Identifiable { let id: Int; let name: String }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct User: Named, Identifiable { let id: Int; let name: String }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4772,7 +4845,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">class Dog: Animal, Named { let name = &quot;Fido&quot; }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">class Dog: Animal, Named { let name = &quot;Fido&quot; }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4791,7 +4864,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Named { var name: String { get } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Named { var name: String { get } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4809,7 +4882,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Editable { var text: String { get set } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Editable { var text: String { get set } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4827,7 +4900,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Resettable { static func resetAll() }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Resettable { static func resetAll() }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4845,7 +4918,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Runnable { func run() }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Runnable { func run() }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4863,7 +4936,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Initializable { init(value: Int) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Initializable { init(value: Int) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4882,7 +4955,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">@objc protocol DataSource { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">@objc protocol DataSource { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -4900,9 +4973,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">@objc protocol DataSource {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">@objc protocol DataSource {
     @objc optional func reload()
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4921,9 +4994,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension Named {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension Named {
     func displayName() -&gt; String { name.uppercased() }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -4941,19 +5014,21 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User: Named {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User: Named {
     var name: String { username }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
 <p>Tres lugares de implementación:</p>
-<pre><code class="language-text">1. Dentro del tipo
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">1. Dentro del tipo
 2. En una extensión del tipo
-3. Como implementación predeterminada en una extensión del protocolo</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+3. Como implementación predeterminada en una extensión del protocolo</code></pre></div>
 <p>Resolución esencial:</p>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Una implementación concreta del tipo tiene prioridad sobre la implementación predeterminada.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Un método existente solo en la extensión y no declarado como requisito puede usar despacho estático cuando el valor está tipado como protocolo.</div></div>
+<h3 id="13-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Afirmar que una extensión de protocolo no puede aportar propiedades computadas o asumir que todos sus métodos usan el mismo despacho. Los requisitos del protocolo participan en el despacho dinámico; los miembros definidos únicamente en la extensión pueden resolverse de forma estática.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="14-genericos" data-search="14. genéricos">
@@ -4992,7 +5067,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func identity&lt;T&gt;(_ value: T) -&gt; T { value }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func identity&lt;T&gt;(_ value: T) -&gt; T { value }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5010,7 +5085,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func printValue&lt;T&gt;(_ value: T) { print(value) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func printValue&lt;T&gt;(_ value: T) { print(value) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5028,7 +5103,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func pair&lt;T, U&gt;(_ first: T, _ second: U) -&gt; (T, U) { (first, second) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func pair&lt;T, U&gt;(_ first: T, _ second: U) -&gt; (T, U) { (first, second) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5046,9 +5121,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func swap&lt;T&gt;(_ a: inout T, _ b: inout T) {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func swap&lt;T&gt;(_ a: inout T, _ b: inout T) {
     (a, b) = (b, a)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5067,9 +5142,9 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Stack&lt;Element&gt; {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Stack&lt;Element&gt; {
     private var items: [Element] = []
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5087,7 +5162,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">mutating func push(_ item: Element) { items.append(item) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">mutating func push(_ item: Element) { items.append(item) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5105,7 +5180,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">mutating func pop() -&gt; Element? { items.popLast() }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">mutating func pop() -&gt; Element? { items.popLast() }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5124,7 +5199,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func maximum&lt;T: Comparable&gt;(_ a: T, _ b: T) -&gt; T { a &gt; b ? a : b }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func maximum&lt;T: Comparable&gt;(_ a: T, _ b: T) -&gt; T { a &gt; b ? a : b }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5142,7 +5217,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func describe&lt;T&gt;(_ value: T) where T: CustomStringConvertible { print(value.description) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func describe&lt;T&gt;(_ value: T) where T: CustomStringConvertible { print(value.description) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5160,7 +5235,7 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func sum&lt;T: AdditiveArithmetic&gt;(_ a: T, _ b: T) -&gt; T { a + b }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func sum&lt;T: AdditiveArithmetic&gt;(_ a: T, _ b: T) -&gt; T { a + b }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5179,10 +5254,10 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">protocol Container {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">protocol Container {
     associatedtype Element
     mutating func append(_ element: Element)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5200,15 +5275,17 @@ class Dog: Animal { override class func category() -&gt; String { &quot;Perro&qu
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Stack&lt;Element&gt;: Container { mutating func append(_ element: Element) { } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Stack&lt;Element&gt;: Container { mutating func append(_ element: Element) { } }</code></pre></div>
     </div>
   </div>
 </details>
 <p>Problema que resuelven:</p>
-<pre><code class="language-text">función para String  ┐
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">función para String  ┐
 función para Int     ├─→ una función genérica
-función para Double  ┘</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+función para Double  ┘</code></pre></div>
 <p>Límite esencial: un genérico no permite usar cualquier operación sobre <code>T</code>. Primero hay que garantizar esa capacidad mediante una restricción de protocolo.</p>
+<h3 id="14-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Cruzar variables de tipos genéricos distintos, crear parámetros genéricos que no aportan una relación útil o implementar <code>pop()</code> suponiendo que siempre existe un elemento. Una pila vacía debe devolver un opcional o expresar el fallo de forma segura.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="15-extensiones" data-search="15. extensiones">
@@ -5246,9 +5323,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension String {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension String {
     var trimmed: String { trimmingCharacters(in: .whitespaces) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5266,9 +5343,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension Int {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension Int {
     func doubled() -&gt; Int { self * 2 }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5286,9 +5363,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User {
     func greet() { print(&quot;Hola, \(name)&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5307,9 +5384,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User {
     static func guest() -&gt; User { User(name: &quot;Invitado&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5327,9 +5404,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension Rectangle {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension Rectangle {
     var area: Double { width * height }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5347,9 +5424,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User {
     init() { self.init(name: &quot;Invitado&quot;) }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5368,9 +5445,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension Named {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension Named {
     var displayName: String { name.uppercased() }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5388,9 +5465,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">extension User: Identifiable {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">extension User: Identifiable {
     var id: String { name }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5403,6 +5480,8 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Agregar propiedades almacenadas.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Agregar un <code>deinit</code>.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Sobrescribir libremente métodos de una clase como si fueran una subclase.</div></div>
+<h3 id="15-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Afirmar que una extensión solo puede implementar métodos de protocolos o intentar agregarle propiedades almacenadas. Puede incorporar métodos, inicializadores, propiedades computadas y conformidades, pero no nuevo almacenamiento.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="16-access-level" data-search="16. access level">
@@ -5441,7 +5520,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">struct Account { private var pin: Int }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">struct Account { private var pin: Int }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5459,7 +5538,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">fileprivate let cacheKey = &quot;users&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">fileprivate let cacheKey = &quot;users&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -5477,7 +5556,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">internal struct Session { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">internal struct Session { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5497,7 +5576,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">package struct SharedModel { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">package struct SharedModel { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5515,7 +5594,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">public struct UserAPI { public init() { } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">public struct UserAPI { public init() { } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5533,7 +5612,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">open class ViewController { open func render() { } }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">open class ViewController { open func render() { } }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5543,6 +5622,8 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
 <div class="bullet-row"><span aria-hidden="true">•</span><div><strong>Tipo privado:</strong> Limita también la exposición posible de sus miembros.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div><strong>API pública + implementación privada:</strong> Expone operaciones seguras y oculta detalles internos.</div></div>
 <p>Regla esencial: una declaración no puede exponer públicamente un tipo que tenga un nivel de acceso más restrictivo.</p>
+<h3 id="16-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Enseñar únicamente <code>private</code>, olvidar el nivel <code>package</code> o declarar todo como <code>public</code>. Swift dispone de seis niveles; se debe exponer la API mínima que necesite el módulo o paquete y mantener privados sus detalles.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="17-gestion-de-errores" data-search="17. gestión de errores">
@@ -5581,7 +5662,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum ValidationError: Error { case emptyName }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum ValidationError: Error { case emptyName }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5599,7 +5680,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">enum DatabaseError: Error { case userExists, invalidName }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum DatabaseError: Error { case userExists, invalidName }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5618,7 +5699,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func save() throws { }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func save() throws { }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5636,9 +5717,9 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func validate(name: String) throws {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func validate(name: String) throws {
     if name.isEmpty { throw ValidationError.emptyName }
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5657,7 +5738,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let user = try loadUser()</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let user = try loadUser()</code></pre></div>
     </div>
   </div>
 </details>
@@ -5675,12 +5756,12 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">do {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">do {
     let user = try loadUser()
     print(user)
 } catch {
     print(error)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5698,7 +5779,7 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">do { try save() } catch { print(error) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">do { try save() } catch { print(error) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5716,8 +5797,8 @@ función para Double  ┘</code><button class="copy-code" type="button" aria-lab
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">do { try save() }
-catch DatabaseError.userExists { print(&quot;Ya existe&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">do { try save() }
+catch DatabaseError.userExists { print(&quot;Ya existe&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5735,8 +5816,8 @@ catch DatabaseError.userExists { print(&quot;Ya existe&quot;) }</code><button cl
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">do { try save() }
-catch let error { print(error) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">do { try save() }
+catch let error { print(error) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5755,7 +5836,7 @@ catch let error { print(error) }</code><button class="copy-code" type="button" a
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let user = try? loadUser() // User?</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let user = try? loadUser() // User?</code></pre></div>
     </div>
   </div>
 </details>
@@ -5775,7 +5856,7 @@ catch let error { print(error) }</code><button class="copy-code" type="button" a
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let user = try! loadBundledUser() // Falla si lanza</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let user = try! loadBundledUser() // Falla si lanza</code></pre></div>
     </div>
   </div>
 </details>
@@ -5795,7 +5876,7 @@ catch let error { print(error) }</code><button class="copy-code" type="button" a
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func save() throws(DatabaseError) { throw .invalidName }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func save() throws(DatabaseError) { throw .invalidName }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5815,9 +5896,9 @@ catch let error { print(error) }</code><button class="copy-code" type="button" a
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let file = openFile()
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let file = openFile()
 defer { file.close() }
-try process(file)</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+try process(file)</code></pre></div>
     </div>
   </div>
 </details>
@@ -5835,21 +5916,21 @@ try process(file)</code><button class="copy-code" type="button" aria-label="Copi
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">func loadProfile() throws -&gt; Profile {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">func loadProfile() throws -&gt; Profile {
     try repository.fetchProfile()
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
 <p>Flujo completo:</p>
-<pre><code class="language-text">enum Error          identifica los fallos posibles
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">enum Error          identifica los fallos posibles
 throws              declara que una función puede fallar
 throw               produce el fallo concreto
 try                 intenta ejecutar la función
 do                  contiene el intento
-catch               recibe y maneja el error</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+catch               recibe y maneja el error</code></pre></div>
 <p>Ejemplo integrado:</p>
-<pre><code class="language-swift">enum DatabaseError: Error {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">enum DatabaseError: Error {
     case userExists
     case invalidName
 }
@@ -5866,10 +5947,12 @@ do {
     print(&quot;Nombre inválido&quot;)
 } catch {
     print(&quot;Otro error: \(error)&quot;)
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
 <p>Diferencia fundamental:</p>
-<pre><code class="language-text">try  + do/catch = conserva y maneja el error
-try?            = solo entrega valor o nil; pierde el detalle del error</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">try  + do/catch = conserva y maneja el error
+try?            = solo entrega valor o nil; pierde el detalle del error</code></pre></div>
+<h3 id="17-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Creer que un bloque <code>do</code> no comienza si después se lanza un error, usar <code>try?</code> cuando se necesita conocer la causa o recurrir a <code>try!</code> sin una garantía absoluta. <code>do</code> se ejecuta hasta el punto del <code>throw</code>; desde allí el control pasa al <code>catch</code> compatible.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="18-type-casting" data-search="18. type casting">
@@ -5907,7 +5990,7 @@ try?            = solo entrega valor o nil; pierde el detalle del error</code><b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if item is Movie { print(&quot;Es una película&quot;) }</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if item is Movie { print(&quot;Es una película&quot;) }</code></pre></div>
     </div>
   </div>
 </details>
@@ -5925,7 +6008,7 @@ try?            = solo entrega valor o nil; pierde el detalle del error</code><b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let animal: Animal = dog as Animal</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let animal: Animal = dog as Animal</code></pre></div>
     </div>
   </div>
 </details>
@@ -5943,9 +6026,9 @@ try?            = solo entrega valor o nil; pierde el detalle del error</code><b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">if let dog = animal as? Dog {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if let dog = animal as? Dog {
     dog.bark()
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
     </div>
   </div>
 </details>
@@ -5963,26 +6046,28 @@ try?            = solo entrega valor o nil; pierde el detalle del error</code><b
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let dog = animal as! Dog // Falla si no es Dog</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let dog = animal as! Dog // Falla si no es Dog</code></pre></div>
     </div>
   </div>
 </details>
 <p>Patrón seguro:</p>
-<pre><code class="language-swift">if let fish = animal as? Fish {
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">if let fish = animal as? Fish {
     fish.respirarBajoAgua()
-}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+}</code></pre></div>
 <p>Polimorfismo:</p>
-<pre><code class="language-text">[Animal] puede contener Dog, Cat y Bird
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-text">[Animal] puede contener Dog, Cat y Bird
           ↓
 as? recupera el subtipo concreto
           ↓
-permite usar el método específico</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+permite usar el método específico</code></pre></div>
 <p>Reglas:</p>
 <div class="bullet-row"><span aria-hidden="true">•</span><div><code>is</code> pregunta.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div><code>as</code> sube hacia un tipo más general.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div><code>as?</code> intenta bajar de forma segura.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div><code>as!</code> obliga a bajar y puede bloquear la aplicación.</div></div>
 <div class="bullet-row"><span aria-hidden="true">•</span><div>Type casting cambia la vista tipada de una instancia; no crea otro objeto.</div></div>
+<h3 id="18-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Confundir type casting con conversión de valores. <code>as?</code> no transforma <code>&quot;123&quot;</code> en <code>Int</code>; para eso se usa <code>Int(&quot;123&quot;)</code>. Un downcast forzado con <code>as!</code> termina la ejecución si el tipo real no coincide, e imprimir una función que retorna <code>Void</code> solo muestra <code>()</code>.</div></div>
     </div>
   </section>
 <section class="chapter numbered-chapter" id="19-operador-ternario" data-search="19. operador ternario">
@@ -6017,7 +6102,7 @@ permite usar el método específico</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let status = isConnected ? &quot;En línea&quot; : &quot;Sin conexión&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let status = isConnected ? &quot;En línea&quot; : &quot;Sin conexión&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -6035,7 +6120,7 @@ permite usar el método específico</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let access = age &gt;= 18 ? &quot;Permitido&quot; : &quot;Denegado&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let access = age &gt;= 18 ? &quot;Permitido&quot; : &quot;Denegado&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -6053,7 +6138,7 @@ permite usar el método específico</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let category = score &gt; 90 ? &quot;A&quot; : score &gt; 70 ? &quot;B&quot; : &quot;C&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let category = score &gt; 90 ? &quot;A&quot; : score &gt; 70 ? &quot;B&quot; : &quot;C&quot;</code></pre></div>
     </div>
   </div>
 </details>
@@ -6071,7 +6156,7 @@ permite usar el método específico</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">isReady ? start() : ()</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">isReady ? start() : ()</code></pre></div>
     </div>
   </div>
 </details>
@@ -6089,13 +6174,15 @@ permite usar el método específico</code><button class="copy-code" type="button
     </dl>
     <div class="example-block">
       <div class="example-label">Ejemplo de uso</div>
-<pre><code class="language-swift">let color = hasError ? errorColor : normalColor</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let color = hasError ? errorColor : normalColor</code></pre></div>
     </div>
   </div>
 </details>
 <p>Forma recomendada:</p>
-<pre><code class="language-swift">let status = isConnected ? &quot;Conectado&quot; : &quot;Desconectado&quot;</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>
+<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button></div><pre><code class="language-swift">let status = isConnected ? &quot;Conectado&quot; : &quot;Desconectado&quot;</code></pre></div>
 <p>Usar ternario para elegir valores breves. Usar <code>if-else</code> para varias instrucciones, ternarios anidados o cambios de estado.</p>
+<h3 id="19-error-frecuente">Error frecuente</h3>
+<div class="bullet-row"><span aria-hidden="true">•</span><div>Usar el operador ternario para efectos secundarios o anidar varias decisiones hasta volver ilegible la expresión. Debe elegir entre dos valores breves; para ejecutar acciones o explicar lógica compleja se prefiere <code>if-else</code>.</div></div>
     </div>
   </section>
 <section class="chapter reference-section" id="documentacion-oficial-consultada" data-search="documentación oficial consultada">
@@ -6245,7 +6332,7 @@ permite usar el método específico</code><button class="copy-code" type="button
 
     document.querySelectorAll(".copy-code").forEach((button) => {
       button.addEventListener("click", async () => {
-        const code = button.parentElement.querySelector("code").textContent;
+        const code = button.closest(".code-block").querySelector("code").textContent;
         try {
           await navigator.clipboard.writeText(code);
           button.textContent = "Copiado";

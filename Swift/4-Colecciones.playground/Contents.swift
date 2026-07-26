@@ -1,32 +1,30 @@
-import Foundation
-
-
 //Arreglo
+//Error frecuente: usar índices o force unwrap sin comprobar que hay elementos.
 //conjunto de datos ordenados que se pueden repetir, de un mismo tipo y se accede a ellos a través de su índice. El índice empieza en la posición cero
 
 //Inicializar arreglo vacio
-var numbers1 = [Int]()
-var words: [String] = []
-var numbers3: [Float] = .init()
-var numbers4: Array<Int> = []
+let numbers1 = [Int]()
+let words: [String] = []
+let numbers3: [Float] = .init()
+let numbers4: [Int] = []
+print(numbers1.count, words.count, numbers3.count, numbers4.count)
 
 //Inicializar arreglo con valores
-var strings = Array(["Rodolfo", "Martin", "Naxo"])
+let strings = Array(["Rodolfo", "Martin", "Naxo"])
 var numbers = [1, 2, 7]
+print(strings)
 
 //Acceder a un valor de un arreglo
 //El subíndice no es opcional: usar un índice fuera de numbers.indices provoca
 //un error en ejecución. Podemos comprobar numbers.indices.contains(index).
-var newNumber = numbers[0]
-
-
+let newNumber = numbers[0]
+print(newNumber)
 
 var myNewSkills = ["Swift", "Uikit", "SwiftUI", "CocoaPods"]
 //Modificar o crear valor del arreglo
 //automáticamente se agregan los valores a la última posición del arreglo
 myNewSkills += ["ArKit", "RealityKit"]
 numbers[0] = 6
-
 
 //Ejemplos de algunos métodos comunes en arreglos
 
@@ -41,16 +39,16 @@ print(myNewSkills.isEmpty)
 
 //método comúnmente ocupado con IF
 if myNewSkills.isEmpty {
-    print("myNewSkills isEmpty")
+  print("myNewSkills isEmpty")
 } else {
-    print("myNewSkills isn't Empty")
+  print("myNewSkills isn't Empty")
 }
 
 //First y Last
 //Retornan opcionales porque la colección podría estar vacía.
 if let firstSkill = myNewSkills.first, let lastSkill = myNewSkills.last {
-    print(firstSkill)
-    print(lastSkill)
+  print(firstSkill)
+  print(lastSkill)
 }
 
 //Append
@@ -64,7 +62,7 @@ print(myNewSkills)
 
 //Contains
 //retorna Booleano que indica si un arreglo contiene o no contiene un elemento.  Indicamos como parámetro que estamos buscando.
-let containsCombine = myNewSkills.contains(where: { $0 == "Combine"} )
+let containsCombine = myNewSkills.contains(where: { $0 == "Combine" })
 print(containsCombine)
 
 //Remove all
@@ -73,11 +71,9 @@ myNewSkills.removeAll()
 
 //crear un Array que contenga N veces un elemento que nosostros ingresemos como parametro
 let fiveZs = Array(repeating: "Z", count: 5)
+print(fiveZs)
 
 //cabe señalar que existen más métodos para los arreglos.
-
-
-
 
 //Sets
 //conjunto de datos desordenados que no se pueden repetir, los datos tienen que ser de un mismo tipo. Para crear, modificar o acceder a los datos del Set, es a través de métodos.
@@ -85,16 +81,17 @@ let fiveZs = Array(repeating: "Z", count: 5)
 
 //Inicializar Set vacio
 var setNumbers = Set<Int>()
-var setNumbers2: Set<Int> = []
-var setNumbers3: Set<Int> = .init()
+let setNumbers2: Set<Int> = []
+let setNumbers3: Set<Int> = .init()
 
 //Inicializar Set con valores
-var studentID : Set = [112, 114, 116, 118, 115]
-var myDevices = Set(["Monitor", "Monitor", "Keyboard", "Laptop", "Mobile"])
-var myDevices2: Set<String> = ["Monitor", "Keyboard", "Laptop", "Mobile"]
-var myDevices3 = Set.init(["Monitor", "Keyboard", "Laptop", "Mobile"])
+let studentID: Set = [112, 114, 116, 118, 115]
+let myDevices = Set(["Monitor", "Monitor", "Keyboard", "Laptop", "Mobile"])
+let myDevices2: Set<String> = ["Monitor", "Keyboard", "Laptop", "Mobile"]
+let myDevices3 = Set(["Monitor", "Keyboard", "Laptop", "Mobile"])
+print(setNumbers2.count, setNumbers3.count, studentID.count)
+print(myDevices, myDevices2, myDevices3)
 //si engrasamos valores repetidos en nuestro set no se bloque, solo deja 1 dato y elimina las copias
-
 
 //Ejemplos de algunos métodos comunes en Sets
 
@@ -108,18 +105,18 @@ print(setNumbers.count)
 //retorna Booleano que indica si un Set contiene o no contiene elementos.
 //como mencionábamos anteriormente, es recomendable usar este método en verificaciones if.
 if setNumbers.isEmpty {
-    print("mySetNumbers isEmpty")
+  print("mySetNumbers isEmpty")
 } else {
-    print("mySetNumbers isn't Empty")
+  print("mySetNumbers isn't Empty")
 }
 
 //First
 //En un Set retorna un elemento cualquiera como Optional, porque el Set no tiene
 //orden y también puede estar vacío. Nunca debemos forzar este resultado.
 if let anyNumber = setNumbers.first {
-    print(anyNumber)
+  print(anyNumber)
 } else {
-    print("El Set está vacío")
+  print("El Set está vacío")
 }
 
 //Insert
@@ -130,14 +127,13 @@ print(setNumbers)
 
 //Contains
 ////retorna Booleano que indica si un Set contiene o no contiene un elemento.  Indicamos como parámetro que estamos buscando.
-var containsNumberSix = setNumbers.contains(where: { $0 == 6 } )
+var containsNumberSix = setNumbers.contains(where: { $0 == 6 })
 print(containsNumberSix)
 
 //RemoveAll
 //con este método borramos todos los elementos de un arreglo
 setNumbers.removeAll()
 print(setNumbers)
-
 
 //En los Set no se puede ocupar el método Append, tampoco Last y el Insert en los Set reciben solo un parametro.
 
@@ -163,18 +159,15 @@ print(setNumbers)
 //retorna dato booleano que indica si un Set es Subset de otro Set
 //setB.isSubset(of: setA))
 
-
-
-
 //Diccionario
 //conjunto de datos desordenados que consisten en Key y Valué. Cada valor está asociado a una clave y los key tienen que ser de un mismo tipo y los Valué pueden ser deferente a los Key pero con mismo tipo entre ellos. Para acceder a un Valué tenemos que acceder a través de su Key. Se pueden repetir los Valué, pero no los Key.
 //cabe señalar que al momentos de recuperar u obtener el valor correspondiente a una clave en el diccionario, este valor será un dato de tipo opcional.
 
 //Inicializar Diccionario vacío
-var myDictionary = [String: Int]()
-var myDictionary2: [String: String] = .init()
-var myDictionary3: [String: String] = [:]
-
+let myDictionary = [String: Int]()
+let myDictionary2: [String: String] = .init()
+let myDictionary3: [String: String] = [:]
+print(myDictionary.count, myDictionary2.count, myDictionary3.count)
 
 //Inicializar Diccionario con valores
 var myDictionaryInfo = ["name": 1, "city": 2, "skills": 0]
@@ -184,7 +177,9 @@ myDictionaryInfo["city"] = 3
 print(myDictionaryInfo)
 
 //acceder al dato de un diccionario
-var myCyty = myDictionaryInfo["city"]
+if let cityValue = myDictionaryInfo["city"] {
+  print(cityValue)
+}
 
 //eliminar clave y valor de diccionario
 myDictionaryInfo["skills"] = nil
@@ -199,9 +194,9 @@ print(myDictionaryInfo.count)
 //retorna Booleano que indica si un Diccionario contiene o no contiene elementos.
 //como mencionábamos anteriormente, es recomendable usar este método en verificaciones if.
 if myDictionaryInfo.isEmpty {
-    print("myDictionaryInfo isEmpty")
+  print("myDictionaryInfo isEmpty")
 } else {
-    print("myDictionaryInfo isn't Empty")
+  print("myDictionaryInfo isn't Empty")
 }
 
 //UpdateValue
@@ -215,7 +210,6 @@ myDictionaryInfo.updateValue(10, forKey: "twitter")
 //eliminar clave y valor de un diccionario, este método nos pedirá un parámetro que será la clave correspondiente al valor que queremos eliminar
 myDictionaryInfo.removeValue(forKey: "twitter")
 print(myDictionaryInfo)
-
 
 //Casos de uso
 

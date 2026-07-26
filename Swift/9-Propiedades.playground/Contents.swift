@@ -1,25 +1,22 @@
-import Foundation
-
 //Propiedades
+//Error frecuente: confundir una propiedad almacenada con una computada o creer
+//que oldValue de didSet contiene el valor nuevo.
 
 //las propiedades son variables o constantes que creamos en una Struct o Class. En estas podemos guardar valores o acceder a ellos durante el transcurso de nuestro programa
-
-
-
 
 //Propiedades de instancia
 //una vez Instanciada una clase o estructura es donde podemos acceder y modificar las propiedades. Este tipo de propiedad son de instancia por que para acceder a ellas deben estar instanciadas
 
 //creamos clase
 class Database {
-    var name: String
-    init(name: String) {
-        self.name = name
-    }
+  var name: String
+  init(name: String) {
+    self.name = name
+  }
 }
 
 //Creacion de instancia clase
-var database = Database(name: "Chat")
+let database = Database(name: "Chat")
 
 //acceso propiedades
 print(database.name)
@@ -27,11 +24,9 @@ print(database.name)
 //modificar sus propiedades
 database.name = "chatBot"
 
-
-
 //creamos Struct
 struct Coworker {
-    var name: String
+  var name: String
 }
 
 //Creacion de instancia Struct
@@ -43,12 +38,6 @@ print(coworker.name)
 //modificar sus propiedades
 coworker.name = "iOS "
 
-
-
-
-
-
-
 //Propiedades de tipo
 //pueden estar en Struct, Class o Enum
 //las propiedades de tipo no necesita Instanciarse previamente para poder ocuparlas, se crean de la misma forma que las propiedades de tipo con la diferencia que se antepone la keyword Static en el caso de las Struct y Class en el caso de las estructuras
@@ -56,37 +45,25 @@ coworker.name = "iOS "
 
 //Creacion del tipo
 struct MathUtility {
-    static let pi = 3.14159265359
-    static var version = 1.0
+  static let pi = 3.14159265359
+  static let version = 2.0
 }
 
 //Uso sin necesidad de Instanciar
 print(MathUtility.pi)
 
-//modificar propiedad de tipo sin necesidad de instanciar
-MathUtility.version = 2.0
+//acceder a una propiedad de tipo sin necesidad de instanciar
+print(MathUtility.version)
 
+//Una static var es estado global compartido. En código concurrente debe aislarse,
+//por ejemplo con @MainActor, o protegerse mediante otro mecanismo de sincronización.
 
-
-
-class Databa {
-    var name: String
-    
-    static var age = 10
-    
-    init(name: String, age: Int) {
-        self.name = name
-        
-    }
+enum DatabaseConfiguration {
+  static let minimumAge = 10
 }
 
 //acceder a la propiedad estatica sin previa instancia
-print(Databa.age)
-
-
-
-
-
+print(DatabaseConfiguration.minimumAge)
 
 //Propiedades computadas
 //Tanto las propiedades de instancia como las de tipo pueden ser almacenadas o
@@ -98,15 +75,15 @@ print(Databa.age)
 //el getter se llama cuando queremos obtener el valor de la propiedad
 //el setter se llama cuando asignamos un nuevo valor a una propiedad
 struct Square {
-    var side : Double
-    var area : Double {
-        get {
-            return side * side
-        }
-         set (newArea){
-             side = sqrt (newArea)
-        }
+  var side: Double
+  var area: Double {
+    get {
+      return side * side
     }
+    set(newArea) {
+      side = newArea.squareRoot()
+    }
+  }
 }
 var square = Square(side: 20)
 
@@ -120,25 +97,21 @@ square.area = 200
 print(square.area)
 print(square.side)
 
-
 //Si pretendes utilizarlas solamente para calcular datos puedes eliminar completamente la parte del get y del set
 
 //si una propiedad de una clase esta utilizando las propiedades calculadas, estas propiedades no deben estar inicializadas si es que no se les asigna valor.
 class Person {
-    var age: Int
-    init(age: Int) {
-        self.age = age
-    }
-var ageInDogYears: Int {
-            return age * 7
-    }
+  var age: Int
+  init(age: Int) {
+    self.age = age
+  }
+  var ageInDogYears: Int {
+    return age * 7
+  }
 }
 
-var fan = Person(age: 25)
+let fan = Person(age: 25)
 print(fan.ageInDogYears)
-
-
-
 
 //Observadores de propiedad
 //estos observadores se aplican a las propiedades de instancias más {willset y didset }.
@@ -146,52 +119,48 @@ print(fan.ageInDogYears)
 //willSet y didSet son observadores, no métodos. Pueden agregarse a una propiedad
 //almacenada para reaccionar antes y después de una asignación.
 
-
 //willset = willSet se llamará un instante antes de asignarse un valor nuevo a una propiedad. Fíjate que recibimos el nuevo valor como parámetro, en el código anterior aparece como newName.
 //didset = didSet se llamará justo después de asignar un nuevo valor a una propiedad.
 struct DataBases {
-    var name: String {
-        willSet(newName) {
-            print("Will update name \(newName)")
-        }
-        didSet {
-            print("Changed name \(name)")
-        }
+  var name: String {
+    willSet(newName) {
+      print("Will update name \(newName)")
     }
+    didSet {
+      print("Changed name \(name)")
+    }
+  }
 }
 //vamos a instanciar la clase o Struct y vamos a dar un nuevo valor a la propiedad. Con esto automáticamente se acciona el código willset un instante antes de cambiar el valor a la propiedad y didSet se llamará justo después de asignar un nuevo valor a una propiedad.
 var dataBase = DataBases(name: "Users")
 dataBase.name = "Students"
 //modificada o cuándo ha sido modificada para lanzar lógica dentro de tu aplicación (por ejemplo para refrescar la información que estás mostrando en una vista).
 
-
 //si una propiedad de una clase esta utilizando las Observer properties con las keyword willSet y didSet, estas propiedades deben estar inicializadas si es que no se les asigna valor.
 class Persons {
-    var age: Int
-    var name: String{
-        willSet(newName) {
-            print("Se actualizara el nombre a \(newName)")
-        }
-        didSet(oldName) {
-            print("Se reemplazó el nombre \(oldName) por \(name)")
-        }
+  var age: Int
+  var name: String {
+    willSet(newName) {
+      print("Se actualizara el nombre a \(newName)")
     }
-    
-var ageInDogYears: Int {
-            return age * 7
+    didSet(oldName) {
+      print("Se reemplazó el nombre \(oldName) por \(name)")
     }
-    
-    init(age: Int, name: String) {
-        self.age = age
-        self.name = name
-    }
+  }
+
+  var ageInDogYears: Int {
+    return age * 7
+  }
+
+  init(age: Int, name: String) {
+    self.age = age
+    self.name = name
+  }
 }
 
-
-
-
-
-
+let observedPerson = Persons(age: 36, name: "Rodolfo")
+observedPerson.name = "Rodolfo González"
+print(observedPerson.ageInDogYears)
 
 //Property wrapper
 //es muy similar a las propiedades computadas y con sus getter y setter, pero aquí se añade una capa de abstracción más al incluir la Keyword @propertyWrapper anteponiéndose a la Struct o class que será la encargada de almacenar nuestra propiedad wrapper, todo esto al momento de crearla.
@@ -204,31 +173,30 @@ var ageInDogYears: Int {
 //el setter se activa al momento de asignar un nuevo valor a nuestra propiedad
 
 //creacion propertywrapper
-@propertyWrapper                // 1
+@propertyWrapper  // 1
 struct UserValidation {
-    private var name: String    // 2
-    init() { self.name = "" }    // 3
-    var wrappedValue: String {  // 4
-        get { name }
-        set {
-            if newValue.count > 5 {
-                self.name = newValue
-                print("Valid name")
-            } else {
-                print("Error")
-            }
-        }
+  private var name: String  // 2
+  init() { self.name = "" }  // 3
+  var wrappedValue: String {  // 4
+    get { name }
+    set {
+      if newValue.count > 5 {
+        self.name = newValue
+        print("Valid name")
+      } else {
+        print("Error")
+      }
     }
+  }
 }
 //con este código ya hemos creado nuestro propertywrapper
 
 //lo siguiente es crear un tipo(Struct o Class) con propiedades y usamos nuestro propertywrapper sobre una propiedad.
 //para usarlo debemos anteponer el @ junto al nombre de la Struct o Class que almacena el proppertyWrapper, todo esto anteponiéndose al nombre de la propiedad que vamos a asignarle esta característica.
 
-
 //creamos una instancia de la structura o clase que almacena la propiedad con las características añadidas
 struct UserForm {
-    @UserValidation var userName: String
+  @UserValidation var userName: String
 }
 var usersForm = UserForm()
 usersForm.userName = "Rodolfo"
@@ -242,43 +210,35 @@ print(userForm.userName)
 // Error
 //debido a la lógica de nuestro ejemplo se ejecuta el setter y la cláusula else.
 
-
-
-@propertyWrapper                // 1
+@propertyWrapper  // 1
 class UserValid {
-    private var name: String    // 2
-    init() { self.name = "" }    // 3
-    var wrappedValue: String {  // 4
-        get { name }
-        set {
-            if newValue.count > 5 {
-                self.name = newValue
-                print("Valid name")
-            } else {
-                print("Error")
-            }
-        }
+  private var name: String  // 2
+  init() { self.name = "" }  // 3
+  var wrappedValue: String {  // 4
+    get { name }
+    set {
+      if newValue.count > 5 {
+        self.name = newValue
+        print("Valid name")
+      } else {
+        print("Error")
+      }
     }
+  }
 }
-
 
 class FormUser {
-    @UserValid var userName : String
+  @UserValid var userName: String
 }
 
-
 //se activa clausula de bloque if
-var formUser = FormUser()
+let formUser = FormUser()
 formUser.userName = "Rodolfo"
 print(formUser.userName)
 
-
 //se activa clausula else
-var formUs = FormUser()
+let formUs = FormUser()
 formUs.userName = "Rodo"
 print(formUs.userName)
-
-
-
 
 //casos de usos

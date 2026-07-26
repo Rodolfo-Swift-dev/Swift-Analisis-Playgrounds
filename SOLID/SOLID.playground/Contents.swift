@@ -22,22 +22,22 @@ import Foundation
 // MARK: - Modelo compartido
 
 struct Profile: Codable, Equatable, Sendable {
-    let id: UUID
-    let name: String
-    let email: String
+  let id: UUID
+  let name: String
+  let email: String
 }
 
 let profileID = UUID()
 let exampleProfile = Profile(
-    id: profileID,
-    name: "Rodolfo",
-    email: "rodolfo@example.com"
+  id: profileID,
+  name: "Rodolfo",
+  email: "rodolfo@example.com"
 )
 
 enum ProfileFeatureError: Error, Sendable {
-    case notFound
-    case invalidData
-    case invalidResponse(statusCode: Int?)
+  case notFound
+  case invalidData
+  case invalidResponse(statusCode: Int?)
 }
 
 // MARK: - S · Single Responsibility Principle (SRP)
@@ -69,40 +69,40 @@ enum ProfileFeatureError: Error, Sendable {
  */
 
 struct ProfileDecoder {
-    func decode(_ data: Data) throws -> Profile {
-        do {
-            return try JSONDecoder().decode(Profile.self, from: data)
-        } catch {
-            throw ProfileFeatureError.invalidData
-        }
+  func decode(_ data: Data) throws -> Profile {
+    do {
+      return try JSONDecoder().decode(Profile.self, from: data)
+    } catch {
+      throw ProfileFeatureError.invalidData
     }
+  }
 }
 
 actor ProfileCache {
-    private var storage: [UUID: Profile] = [:]
+  private var storage: [UUID: Profile] = [:]
 
-    func save(_ profile: Profile) {
-        storage[profile.id] = profile
-    }
+  func save(_ profile: Profile) {
+    storage[profile.id] = profile
+  }
 
-    func profile(id: UUID) -> Profile? {
-        storage[id]
-    }
+  func profile(id: UUID) -> Profile? {
+    storage[id]
+  }
 }
 
 func profileTitle(for profile: Profile) -> String {
-    "Perfil de \(profile.name)"
+  "Perfil de \(profile.name)"
 }
 
 struct ProfileImporter {
-    let decoder: ProfileDecoder
-    let cache: ProfileCache
+  let decoder: ProfileDecoder
+  let cache: ProfileCache
 
-    func execute(data: Data) async throws -> Profile {
-        let profile = try decoder.decode(data)
-        await cache.save(profile)
-        return profile
-    }
+  func execute(data: Data) async throws -> Profile {
+    let profile = try decoder.decode(data)
+    await cache.save(profile)
+    return profile
+  }
 }
 
 let encodedProfile = try JSONEncoder().encode(exampleProfile)
@@ -112,8 +112,8 @@ assert(profileTitle(for: decodedProfile) == "Perfil de Rodolfo")
 
 let profileCache = ProfileCache()
 let profileImporter = ProfileImporter(
-    decoder: ProfileDecoder(),
-    cache: profileCache
+  decoder: ProfileDecoder(),
+  cache: profileCache
 )
 let importedProfile = try await profileImporter.execute(data: encodedProfile)
 let cachedProfile = await profileCache.profile(id: importedProfile.id)
@@ -163,35 +163,35 @@ assert(cachedProfile == importedProfile)
  */
 
 enum AnalyticsEvent: String, Sendable {
-    case profileOpened = "profile_opened"
+  case profileOpened = "profile_opened"
 }
 
 protocol AnalyticsTracking {
-    func track(event: AnalyticsEvent)
+  func track(event: AnalyticsEvent)
 }
 
 struct ConsoleAnalytics: AnalyticsTracking {
-    func track(event: AnalyticsEvent) {
-        print("Console:", event.rawValue)
-    }
+  func track(event: AnalyticsEvent) {
+    print("Console:", event.rawValue)
+  }
 }
 
 struct DiagnosticsAnalytics: AnalyticsTracking {
-    func track(event: AnalyticsEvent) {
-        print("Diagnostics:", event.rawValue)
-    }
+  func track(event: AnalyticsEvent) {
+    print("Diagnostics:", event.rawValue)
+  }
 }
 
 struct ProfileAnalytics {
-    private let tracker: any AnalyticsTracking
+  private let tracker: any AnalyticsTracking
 
-    init(tracker: any AnalyticsTracking) {
-        self.tracker = tracker
-    }
+  init(tracker: any AnalyticsTracking) {
+    self.tracker = tracker
+  }
 
-    func profileOpened() {
-        tracker.track(event: .profileOpened)
-    }
+  func profileOpened() {
+    tracker.track(event: .profileOpened)
+  }
 }
 
 let consoleProfileAnalytics = ProfileAnalytics(tracker: ConsoleAnalytics())
@@ -226,7 +226,7 @@ diagnosticsProfileAnalytics.profileOpened()
  */
 
 protocol AvatarDataLoading {
-    func loadAvatar(for profileID: UUID) throws -> Data
+  func loadAvatar(for profileID: UUID) throws -> Data
 }
 
 /*
@@ -249,40 +249,40 @@ protocol AvatarDataLoading {
  */
 
 struct BundledAvatarLoader: AvatarDataLoading {
-    let avatars: [UUID: Data]
+  let avatars: [UUID: Data]
 
-    func loadAvatar(for profileID: UUID) throws -> Data {
-        guard let data = avatars[profileID], !data.isEmpty else {
-            throw ProfileFeatureError.notFound
-        }
-        return data
+  func loadAvatar(for profileID: UUID) throws -> Data {
+    guard let data = avatars[profileID], !data.isEmpty else {
+      throw ProfileFeatureError.notFound
     }
+    return data
+  }
 }
 
 struct CachedAvatarLoader: AvatarDataLoading {
-    let cache: [UUID: Data]
+  let cache: [UUID: Data]
 
-    func loadAvatar(for profileID: UUID) throws -> Data {
-        guard let data = cache[profileID], !data.isEmpty else {
-            throw ProfileFeatureError.notFound
-        }
-        return data
+  func loadAvatar(for profileID: UUID) throws -> Data {
+    guard let data = cache[profileID], !data.isEmpty else {
+      throw ProfileFeatureError.notFound
     }
+    return data
+  }
 }
 
 func avatarSize(using loader: any AvatarDataLoading, profileID: UUID) throws -> Int {
-    try loader.loadAvatar(for: profileID).count
+  try loader.loadAvatar(for: profileID).count
 }
 
 let avatarBytes = Data([0x01, 0x02, 0x03])
 let validAvatarLoaders: [any AvatarDataLoading] = [
-    BundledAvatarLoader(avatars: [profileID: avatarBytes]),
-    CachedAvatarLoader(cache: [profileID: avatarBytes])
+  BundledAvatarLoader(avatars: [profileID: avatarBytes]),
+  CachedAvatarLoader(cache: [profileID: avatarBytes]),
 ]
 
 for loader in validAvatarLoaders {
-    let loadedAvatarSize = try avatarSize(using: loader, profileID: profileID)
-    assert(loadedAvatarSize == 3)
+  let loadedAvatarSize = try avatarSize(using: loader, profileID: profileID)
+  assert(loadedAvatarSize == 3)
 }
 
 /*
@@ -316,38 +316,38 @@ for loader in validAvatarLoaders {
  */
 
 protocol ProfileReading: Sendable {
-    func read(id: UUID) async throws -> Profile
+  func read(id: UUID) async throws -> Profile
 }
 
 protocol ProfileSaving: Sendable {
-    func save(_ profile: Profile) async throws
+  func save(_ profile: Profile) async throws
 }
 
 protocol ProfileDeleting: Sendable {
-    func delete(id: UUID) async throws
+  func delete(id: UUID) async throws
 }
 
 actor MemoryProfileRepository: ProfileReading, ProfileSaving, ProfileDeleting {
-    private var profiles: [UUID: Profile]
+  private var profiles: [UUID: Profile]
 
-    init(profiles: [UUID: Profile] = [:]) {
-        self.profiles = profiles
-    }
+  init(profiles: [UUID: Profile] = [:]) {
+    self.profiles = profiles
+  }
 
-    func read(id: UUID) throws -> Profile {
-        guard let profile = profiles[id] else {
-            throw ProfileFeatureError.notFound
-        }
-        return profile
+  func read(id: UUID) throws -> Profile {
+    guard let profile = profiles[id] else {
+      throw ProfileFeatureError.notFound
     }
+    return profile
+  }
 
-    func save(_ profile: Profile) {
-        profiles[profile.id] = profile
-    }
+  func save(_ profile: Profile) {
+    profiles[profile.id] = profile
+  }
 
-    func delete(id: UUID) {
-        profiles[id] = nil
-    }
+  func delete(id: UUID) {
+    profiles[id] = nil
+  }
 }
 
 let memoryProfileRepository = MemoryProfileRepository()
@@ -361,10 +361,10 @@ assert(storedProfile == exampleProfile)
 let profileDeleter: any ProfileDeleting = memoryProfileRepository
 try await profileDeleter.delete(id: profileID)
 do {
-    _ = try await profileReader.read(id: profileID)
-    assertionFailure("El perfil eliminado no debe estar disponible")
+  _ = try await profileReader.read(id: profileID)
+  assertionFailure("El perfil eliminado no debe estar disponible")
 } catch ProfileFeatureError.notFound {
-    // Resultado esperado.
+  // Resultado esperado.
 }
 
 /*
@@ -405,173 +405,169 @@ do {
  */
 
 protocol HTTPDataLoading: Sendable {
-    func data(for request: URLRequest) async throws -> Data
+  func data(for request: URLRequest) async throws -> Data
 }
 
 struct URLSessionHTTPClient: HTTPDataLoading {
-    private let session: URLSession
+  private let session: URLSession
 
-    init(session: URLSession = .shared) {
-        self.session = session
+  init(session: URLSession = .shared) {
+    self.session = session
+  }
+
+  func data(for request: URLRequest) async throws -> Data {
+    let (data, response) = try await session.data(for: request)
+
+    guard let response = response as? HTTPURLResponse else {
+      throw ProfileFeatureError.invalidResponse(statusCode: nil)
     }
 
-    func data(for request: URLRequest) async throws -> Data {
-        let (data, response) = try await session.data(for: request)
-
-        guard let response = response as? HTTPURLResponse else {
-            throw ProfileFeatureError.invalidResponse(statusCode: nil)
-        }
-
-        switch response.statusCode {
-        case 200..<300:
-            return data
-        case 404:
-            throw ProfileFeatureError.notFound
-        default:
-            throw ProfileFeatureError.invalidResponse(
-                statusCode: response.statusCode
-            )
-        }
+    switch response.statusCode {
+    case 200..<300:
+      return data
+    case 404:
+      throw ProfileFeatureError.notFound
+    default:
+      throw ProfileFeatureError.invalidResponse(
+        statusCode: response.statusCode
+      )
     }
+  }
 }
 
 struct HTTPDataLoaderStub: HTTPDataLoading {
-    let expectedPath: String
-    let responseData: Data
+  let expectedPath: String
+  let responseData: Data
 
-    func data(for request: URLRequest) async throws -> Data {
-        guard request.url?.path == expectedPath else {
-            throw ProfileFeatureError.notFound
-        }
-        return responseData
+  func data(for request: URLRequest) async throws -> Data {
+    guard request.url?.path == expectedPath else {
+      throw ProfileFeatureError.notFound
     }
+    return responseData
+  }
 }
 
 struct LiveProfileRepository: ProfileReading {
-    private let baseURL: URL
-    private let client: any HTTPDataLoading
-    private let decoder: ProfileDecoder
+  private let baseURL: URL
+  private let client: any HTTPDataLoading
+  private let decoder: ProfileDecoder
 
-    init(
-        baseURL: URL,
-        client: any HTTPDataLoading,
-        decoder: ProfileDecoder = ProfileDecoder()
-    ) {
-        self.baseURL = baseURL
-        self.client = client
-        self.decoder = decoder
-    }
+  init(
+    baseURL: URL,
+    client: any HTTPDataLoading,
+    decoder: ProfileDecoder = ProfileDecoder()
+  ) {
+    self.baseURL = baseURL
+    self.client = client
+    self.decoder = decoder
+  }
 
-    func read(id: UUID) async throws -> Profile {
-        let profileURL = baseURL
-            .appendingPathComponent("profiles")
-            .appendingPathComponent(id.uuidString)
-        let data = try await client.data(for: URLRequest(url: profileURL))
-        return try decoder.decode(data)
-    }
+  func read(id: UUID) async throws -> Profile {
+    let profileURL =
+      baseURL
+      .appendingPathComponent("profiles")
+      .appendingPathComponent(id.uuidString)
+    let data = try await client.data(for: URLRequest(url: profileURL))
+    return try decoder.decode(data)
+  }
 }
 
 @MainActor
 final class ProfileViewModel {
-    enum State: Equatable {
-        case idle
-        case loading
-        case loaded(Profile)
-        case failed
+  enum State: Equatable {
+    case idle
+    case loading
+    case loaded(Profile)
+    case failed
+  }
+
+  private let reader: any ProfileReading
+  private(set) var state: State = .idle
+
+  init(reader: any ProfileReading) {
+    self.reader = reader
+  }
+
+  func load(id: UUID) async {
+    state = .loading
+
+    do {
+      state = .loaded(try await reader.read(id: id))
+    } catch is CancellationError {
+      state = .idle
+    } catch {
+      state = .failed
     }
-
-    private let reader: any ProfileReading
-    private(set) var state: State = .idle
-
-    init(reader: any ProfileReading) {
-        self.reader = reader
-    }
-
-    func load(id: UUID) async {
-        state = .loading
-
-        do {
-            state = .loaded(try await reader.read(id: id))
-        } catch is CancellationError {
-            state = .idle
-        } catch {
-            state = .failed
-        }
-    }
+  }
 }
 
 @MainActor
 func makeLiveProfileViewModel(
-    baseURL: URL,
-    session: URLSession = .shared
+  baseURL: URL,
+  session: URLSession = .shared
 ) -> ProfileViewModel {
-    let client = URLSessionHTTPClient(session: session)
-    let repository = LiveProfileRepository(
-        baseURL: baseURL,
-        client: client
-    )
-    return ProfileViewModel(reader: repository)
+  let client = URLSessionHTTPClient(session: session)
+  let repository = LiveProfileRepository(
+    baseURL: baseURL,
+    client: client
+  )
+  return ProfileViewModel(reader: repository)
 }
 
 struct ProfileReaderStub: ProfileReading {
-    enum Result: Sendable {
-        case success(Profile)
-        case failure(ProfileFeatureError)
+  enum Result: Sendable {
+    case success(Profile)
+    case failure(ProfileFeatureError)
+  }
+
+  let expectedID: UUID
+  let result: Result
+
+  func read(id: UUID) async throws -> Profile {
+    guard id == expectedID else {
+      throw ProfileFeatureError.notFound
     }
 
-    let expectedID: UUID
-    let result: Result
-
-    init(expectedID: UUID, result: Result) {
-        self.expectedID = expectedID
-        self.result = result
+    switch result {
+    case .success(let profile):
+      return profile
+    case .failure(let error):
+      throw error
     }
-
-    func read(id: UUID) async throws -> Profile {
-        guard id == expectedID else {
-            throw ProfileFeatureError.notFound
-        }
-
-        switch result {
-        case .success(let profile):
-            return profile
-        case .failure(let error):
-            throw error
-        }
-    }
+  }
 }
 
 let successfulReader = ProfileReaderStub(
-    expectedID: profileID,
-    result: .success(exampleProfile)
+  expectedID: profileID,
+  result: .success(exampleProfile)
 )
 let successfulViewModel = ProfileViewModel(reader: successfulReader)
 await successfulViewModel.load(id: profileID)
 assert(successfulViewModel.state == .loaded(exampleProfile))
 
 let failingReader = ProfileReaderStub(
-    expectedID: profileID,
-    result: .failure(.notFound)
+  expectedID: profileID,
+  result: .failure(.notFound)
 )
 let failingViewModel = ProfileViewModel(reader: failingReader)
 await failingViewModel.load(id: profileID)
 assert(failingViewModel.state == .failed)
 
 if let baseURL = URL(string: "https://api.example.com") {
-    let repositoryStub = LiveProfileRepository(
-        baseURL: baseURL,
-        client: HTTPDataLoaderStub(
-            expectedPath: "/profiles/\(profileID.uuidString)",
-            responseData: encodedProfile
-        )
+  let repositoryStub = LiveProfileRepository(
+    baseURL: baseURL,
+    client: HTTPDataLoaderStub(
+      expectedPath: "/profiles/\(profileID.uuidString)",
+      responseData: encodedProfile
     )
-    let liveProfile = try await repositoryStub.read(id: profileID)
-    assert(liveProfile == exampleProfile)
+  )
+  let liveProfile = try await repositoryStub.read(id: profileID)
+  assert(liveProfile == exampleProfile)
 
-    let liveViewModel = makeLiveProfileViewModel(baseURL: baseURL)
-    assert(liveViewModel.state == .idle)
+  let liveViewModel = makeLiveProfileViewModel(baseURL: baseURL)
+  assert(liveViewModel.state == .idle)
 } else {
-    assertionFailure("La URL de configuración debe ser válida")
+  assertionFailure("La URL de configuración debe ser válida")
 }
 
 /*
@@ -621,28 +617,28 @@ if let baseURL = URL(string: "https://api.example.com") {
 // MARK: - Verificación manual del contrato
 
 func verifyAvatarLoaderContract(
-    makeLoader: () -> any AvatarDataLoading
+  makeLoader: () -> any AvatarDataLoading
 ) throws {
-    let loader = makeLoader()
-    let data = try loader.loadAvatar(for: profileID)
-    assert(!data.isEmpty)
+  let loader = makeLoader()
+  let data = try loader.loadAvatar(for: profileID)
+  assert(!data.isEmpty)
 
-    let missingID = UUID()
+  let missingID = UUID()
 
-    do {
-        _ = try loader.loadAvatar(for: missingID)
-        assertionFailure("El contrato exige lanzar notFound")
-    } catch ProfileFeatureError.notFound {
-        // Resultado esperado.
-    }
+  do {
+    _ = try loader.loadAvatar(for: missingID)
+    assertionFailure("El contrato exige lanzar notFound")
+  } catch ProfileFeatureError.notFound {
+    // Resultado esperado.
+  }
 }
 
 try verifyAvatarLoaderContract {
-    BundledAvatarLoader(avatars: [profileID: avatarBytes])
+  BundledAvatarLoader(avatars: [profileID: avatarBytes])
 }
 
 try verifyAvatarLoaderContract {
-    CachedAvatarLoader(cache: [profileID: avatarBytes])
+  CachedAvatarLoader(cache: [profileID: avatarBytes])
 }
 
 // MARK: - Límites y señales de sobrearquitectura

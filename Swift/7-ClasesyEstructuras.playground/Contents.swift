@@ -1,7 +1,6 @@
-import Foundation
-
 //Clases y Estructuras
-
+//Error frecuente: asumir que struct garantiza stack, que class garantiza heap o
+//que una estructura es inmutable por defecto. Swift no ofrece esas garantías.
 
 //Al crear una instancia, todas sus propiedades almacenadas deben tener un valor.
 //Ese valor puede venir de una declaración, un inicializador propio, un inicializador
@@ -16,7 +15,6 @@ import Foundation
 //cuando creamos un Struct o una Class, estamos creando un tipo y también podemos crear los métodos y propiedades necesarios.
 //cabe señalar que al momento de crear una Struct o Class, esta deben ser creadas agrupándolos según una mismos responsabilidad(=principio responsabilidad única SOLID). Así mantenemos una clara organizacion y separación de propiedades y metodos
 //en una Struct o Class las propiedades nos sirven para guardar un estado y tenemos métodos para modificar el estado.
-
 
 //Analogia entre Clases y Estructuras
 //En común
@@ -59,64 +57,45 @@ import Foundation
 //type casting. Se puede declarar deinit para liberar recursos justo antes de que ARC
 //destruya la instancia; no es un método que se llame manualmente.
 
-
-
-
-
-
-//Creacion vacía
-class MyClass {
-    // Class implementation
-}
-
-struct MyStruct {
-    // Struct implementation
-}
-
-
 //Creacion
 //al momento de crear la clase o estructuras, estas se crean con la primera letra en mayúscula.
 //Al crear un tipo, ya sea Class o Struct, creamos una abstracción para poder trabajar en nuestro código
 //ABSTRACCION = La abstracción hace referencia al uso de conceptos o categorías abstractas. El concepto supone asociar una sola respuesta (palabra o acción) a diversos estímulos distinguibles (objetos o acontecimientos). Por ejemplo el concepto perro.
 struct User {
-    let name: String
-    let city: String
-func createUser() {
-        print("Create User")
-    }
-    func removeUser() {
-        print("Remove User")
-    }
+  let name: String
+  let city: String
 }
 
 class Singer {
-    var name: String
-    var age: Int
-    init(name: String, age: Int) {
-        self.name = name
-        self.age = age
-    }
-    func sing() {
-        print("La la la la")
-    }
+  let name: String
+  let age: Int
+
+  init(name: String, age: Int) {
+    self.name = name
+    self.age = age
+  }
+
+  func sing() {
+    print("La la la la")
+  }
 }
 //con este ejemplo de código acabamos de crear un tipo te dato, el cual tiene propiedades y métodos.
 //este es solo la creación, para poder ocuparlo tendríamos que instanciarlo
-
-
-
-
 
 //Instanciar
 //Instanciar es un objeto concreto de una Class o Struct. Cuando creas una instancia, se asigna espacio en memoria para almacenar los datos de esa Class o Struct y se inicializan con sus valores iniciales. Al crear la instancia puedes usar las propiedades y métodos del tipo.
 let user = User(name: "Rodolfo", city: "Santiago")
 let singer = Singer(name: "Rodolfo", age: 36)
+print("\(user.name) vive en \(user.city)")
+print("\(singer.name) tiene \(singer.age) años")
+singer.sing()
 //let singer = Singer()
 //El código anterior nos arrojaría error porque al momento de Instanciar tenemos que inicializar con sus propiedades.
-//como norma Swift exige que al crear una instancia de tipo (Struct o Class), todas sus propiedades deben tener un valor. Por eso necesitamos el init
+//Swift exige que todas las propiedades almacenadas tengan un valor al finalizar la
+//inicialización. Ese valor puede provenir de la declaración, de un inicializador
+//sintetizado o de un inicializador escrito por nosotros.
 //Una vez tenemos la instancia de nuestro tipo podemos acceder a sus propiedades y métodos
 //Al crear una instancia de nuestros tipos es obligatorio dar un estado inicial a todas sus propiedades. Para dar un estado inicial se suele utilizar un inicializador.
-
 
 //Inicializador
 //como una función que recibe valores para asignarlos a las propiedades de tu tipo, de esta manera pueden tener un valor y se puede crear la instancia de un tipo correctamente.
@@ -124,45 +103,43 @@ let singer = Singer(name: "Rodolfo", age: 36)
 //Crear Inicializador Class
 //necesitamos agregar la palabra init e incluir tantos parametros como propiedades tengamos en una Struct o Class
 class Database {
-    var nameData: String
-    init(nameData: String) {
-        self.nameData = nameData
-    }
+  var nameData: String
+  init(nameData: String) {
+    self.nameData = nameData
+  }
 }
 //este init es como una función que recibe un parametro el cual al momento de Instanciar la Clase es requerido y asignado a la propiedad.
 
 //Creacion de instancia clase
-let database = Database( nameData: "Rodolfo")
+let database = Database(nameData: "Rodolfo")
 
 //con este código ya podríamos acceder a la instancia que está almacenada en una variable y podríamos acceder a su propiedades
 print(database.nameData)
 
-
 //Inicializador Struct
-//Al usar una Struct nos ahorramos escribir el inicializador, es lo que se conocer como memberwise init. Al usar Struct no necesitamos crear el inicializador.
+//Cuando una estructura no declara inicializadores propios, Swift ofrece un
+//memberwise initializer para sus propiedades almacenadas.
 struct Coworker {
-    var nameWorker: String
+  var nameWorker: String
 }
 
 //Creacion de instancia Struct
-//en una Struct, al momento de Instanciar, automáticamente nos aparecerán las propiedades a las cuales tenemos que asignarle valor, todo esto sin necesidad de inicializar al momento de crear la estructura, a diferencia de las clases.
+//Aquí usamos el memberwise initializer sintetizado. Si la estructura declara un
+//inicializador dentro de su cuerpo, esa firma sintetizada deja de estar disponible.
 let coworker = Coworker(nameWorker: "iOS Developer")
 
 //con este código ya podríamos acceder a la instancia que está almacenada en una variable y podríamos acceder a su propiedades
 print(coworker.nameWorker)
 
-
-
-
 //por Referencia(Class)
 //las Clases son por referencia, que significa esto que creamos varias instancias a una misma clase y luego al modificar alguna propiedad de alguna copia, este cambio afectará a todas las demás copias de clase.
 
 //Crearemos la clase
-class CentralBase{
-    var nameBase: String
-    init(nameBase: String) {
-        self.nameBase = nameBase
-    }
+class CentralBase {
+  var nameBase: String
+  init(nameBase: String) {
+    self.nameBase = nameBase
+  }
 }
 
 //Instanciamos la clase
@@ -178,16 +155,12 @@ print(chatDatabase.nameBase)
 print(appDatabase.nameBase)
 print(remoteDatabase.nameBase)
 
-
-
-
-
 //por Valor(Struct)
 //las Struct son por valor, que significa esto que creamos varias instancias a una misma Struct y luego al modificar alguna propiedad de alguna copia, este cambio NO afectará a todas las demás copias de clase. será independiente
 
 //Crearemos la Struct
 struct Cowork {
-    var nameCo: String
+  var nameCo: String
 }
 
 //Instancios la estructura
@@ -202,8 +175,6 @@ friend.nameCo = "Rodolfo"
 print(timCook.nameCo)
 print(boss.nameCo)
 print(friend.nameCo)
-
-
 
 //casos de usos
 //Cuando usar Class o Struct

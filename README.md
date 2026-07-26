@@ -16,10 +16,14 @@ escritorio.
 
 ### **[➡️ Abrir Swift · Guía de estudio](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/)**
 
+También está disponible la **[versión en inglés](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/en/)**.
+
 Guías complementarias enfocadas en diseño de aplicaciones iOS:
 
 - **[Clean Code en Swift e iOS](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/clean-code.html)**
 - **[SOLID en Swift e iOS](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/solid.html)**
+- **[Clean Code in Swift and iOS](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/en/clean-code.html)**
+- **[SOLID in Swift and iOS](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/en/solid.html)**
 
 También puedes consultar los archivos directamente en el repositorio:
 
@@ -56,13 +60,14 @@ Este repositorio contiene una colección completa de **Xcode Playgrounds** dise�
 - 🎯 Preparación para entrevistas técnicas
 - 📚 Referencia rápida de sintaxis y patrones
 
-Todos los ejemplos están documentados en **español** con explicaciones claras y casos prácticos.
+Los playgrounds están documentados en **español** y la guía web ofrece textos
+estáticos en **español e inglés**, con el mismo código Swift en ambos idiomas.
 
 ---
 
 ## 📦 Contenido
 
-### 🔷 Swift Fundamentals (20+ Playgrounds)
+### 🔷 Swift Fundamentals (20 Playgrounds)
 
 Colección completa de playgrounds organizados por tema:
 
@@ -88,8 +93,6 @@ Colección completa de playgrounds organizados por tema:
 | 17 | **Gestión de Errores** | do-try-catch, throws |
 | 18 | **Type Casting** | is, as, as?, as!, Any, AnyObject |
 | 19 | **Operador Ternario** | Sintaxis y casos de uso |
-| + | **KeywordsSwift** | Palabras clave del lenguaje |
-| + | **Content** | Índice general |
 
 ### 🔶 SOLID Principles
 
@@ -203,14 +206,21 @@ Swift-Analisis-Playgrounds/
 │   ├── CONTRIBUTING.md
 │   ├── LEARNING_PATH.md
 │   ├── clean-code.html
+│   ├── en/
+│   │   ├── clean-code.html
+│   │   ├── index.html
+│   │   └── solid.html
 │   ├── index.html
 │   ├── solid.html
 │   └── TEMARIO_DE_ESTUDIO_SWIFT.md
 ├── tools/                             # Fuente y generador de la guía web
 │   ├── clean_code_ios.md
+│   ├── clean_code_ios_en.md
 │   ├── generate_principles_html.rb
 │   ├── generate_study_html.rb
 │   ├── solid_ios.md
+│   ├── solid_ios_en.md
+│   ├── study_guide_full_en.md
 │   └── study_guide_full.md
 ├── Swift/                             # Playgrounds de Swift
 │   ├── 0-Basic.playground
@@ -232,9 +242,7 @@ Swift-Analisis-Playgrounds/
 │   ├── 16-AccesLevel.playground
 │   ├── 17-Gestion de errores.playground
 │   ├── 18-typeCasting.playground
-│   ├── 19-Operador ternario.playground
-│   ├── Content.playground
-│   └── KeywordsSwift.playground
+│   └── 19-Operador ternario.playground
 ├── SOLID/                             # Principios SOLID
 │   └── SOLID.playground
 └── Clean_Code/                        # Clean Code
@@ -250,27 +258,33 @@ no necesita Ruby ni las herramientas del proyecto.
 
 Para actualizar la guía de los 20 capítulos:
 
-1. Edita [`tools/study_guide_full.md`](tools/study_guide_full.md).
+1. Edita [`tools/study_guide_full.md`](tools/study_guide_full.md) y su versión
+   [`tools/study_guide_full_en.md`](tools/study_guide_full_en.md).
 2. Actualiza los ejemplos del generador cuando corresponda.
 3. Ejecuta:
 
    ```bash
-   ruby tools/generate_study_html.rb
+   GUIDE_LANGUAGE=es ruby tools/generate_study_html.rb
+   GUIDE_LANGUAGE=en ruby tools/generate_study_html.rb
    ```
 
-4. Comprueba que `docs/index.html` contiene los cambios.
+4. Comprueba `docs/index.html` y `docs/en/index.html`.
 
 Para actualizar las guías de Clean Code y SOLID:
 
-1. Edita [`tools/clean_code_ios.md`](tools/clean_code_ios.md) o
-   [`tools/solid_ios.md`](tools/solid_ios.md).
+1. Edita las fuentes en ambos idiomas:
+   [`tools/clean_code_ios.md`](tools/clean_code_ios.md),
+   [`tools/clean_code_ios_en.md`](tools/clean_code_ios_en.md),
+   [`tools/solid_ios.md`](tools/solid_ios.md) y
+   [`tools/solid_ios_en.md`](tools/solid_ios_en.md).
 2. Ejecuta:
 
    ```bash
-   ruby tools/generate_principles_html.rb
+   GUIDE_LANGUAGE=es ruby tools/generate_principles_html.rb
+   GUIDE_LANGUAGE=en ruby tools/generate_principles_html.rb
    ```
 
-3. Comprueba `docs/clean-code.html` y `docs/solid.html`.
+3. Comprueba las páginas generadas en `docs/` y `docs/en/`.
 
 [`tools/generate_study_html.rb`](tools/generate_study_html.rb) es una herramienta de
 mantenimiento: genera una salida reproducible y evita editar manualmente un HTML de
@@ -389,7 +403,7 @@ Distribuido bajo la licencia MIT. Ver `LICENSE` para más información.
 - [ ] Agregar playgrounds de Async/Await (Swift 5.5+)
 - [ ] Agregar playgrounds de Swift Concurrency
 - [ ] Agregar Unit Tests examples
-- [ ] Crear versión en inglés
+- [x] Crear versión en inglés
 - [ ] Agregar videos explicativos
 
 ---

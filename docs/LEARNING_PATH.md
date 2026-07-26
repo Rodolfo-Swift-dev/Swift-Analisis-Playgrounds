@@ -110,7 +110,7 @@ Comienza aquí si eres nuevo en Swift:
 
 17. **16-AccesLevel.playground** 🟡
     - ⏱️ Tiempo: 1-2 horas
-    - 📝 Temas: public, private, internal, fileprivate
+    - 📝 Temas: open, public, package, internal, fileprivate, private
     - ✅ Checkpoint: Controlas visibilidad de código
 
 18. **17-Gestion de errores.playground** 🔴
@@ -120,7 +120,7 @@ Comienza aquí si eres nuevo en Swift:
 
 19. **18-typeCasting.playground** 🔴
     - ⏱️ Tiempo: 2 horas
-    - 📝 Temas: is, as, Any, AnyObject
+    - 📝 Temas: is, as, as?, as!, Any, AnyObject
     - ✅ Checkpoint: Trabajas con tipos dinámicos
 
 20. **19-Operador ternario.playground** 🟢
@@ -128,20 +128,15 @@ Comienza aquí si eres nuevo en Swift:
     - 📝 Temas: Sintaxis ? :
     - ✅ Checkpoint: Usas expresiones condicionales
 
-21. **KeywordsSwift.playground** 🟡
-    - ⏱️ Tiempo: 1 hora
-    - 📝 Temas: Todas las keywords del lenguaje
-    - ✅ Checkpoint: Conoces el vocabulario de Swift
-
 ### Fase 5: Principios de Diseño (1 semana) 🔴
 
-22. **SOLID/SOLID.playground** 🔴
+21. **SOLID/SOLID.playground** 🔴
     - ⏱️ Tiempo: 4-6 horas
     - 📝 Temas: SRP, OCP, LSP, ISP, DIP
     - ✅ Checkpoint: Escribes código mantenible
     - ⭐ **CRÍTICO**: Esencial para arquitectura profesional
 
-23. **Clean_Code/CleanCode.playground** 🔴
+22. **Clean_Code/CleanCode.playground** 🔴
     - ⏱️ Tiempo: 3-4 horas
     - 📝 Temas: Mejores prácticas, legibilidad
     - ✅ Checkpoint: Escribes código limpio y profesional

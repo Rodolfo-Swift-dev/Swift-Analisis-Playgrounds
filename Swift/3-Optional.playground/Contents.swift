@@ -1,93 +1,75 @@
-import Foundation
-
-
 //Opcionales
+//Error frecuente: usar ! sin una garantía verificable; nil provoca un trap.
 //creacion tipos de datos opcionales
-var name: String? = nil
-var anotherName: String?
+let name: String? = nil
+let anotherName: String? = nil
 
 // Tipos de la Librería Standard de Swift (cualquier tipo de datos en Swift puede ser opcional)
-var myValue: Int? = nil
-var myBool: Bool?
-var myString: String?
-var myDouble: Double?
+let myValue: Int? = nil
+let myBool: Bool? = nil
+let myString: String? = nil
+let myDouble: Double? = nil
+print(
+  name as Any, anotherName as Any, myValue as Any, myBool as Any, myString as Any, myDouble as Any)
 
-
-
-
-
-var myStringNumber = "Rodolfo"
-if let myNumber  = Int(myStringNumber){
-    print(myNumber)
-}else {
-    print("\(myStringNumber) is not number")
+let myStringNumber = "Rodolfo"
+if let myNumber = Int(myStringNumber) {
+  print(myNumber)
+} else {
+  print("\(myStringNumber) is not number")
 }
 
-
-var myInt = "2500"
-if let myIntNumber = Int(myInt){
-    print(myIntNumber)
-}else {
-    print("\(myInt) is not number")
+let myInt = "2500"
+if let myIntNumber = Int(myInt) {
+  print(myIntNumber)
+} else {
+  print("\(myInt) is not number")
 }
-
-
 
 //ENLACE OPCIONAL
 // El bloque de codigo que desempaqueta  se ejecuta siempre y cuando no sea nulo y automáticamente desempaqueta el dato opcional. guardandolo dentro de una nueva constante la cual contiene el dato desempaquetado.
-if let safeOptional = Int(myInt){
-    print(safeOptional)
-}else {
-    print("nil value")
+if let safeOptional = Int(myInt) {
+  print(safeOptional)
+} else {
+  print("nil value")
 }
-
 
 //DESENVOLVIMIENTO FORZADO
-//optional!  no recomendable ya que nos puede dar error
-if Int(myInt) != nil{
-    print(Int(myInt)!)
+//`optional!` afirma que existe un valor. Si el Optional contiene nil, el programa
+//se detiene. En código normal, prefiere optional binding, guard o nil-coalescing.
+//let unsafeNumber = Int(myInt)! // Compila, pero la afirmación puede ser falsa.
+if let number = Int(myInt) {
+  print(number)
 }
-//correcto pero de forma incorrecta ya que no hay verificacion
-//print(myNumber!)//crash
-
 
 //OPERADOR DE FUSIÓN NULA (nil-coalescing)
 //a ?? b devuelve el valor desempaquetado de a cuando a no es nil. Si a es nil,
 //devuelve el valor alternativo b. El resultado deja de ser opcional.
-var myNewNumber = Int(myInt) ?? 0
-var myStringNum = "2500"
-var myNewIntNumber = Int(myStringNum) ?? 0
+let myNewNumber = Int(myInt) ?? 0
+let myStringNum = "2500"
+let myNewIntNumber = Int(myStringNum) ?? 0
 print(myNewNumber)
 print(myNewIntNumber)
 
 //COMPROBACION DE VALORES NULOS
-// El bloque de codigo que desempaqueta el valor opcional, se ejecuta siempre y cuando no sea nulo y para poder ocupar el dato tenemos que desempaquetarlo con !
+//Optional binding comprueba y extrae el valor en una sola operación. Dentro del
+//bloque se usa la constante no opcional sin aplicar `!`.
 
-var myOptionalInt = Int(myStringNum)
-if myOptionalInt != nil{
-    print(myOptionalInt!)
+let myOptionalInt = Int(myStringNum)
+if let myOptionalInt {
+  print(myOptionalInt)
 }
-
 
 // Tipos propios creados en tu aplicación
 
 struct Car {
-    var color : String = "black"
-    func convert(color : String) -> Int {
-        var safeColor : Int = 0
-        if let colorNum = Int(color){
-           safeColor = colorNum
-        }
-        return safeColor
-    }
+  var color: String = "black"
+
+  func colorCode(from value: String) -> Int? {
+    Int(value)
+  }
 }
 var myCar: Car?
-
-struct User {
-    var name : String
-}
-let follower: User?
-
 
 //al trabajar con diccionarios siempre nos arroja un opcional que hay que verificar y desempaquetar para poder trabajar con el
 
@@ -100,29 +82,26 @@ myCar = Car()
 //El encadenamiento opcional evita depender del orden de asignación o de un force unwrap.
 print(myCar?.color ?? "Color desconocido")
 if let color = myCar?.color {
-    print(color)
+  print(color)
 }
 
-if let safeColor = myCar?.convert(color: "1234"){
-    print(safeColor)
+if let safeColor = myCar?.colorCode(from: "1234") {
+  print(safeColor)
 
 }
-
-
 
 //Guard let
 //muy interesantes y muy comunes al crear lógica de la aplicacion
 //podemos ocupar la sentencia Guard let para extraer el valor de un opcional de forma segura y almacenarlo en una constante
-var myOptional: Int? = 2
-func checkMyOptional() {
-    guard let value = myOptional else {
-        print("myOptional is nil!")
-        return
-    }
-    print("myOptional value is \(value)!")
+let myOptional: Int? = 2
+func checkMyOptional(_ optional: Int?) {
+  guard let value = optional else {
+    print("myOptional is nil!")
+    return
+  }
+  print("myOptional value is \(value)!")
 }
-checkMyOptional()
-
+checkMyOptional(myOptional)
 
 //Transformar o consumir un Optional con map
 //Optional sí implementa map. Se escribe .map, no ?.map: map opera sobre el

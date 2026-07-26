@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Una guía para escribir código fácil de leer, probar y cambiar. Cada tema explica qué problema resuelve, cómo se comporta Swift y cuándo una práctica puede complicar el proyecto.">
+  <meta name="description" content="A guide to writing code that&#39;s easy to read, test, and change. Each topic explains what problem it solves, how Swift behaves, and when a practice can complicate the project.">
   <meta name="theme-color" content="#0f8b8d" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#086d70" media="(prefers-color-scheme: dark)">
-  <title>Clean Code en Swift e iOS · Swift Study</title>
+  <title>Clean Code in Swift and iOS · Swift Study</title>
   <style>
     :root {
       color-scheme: light;
@@ -359,7 +359,7 @@
     .card-title { font-weight: 760; }
     .card-action { color: var(--muted); font-size: .74rem; white-space: nowrap; }
     .study-card[open] .card-action { font-size: 0; }
-    .study-card[open] .card-action::after { content: "Ocultar"; font-size: .74rem; }
+    .study-card[open] .card-action::after { content: "Hide"; font-size: .74rem; }
     .card-body { padding: 18px; }
     dl {
       display: grid;
@@ -496,84 +496,84 @@
   <div class="progress" id="progress"></div>
   <div class="mobile-bar">
     <strong>Clean Code · iOS</strong>
-    <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contenido</button>
+    <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contents</button>
   </div>
   <aside class="sidebar" id="sidebar">
     <a class="brand" href="index.html">
       <span class="brand-mark">S</span>
-      <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
+      <span><strong>Swift Study</strong><small>iOS design guides</small></span>
     </a>
-    <nav class="guide-switcher" aria-label="Guías de estudio">
-      <div class="guide-switcher-label">Guías de estudio</div>
-      <a class="guide-link" href="index.html"><span><strong>Swift</strong><small>20 capítulos</small></span>
-<span class="guide-link-action" aria-hidden="true">→</span></a><span class="guide-link active" aria-current="page"><span><strong>Clean Code</strong><small>Actual · 15 temas prácticos</small></span>
-<span class="guide-link-action" aria-hidden="true">✓</span></span><a class="guide-link" href="solid.html"><span><strong>SOLID</strong><small>10 temas de diseño</small></span>
+    <nav class="guide-switcher" aria-label="Study guides">
+      <div class="guide-switcher-label">Study guides</div>
+      <a class="guide-link" href="index.html"><span><strong>Swift</strong><small>20 chapters</small></span>
+<span class="guide-link-action" aria-hidden="true">→</span></a><span class="guide-link active" aria-current="page"><span><strong>Clean Code</strong><small>Current · 15 practical topics</small></span>
+<span class="guide-link-action" aria-hidden="true">✓</span></span><a class="guide-link" href="solid.html"><span><strong>SOLID</strong><small>10 design topics</small></span>
 <span class="guide-link-action" aria-hidden="true">→</span></a>
     </nav>
     <nav class="language-switcher" aria-label="Language / Idioma">
-      <span aria-current="page">ES</span><a href="en/clean-code.html" hreflang="en">EN</a>
+      <a href="../clean-code.html" hreflang="es">ES</a><span aria-current="page">EN</span>
     </nav>
     <div class="search-wrap">
-      <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto…" autocomplete="off">
-      <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+      <input class="search" id="search" type="search" placeholder="Search concept…" aria-label="Search concept…" autocomplete="off">
+      <button class="clear-search" id="clearSearch" type="button" aria-label="Clear search" hidden>×</button>
     </div>
-    <div class="search-status" id="searchStatus" aria-live="polite">15 subtemas disponibles</div>
-    <div class="nav-label">Contenido</div>
-    <nav><a class="section-link" href="#claridad-del-codigo" data-target="claridad-del-codigo">
-  <span>1</span>Claridad del código
+    <div class="search-status" id="searchStatus" aria-live="polite">15 topics available</div>
+    <div class="nav-label">Contents</div>
+    <nav><a class="section-link" href="#code-clarity" data-target="code-clarity">
+  <span>1</span>Code clarity
 </a>
-<a class="section-link" href="#flujo-ausencia-y-errores" data-target="flujo-ausencia-y-errores">
-  <span>2</span>Flujo, ausencia y errores
+<a class="section-link" href="#flow-absence-and-errors" data-target="flow-absence-and-errors">
+  <span>2</span>Flow, absence and errors
 </a>
-<a class="section-link" href="#dependencias-y-arquitectura-ios" data-target="dependencias-y-arquitectura-ios">
-  <span>3</span>Dependencias y arquitectura iOS
+<a class="section-link" href="#ios-dependencies-and-architecture" data-target="ios-dependencies-and-architecture">
+  <span>3</span>iOS dependencies and architecture
 </a>
-<a class="section-link" href="#verificacion-y-evolucion" data-target="verificacion-y-evolucion">
-  <span>4</span>Verificación y evolución
+<a class="section-link" href="#verification-and-evolution" data-target="verification-and-evolution">
+  <span>4</span>Verification and evolution
 </a>
-<a class="section-link" href="#aplicarlo-con-criterio" data-target="aplicarlo-con-criterio">
-  <span>5</span>Aplicarlo con criterio
+<a class="section-link" href="#apply-it-judiciously" data-target="apply-it-judiciously">
+  <span>5</span>Apply it judiciously
 </a>
 </nav>
     <div class="sidebar-actions">
-      <button id="expandAll" type="button">Expandir</button>
-      <button id="collapseAll" type="button">Plegar</button>
-      <button id="printButton" type="button">Imprimir</button>
+      <button id="expandAll" type="button">Expand</button>
+      <button id="collapseAll" type="button">Collapse</button>
+      <button id="printButton" type="button">Print</button>
     </div>
   </aside>
   <main class="main">
     <header class="hero">
-      <div class="eyebrow">DISEÑO Y MANTENIBILIDAD</div>
-      <h1>Clean Code en Swift e iOS</h1>
-      <p>Una guía para escribir código fácil de leer, probar y cambiar. Cada tema explica qué problema resuelve, cómo se comporta Swift y cuándo una práctica puede complicar el proyecto.</p>
-      <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
+      <div class="eyebrow">DESIGN AND MAINTAINABILITY</div>
+      <h1>Clean Code in Swift and iOS</h1>
+      <p>A guide to writing code that&#39;s easy to read, test, and change. Each topic explains what problem it solves, how Swift behaves, and when a practice can complicate the project.</p>
+      <p class="hero-note">Web examples focus on one concept. The linked playground contains the complete, runnable, and verified implementation.</p>
       <div class="hero-actions">
-        <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/Clean_Code/CleanCode.playground/Contents.swift" target="_blank" rel="noreferrer">Abrir playground</a>
+        <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/Clean_Code/CleanCode.playground/Contents.swift" target="_blank" rel="noreferrer">Open playground</a>
       </div>
     </header>
-    <section class="guide-section" id="claridad-del-codigo">
+    <section class="guide-section" id="code-clarity">
   <div class="section-heading">
-    <h2>Claridad del código</h2>
-    <span>4 subtemas</span>
+    <h2>Code clarity</h2>
+    <span>4 topics</span>
   </div>
-  <details class="study-card" id="1-nombres-que-explican-el-codigo">
+  <details class="study-card" id="1-names-that-explain-the-code">
   <summary>
-    <span class="card-title">1. Nombres que explican el código</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">1. Names that explain the code</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Un buen nombre permite entender una llamada sin abrir la función para investigar qué hace.</dd>
-<dt>Qué ocurre</dt>
-<dd>Swift usa <code>UpperCamelCase</code> para tipos y <code>lowerCamelCase</code> para funciones y variables. Las etiquetas, como <code>for</code> y <code>rate</code>, ayudan a leer la llamada como una frase.</dd>
-<dt>Cuidado</dt>
-<dd>Un nombre más largo no siempre es más claro. No repitas información que el tipo o el contexto ya muestran.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A good name allows you to understand a call without opening the function to investigate what it does.</dd>
+<dt>What happens</dt>
+<dd>Swift uses <code>UpperCamelCase</code> for types and <code>lowerCamelCase</code> for functions and variables. The labels, such as <code>for</code> and <code>rate</code>, help read the call as a sentence.</dd>
+<dt>Watch out</dt>
+<dd>A longer name is not always clearer. Don&#39;t repeat information that the type or context already shows.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>// Bad
 func get(_ p: Double, _ d: Double) -&gt; Double {
@@ -593,24 +593,24 @@ let total = discountedPrice(for: 100, rate: 0.20)</code></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="2-quien-puede-cambiar-los-datos">
+<details class="study-card" id="2-who-can-change-the-data">
   <summary>
-    <span class="card-title">2. Quién puede cambiar los datos</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">2. Who can change the data</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Debe ser fácil saber qué dato puede cambiar y qué parte del programa tiene permiso para cambiarlo.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>let</code> evita reasignar un valor, <code>var</code> permite modificarlo y <code>private(set)</code> deja que otros lo lean, pero solo el propio tipo puede escribirlo.</dd>
-<dt>Cuidado</dt>
-<dd>Usar <code>var</code> no es malo. El problema aparece cuando demasiados lugares pueden cambiar el mismo dato y ya no se sabe quién produjo el resultado.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>It should be easy to know what data you can change and what part of the program has permission to change it.</dd>
+<dt>What happens</dt>
+<dd><code>let</code> prevents reassignment, <code>var</code> permits changes, and <code>private(set)</code> allows other code to read the property while only the declaring type can write it.</dd>
+<dt>Watch out</dt>
+<dd>Using <code>var</code> is not inherently bad. The problem begins when too many places can change the same data and its origin becomes unclear.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>struct ShoppingCart {
     private(set) var total = 0.0
@@ -627,24 +627,24 @@ print(cart.total)</code></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="3-funciones-con-una-tarea-clara">
+<details class="study-card" id="3-functions-with-a-clear-task">
   <summary>
-    <span class="card-title">3. Funciones con una tarea clara</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">3. Functions with a clear task</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Una función debería contar una acción clara y dejar los detalles en funciones con nombres fáciles de seguir.</dd>
-<dt>Qué ocurre</dt>
-<dd>Al separar validación y cálculo, cada parte se puede leer, reutilizar y probar por separado.</dd>
-<dt>Cuidado</dt>
-<dd>No existe un número máximo de líneas válido para todas las funciones. Divide cuando el nuevo nombre aclare una intención o separe algo que puede cambiar.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A function should tell a clear action and leave the details in functions with easy-to-follow names.</dd>
+<dt>What happens</dt>
+<dd>By separating validation and calculation, each part can be read, reused, and tested separately.</dd>
+<dt>Watch out</dt>
+<dd>There is no maximum number of lines valid for all functions. Divide when the new name clarifies an intention or separates something that can change.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>func checkoutTotal(for line: OrderLine) throws -&gt; Double {
     try validate(line)
@@ -659,24 +659,24 @@ func subtotal(for line: OrderLine) -&gt; Double {
     </div>
   </div>
 </details>
-<details class="study-card" id="4-evitar-datos-invalidos">
+<details class="study-card" id="4-avoid-invalid-data">
   <summary>
-    <span class="card-title">4. Evitar datos inválidos</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">4. Avoid invalid data</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Si un dato tiene reglas importantes, compruébalas una vez al crearlo para no repetir la misma validación en toda la app.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>DisplayName</code> solo se crea con texto válido. Desde ese momento, el resto del código puede confiar en que el nombre no está vacío.</dd>
-<dt>Cuidado</dt>
-<dd>No necesitas crear un tipo para cada <code>String</code>. Hazlo cuando el valor tenga reglas propias o pueda confundirse con otro dato.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>If a piece of data has important rules, check them once when creating it to avoid repeating the same validation throughout the app.</dd>
+<dt>What happens</dt>
+<dd><code>DisplayName</code> can only be created with valid text. From then on, the rest of the code can trust that the name is not empty.</dd>
+<dt>Watch out</dt>
+<dd>You don&#39;t need to create a type for each <code>String</code>. Do it when the value has its own rules or can be confused with other data.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>enum DisplayNameError: Error {
     case empty
@@ -701,29 +701,29 @@ struct DisplayName: Equatable {
 </details>
 
 </section>
-<section class="guide-section" id="flujo-ausencia-y-errores">
+<section class="guide-section" id="flow-absence-and-errors">
   <div class="section-heading">
-    <h2>Flujo, ausencia y errores</h2>
-    <span>3 subtemas</span>
+    <h2>Flow, absence and errors</h2>
+    <span>3 topics</span>
   </div>
-  <details class="study-card" id="5-valores-que-pueden-faltar">
+  <details class="study-card" id="5-values-that-may-be-missing">
   <summary>
-    <span class="card-title">5. Valores que pueden faltar</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">5. Values that may be missing</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Un <code>Optional</code> indica de forma visible que un valor puede existir o puede faltar.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>??</code> entrega un valor alternativo; optional binding (<code>if let</code> o <code>guard let</code>) abre el valor solo si existe; <code>guard</code> permite salir temprano si falta.</dd>
-<dt>Cuidado</dt>
-<dd>Un valor alternativo no debe ocultar un error real. El force unwrap (<code>!</code>) cierra la app si el valor es <code>nil</code>, por eso exige una garantía verdadera.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>An <code>Optional</code> clearly indicates that a value may be present or absent.</dd>
+<dt>What happens</dt>
+<dd><code>??</code> supplies a fallback; optional binding (<code>if let</code> or <code>guard let</code>) unwraps a value only when it exists; <code>guard</code> exits early when it does not.</dd>
+<dt>Watch out</dt>
+<dd>A fallback should not hide a real error. Force unwrap (<code>!</code>) traps if the value is <code>nil</code>, so it requires a genuine, verifiable guarantee.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>func greeting(displayName: String?) -&gt; String {
     &quot;Hola, \(displayName ?? &quot;Invitado&quot;)&quot;
@@ -737,24 +737,24 @@ func normalizedToken(_ token: String?) -&gt; String? {
     </div>
   </div>
 </details>
-<details class="study-card" id="6-errores-que-explican-que-fallo">
+<details class="study-card" id="6-errors-that-explain-what-went-wrong">
   <summary>
-    <span class="card-title">6. Errores que explican qué falló</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">6. Errors that explain what went wrong</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Si quien llama necesita reaccionar de forma distinta según el problema, el error debe decir qué falló.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>throws</code> avisa que una función puede fallar y obliga a manejar o propagar ese fallo. Un <code>enum</code> separa causas como datos inválidos o nombre ausente.</dd>
-<dt>Cuidado</dt>
-<dd>No todo valor ausente es un error. Si “no encontrado” es un resultado normal, un <code>Optional</code> puede ser más claro que <code>throws</code>.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>If the caller needs to react differently depending on the problem, the error should say what went wrong.</dd>
+<dt>What happens</dt>
+<dd><code>throws</code> states that a function may fail and requires that failure to be handled or propagated. An <code>enum</code> separates causes such as invalid data or a missing name.</dd>
+<dt>Watch out</dt>
+<dd>Not every missing value is an error. If “not found” is a normal result, an <code>Optional</code> may be clearer than <code>throws</code>.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>enum ProfileDecodingError: Error {
     case invalidPayload
@@ -784,24 +784,24 @@ func decodeName(from data: Data) throws -&gt; String {
     </div>
   </div>
 </details>
-<details class="study-card" id="7-comentarios-que-aportan-contexto">
+<details class="study-card" id="7-comments-that-provide-context">
   <summary>
-    <span class="card-title">7. Comentarios que aportan contexto</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">7. Comments that provide context</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>El código debería mostrar qué hace; el comentario debería explicar por qué se tomó una decisión o qué regla debe respetarse.</dd>
-<dt>Qué ocurre</dt>
-<dd>Los comentarios <code>///</code> aparecen en Quick Help y DocC. Allí puedes explicar parámetros, resultado, errores y reglas importantes para quien use la función.</dd>
-<dt>Cuidado</dt>
-<dd>No describas línea por línea lo que el código ya dice. Ese comentario agrega ruido y puede quedar desactualizado.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Code should show what it does; a comment should explain why a decision was made or which rule must be followed.</dd>
+<dt>What happens</dt>
+<dd><code>///</code> documentation comments appear in Quick Help and DocC. They can explain parameters, results, errors, and important rules for callers.</dd>
+<dt>Watch out</dt>
+<dd>Don&#39;t describe line by line what the code already says. That comment adds noise and may become outdated.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>/// Calcula el cargo de servicio del checkout.
 ///
@@ -819,29 +819,29 @@ func serviceFee(for subtotal: Double) -&gt; Double {
 </details>
 
 </section>
-<section class="guide-section" id="dependencias-y-arquitectura-ios">
+<section class="guide-section" id="ios-dependencies-and-architecture">
   <div class="section-heading">
-    <h2>Dependencias y arquitectura iOS</h2>
-    <span>4 subtemas</span>
+    <h2>iOS dependencies and architecture</h2>
+    <span>4 topics</span>
   </div>
-  <details class="study-card" id="8-separar-calculos-de-acciones-externas">
+  <details class="study-card" id="8-separate-calculations-from-external-actions">
   <summary>
-    <span class="card-title">8. Separar cálculos de acciones externas</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">8. Separate calculations from external actions</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Separa los cálculos de acciones como guardar, pedir datos por red o enviar analytics.</dd>
-<dt>Qué ocurre</dt>
-<dd>Una función pura devuelve el mismo resultado con los mismos datos. Las acciones externas quedan visibles en propiedades como <code>analytics</code>, llamadas dependencias.</dd>
-<dt>Cuidado</dt>
-<dd>No crees protocolos para operaciones simples que nunca cambiarán. Una capa extra solo ayuda cuando existe una necesidad real de reemplazar o probar esa acción.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Separate calculations from actions such as saving, requesting data over the network or sending analytics.</dd>
+<dt>What happens</dt>
+<dd>A pure function returns the same result with the same data. External actions are visible in properties such as <code>analytics</code>, called dependencies.</dd>
+<dt>Watch out</dt>
+<dd>Don&#39;t create protocols for simple operations that will never change. An extra layer only helps when there is a real need to replace or test that action.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>func profileTitle(for profile: UserProfile) -&gt; String {
     profile.name.isEmpty ? &quot;Perfil&quot; : &quot;Perfil de \(profile.name)&quot;
@@ -863,24 +863,24 @@ struct ProfileOpeningHandler {
     </div>
   </div>
 </details>
-<details class="study-card" id="9-recibir-dependencias-desde-fuera">
+<details class="study-card" id="9-receive-dependencies-from-outside">
   <summary>
-    <span class="card-title">9. Recibir dependencias desde fuera</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">9. Receive dependencies from outside</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Un tipo debería recibir las herramientas que necesita en vez de crearlas y ocultarlas dentro.</dd>
-<dt>Qué ocurre</dt>
-<dd>La inyección de dependencias pasa el repositorio por el <code>init</code>. Así, el mismo ViewModel puede usar datos reales, en memoria o preparados para una prueba.</dd>
-<dt>Cuidado</dt>
-<dd>Inyectar dependencias no obliga a crear un protocolo para cada tipo. Usa una abstracción cuando realmente necesites más de una implementación o una frontera de prueba.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A type should receive the tools it needs instead of creating and hiding them internally.</dd>
+<dt>What happens</dt>
+<dd>Dependency injection passes the repository through <code>init</code>. The same ViewModel can then use a production repository, an in-memory implementation, or a test double.</dd>
+<dt>Watch out</dt>
+<dd>Injecting dependencies does not require a protocol for every type. Add an abstraction when you need interchangeable implementations or a meaningful testing boundary.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>protocol ProfileFetching: Sendable {
     func fetchProfile(id: UUID) async throws -&gt; UserProfile
@@ -902,24 +902,24 @@ final class ProfileViewModel {
     </div>
   </div>
 </details>
-<details class="study-card" id="10-tareas-asincronas-y-estado-de-pantalla">
+<details class="study-card" id="10-asynchronous-tasks-and-screen-state">
   <summary>
-    <span class="card-title">10. Tareas asíncronas y estado de pantalla</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">10. Asynchronous tasks and screen state</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Cuando varias tareas pueden ejecutarse a la vez, el código debe dejar claro dónde se puede leer y cambiar cada estado.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>@MainActor</code> protege el estado usado por la interfaz; <code>await</code> señala que la función puede pausarse; <code>CancellationError</code> indica que la tarea fue cancelada, no que el usuario cometió un error.</dd>
-<dt>Cuidado</dt>
-<dd>No hagas cálculos pesados en <code>MainActor</code> porque pueden congelar la interfaz. Después de un <code>await</code>, comprueba de nuevo los datos que podrían haber cambiado mientras la tarea estaba pausada.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>When multiple tasks can run at once, the code should make it clear where each state can be read and changed.</dd>
+<dt>What happens</dt>
+<dd><code>@MainActor</code> protects the state used by the interface; <code>await</code> notes that the function can be paused; <code>CancellationError</code> indicates that the task was canceled, not that the user made an error.</dd>
+<dt>Watch out</dt>
+<dd>Do not perform heavy calculations on <code>MainActor</code>, because they can freeze the interface. After an <code>await</code>, check again for data that may have changed while the task was suspended.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>@MainActor
 final class ProfileViewModel {
@@ -943,24 +943,24 @@ final class ProfileViewModel {
     </div>
   </div>
 </details>
-<details class="study-card" id="11-evitar-ciclos-de-memoria">
+<details class="study-card" id="11-avoid-memory-cycles">
   <summary>
-    <span class="card-title">11. Evitar ciclos de memoria</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">11. Avoid memory cycles</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Si una clase guarda una closure que también conserva a esa clase, ninguna de las dos puede liberarse.</dd>
-<dt>Qué ocurre</dt>
-<dd>ARC administra la memoria de las clases. Una captura <code>weak</code> no mantiene viva la instancia y pasa a <code>nil</code> cuando esa instancia se libera.</dd>
-<dt>Cuidado</dt>
-<dd>No agregues <code>[weak self]</code> a todas las closures por costumbre. Usa <code>unowned</code> solo si puedes garantizar que la referencia seguirá viva; si no, la app puede cerrarse.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>If a class holds a closure that also holds that class, neither class can be freed.</dd>
+<dt>What happens</dt>
+<dd>ARC manages class-instance memory. A <code>weak</code> capture does not keep the instance alive and becomes <code>nil</code> when that instance is released.</dd>
+<dt>Watch out</dt>
+<dd>Do not add <code>[weak self]</code> to every closure by habit. Use <code>unowned</code> only when the reference is guaranteed to remain alive; otherwise, accessing it traps.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>final class SearchController {
     var onRefresh: (() -&gt; Void)?
@@ -978,29 +978,29 @@ final class ProfileViewModel {
 </details>
 
 </section>
-<section class="guide-section" id="verificacion-y-evolucion">
+<section class="guide-section" id="verification-and-evolution">
   <div class="section-heading">
-    <h2>Verificación y evolución</h2>
-    <span>3 subtemas</span>
+    <h2>Verification and evolution</h2>
+    <span>3 topics</span>
   </div>
-  <details class="study-card" id="12-pruebas-que-verifican-resultados">
+  <details class="study-card" id="12-tests-that-verify-results">
   <summary>
-    <span class="card-title">12. Pruebas que verifican resultados</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">12. Tests that verify results</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Una prueba debería comprobar lo que recibe quien usa el código, no cómo está construido por dentro.</dd>
-<dt>Qué ocurre</dt>
-<dd>Un spy registra acciones que interesa observar. Swift Testing usa <code>@Test</code> y <code>#expect</code> dentro de un target de pruebas.</dd>
-<dt>Cuidado</dt>
-<dd><code>assert</code> ayuda a demostrar una idea en un playground, pero no reemplaza pruebas ejecutadas por Xcode y por la integración continua (CI).</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A test should test what the user of the code receives, not how it is built inside.</dd>
+<dt>What happens</dt>
+<dd>A spy records actions that are interesting to observe. Swift Testing uses <code>@Test</code> and <code>#expect</code> within a test target.</dd>
+<dt>Watch out</dt>
+<dd><code>assert</code> helps demonstrate an idea in a playground, but it does not replace tests run by Xcode and continuous integration (CI).</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>@Test
 func openingProfileTracksEvent() {
@@ -1016,24 +1016,24 @@ func openingProfileTracksEvent() {
     </div>
   </div>
 </details>
-<details class="study-card" id="13-reutilizar-sin-forzar">
+<details class="study-card" id="13-reuse-without-forcing">
   <summary>
-    <span class="card-title">13. Reutilizar sin forzar</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">13. Reuse without forcing</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>DRY busca no repetir una misma regla, pero dos fragmentos parecidos no siempre representan la misma idea.</dd>
-<dt>Qué ocurre</dt>
-<dd>Mantener separadas las fórmulas del rectángulo y el triángulo permite que cada una cambie por su propia razón.</dd>
-<dt>Cuidado</dt>
-<dd>A veces repetir dos líneas es más claro que crear una solución compartida que después necesita excepciones para funcionar.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>DRY seeks not to repeat the same rule, but two similar fragments do not always represent the same idea.</dd>
+<dt>What happens</dt>
+<dd>Keeping the rectangle and triangle formulas separate allows each to change for its own reason.</dd>
+<dt>Watch out</dt>
+<dd>Sometimes repeating two lines is clearer than creating a shared solution that then needs exceptions to work.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>// Dos dominios diferentes: no se fuerza una dependencia.
 func rectangleArea(width: Double, height: Double) -&gt; Double {
@@ -1047,24 +1047,24 @@ func triangleArea(base: Double, height: Double) -&gt; Double {
     </div>
   </div>
 </details>
-<details class="study-card" id="14-ordenar-sin-cambiar-resultados">
+<details class="study-card" id="14-sort-without-changing-results">
   <summary>
-    <span class="card-title">14. Ordenar sin cambiar resultados</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">14. Sort without changing results</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Refactorizar significa mejorar la organización del código manteniendo el mismo resultado para quien lo usa.</dd>
-<dt>Qué ocurre</dt>
-<dd>Las pruebas confirman que entradas importantes producen el mismo resultado antes y después de ordenar el código.</dd>
-<dt>Cuidado</dt>
-<dd>Agregar una regla, validación o resultado nuevo no es solo refactorizar: también cambia el comportamiento y necesita pruebas nuevas.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Refactoring means improving the organization of the code while maintaining the same result for whoever uses it.</dd>
+<dt>What happens</dt>
+<dd>Tests confirm that important inputs produce the same result before and after reorganizing the code.</dd>
+<dt>Watch out</dt>
+<dd>Adding a new rule, validation, or result isn&#39;t just refactoring: it also changes behavior and requires new testing.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>enum ShippingPolicy {
     static let freeThreshold = 50.0
@@ -1083,29 +1083,29 @@ func shippingCost(subtotal: Double) -&gt; Double {
 </details>
 
 </section>
-<section class="guide-section" id="aplicarlo-con-criterio">
+<section class="guide-section" id="apply-it-judiciously">
   <div class="section-heading">
-    <h2>Aplicarlo con criterio</h2>
-    <span>1 subtema</span>
+    <h2>Apply it judiciously</h2>
+    <span>1 topic</span>
   </div>
-  <details class="study-card" id="15-lista-de-revision">
+  <details class="study-card" id="15-checklist">
   <summary>
-    <span class="card-title">15. Lista de revisión</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">15. Checklist</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Clean Code busca que un cambio sea fácil y seguro, no que el proyecto tenga la mayor cantidad de capas.</dd>
-<dt>Qué ocurre</dt>
-<dd>Antes de crear una abstracción, identifica qué dato cambia, qué resultado prometes, qué alternativa existe y qué acción externa necesitas controlar.</dd>
-<dt>Cuidado</dt>
-<dd>Tener funciones cortas, muchos protocolos o alta cobertura no garantiza claridad. Lo importante es que el comportamiento sea comprensible y comprobable.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Clean Code seeks to make a change easy and safe, not for the project to have the greatest number of layers.</dd>
+<dt>What happens</dt>
+<dd>Before creating an abstraction, identify what data changes, what outcome you promise, what alternative exists, and what external action you need to control.</dd>
+<dt>Watch out</dt>
+<dd>Having short functions, many protocols or high coverage does not guarantee clarity. The important thing is that the behavior is understandable and verifiable.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>// Preguntas antes de crear una abstracción:
 // 1. ¿Qué variación real resuelve?
@@ -1120,9 +1120,9 @@ func shippingCost(subtotal: Double) -&gt; Double {
 
 </section>
 
-    <div class="empty" id="emptyState">No se encontraron subtemas con esa búsqueda.</div>
+    <div class="empty" id="emptyState">No topics match that search.</div>
     <footer class="sources">
-      <strong>Fuentes principales:</strong>
+      <strong>Main sources:</strong>
       <a href="https://www.swift.org/documentation/api-design-guidelines/" target="_blank" rel="noreferrer">Swift API Design Guidelines</a><a href="https://developer.apple.com/documentation/xcode/writing-documentation" target="_blank" rel="noreferrer">Writing documentation</a><a href="https://developer.apple.com/documentation/testing" target="_blank" rel="noreferrer">Swift Testing</a><a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/" target="_blank" rel="noreferrer">Automatic Reference Counting</a><a href="https://martinfowler.com/bliki/DefinitionOfRefactoring.html" target="_blank" rel="noreferrer">Definition of Refactoring</a>
     </footer>
   </main>
@@ -1140,7 +1140,7 @@ func shippingCost(subtotal: Double) -&gt; Double {
     const setSidebarOpen = (open) => {
       sidebar.classList.toggle("open", open);
       menuButton.setAttribute("aria-expanded", String(open));
-      menuButton.textContent = open ? "Cerrar" : "Contenido";
+      menuButton.textContent = open ? "Close" : "Contents";
     };
 
     const normalizeText = (value) => {
@@ -1173,8 +1173,8 @@ func shippingCost(subtotal: Double) -&gt; Double {
       });
 
       searchStatus.textContent = query
-        ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
-        : `${cards.length} subtemas disponibles`;
+        ? `${matches} ${matches === 1 ? "topic found" : "topics found"}`
+        : `${cards.length} topics available`;
       clearSearch.hidden = !search.value;
       emptyState.style.display = matches ? "none" : "block";
     };
@@ -1205,11 +1205,11 @@ func shippingCost(subtotal: Double) -&gt; Double {
         const value = button.closest(".code-block").querySelector("code").textContent;
         try {
           await navigator.clipboard.writeText(value);
-          button.textContent = "Copiado";
+          button.textContent = "Copied";
         } catch {
-          button.textContent = "No disponible";
+          button.textContent = "Unavailable";
         }
-        setTimeout(() => { button.textContent = "Copiar"; }, 1100);
+        setTimeout(() => { button.textContent = "Copy"; }, 1100);
       });
     });
 

@@ -1,11 +1,37 @@
 #!/usr/bin/env ruby
 
 require "cgi"
+require "fileutils"
 
 ROOT = File.expand_path("..", __dir__)
-SOURCE = File.join(ROOT, "tools", "study_guide_full.md")
-OUTPUT = File.join(ROOT, "docs", "index.html")
+LANGUAGE = ENV.fetch("GUIDE_LANGUAGE", "es")
+raise "GUIDE_LANGUAGE debe ser es o en" unless %w[es en].include?(LANGUAGE)
+
+ENGLISH = LANGUAGE == "en"
+SOURCE = File.join(ROOT, "tools", ENGLISH ? "study_guide_full_en.md" : "study_guide_full.md")
+OUTPUT = File.join(ROOT, "docs", ENGLISH ? "en/index.html" : "index.html")
 REPOSITORY_URL = "https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds"
+UI = {
+  eyebrow: ENGLISH ? "REFERENCE GUIDE" : "GUÍA DE REFERENCIA",
+  summary: ENGLISH ? "20 chapters · syntax · behavior · limits · official terminology" : "20 capítulos · sintaxis · comportamiento · límites · nomenclatura oficial",
+  note: ENGLISH ? "Examples are short usage fragments. Some depend on types or variables defined in their chapter." : "Los ejemplos son fragmentos breves de uso. Algunos dependen de tipos o variables definidos en su capítulo.",
+  guides: ENGLISH ? "Study guides" : "Guías de estudio",
+  current: ENGLISH ? "Current" : "Actual",
+  chapters: ENGLISH ? "chapters" : "capítulos",
+  practical_topics: ENGLISH ? "practical topics" : "temas prácticos",
+  design_topics: ENGLISH ? "design topics" : "temas de diseño",
+  search: ENGLISH ? "Search concept…" : "Buscar concepto…",
+  clear_search: ENGLISH ? "Clear search" : "Limpiar búsqueda",
+  available: ENGLISH ? "chapters available" : "capítulos disponibles",
+  expand: ENGLISH ? "Expand" : "Expandir",
+  collapse: ENGLISH ? "Collapse" : "Plegar",
+  print: ENGLISH ? "Print" : "Imprimir",
+  menu: ENGLISH ? "Chapters" : "Capítulos",
+  close: ENGLISH ? "Close" : "Cerrar",
+  copy: ENGLISH ? "Copy" : "Copiar",
+  copied: ENGLISH ? "Copied" : "Copiado",
+  unavailable: ENGLISH ? "Unavailable" : "No disponible"
+}.freeze
 
 EXAMPLES_BY_CHAPTER = {
   0 => [
@@ -146,7 +172,7 @@ EXAMPLES_BY_CHAPTER = {
   ],
   9 => [
     %q{struct User { var name: String }},
-    %q{struct AppSettings { static var language = "es" }},
+    %q{struct AppSettings { @MainActor static var language = "es" }},
     "class Animal {\n    class var category: String { \"Animal\" }\n}",
     "struct Rectangle {\n    var width: Double\n    var height: Double\n    var area: Double { width * height }\n}",
     "struct Rectangle {\n    var width: Double\n    var height: Double\n    var area: Double { get { width * height } }\n}",
@@ -173,7 +199,7 @@ EXAMPLES_BY_CHAPTER = {
     "func makeCounter() -> () -> Int {\n    var value = 0\n    return { value += 1; return value }\n}",
     "var total = 0\nlet add = { total += 1 }",
     "let counter = makeCounter()\nlet sameCounter = counter\nprint(counter(), sameCounter())",
-    "func load(completion: @escaping () -> Void) {\n    DispatchQueue.main.async { completion() }\n}",
+    "final class Loader {\n    private var pending: (() -> Void)?\n\n    func load(completion: @escaping () -> Void) {\n        pending = completion\n    }\n\n    func finish() {\n        pending?()\n        pending = nil\n    }\n}\n\nlet loader = Loader()\nloader.load { print(\"Listo\") }\nloader.finish()",
     "func assertPositive(_ value: @autoclosure () -> Bool) {\n    if !value() { print(\"Inválido\") }\n}\nassertPositive(score > 0)"
   ],
   11 => [
@@ -339,9 +365,9 @@ def render_markdown(markdown)
     next if paragraph.empty?
 
     text = paragraph.join(" ")
-    if text.start_with?("**Objetivo:**")
+    if text.start_with?(ENGLISH ? "**Objective:**" : "**Objetivo:**")
       html << "<div class=\"chapter-objective\">#{inline_markdown(text)}</div>"
-    elsif text.start_with?("[Abrir playground]")
+    elsif text.start_with?(ENGLISH ? "[Open playground]" : "[Abrir playground]")
       html << "<p class=\"source-link\">#{inline_markdown(text)}</p>"
     else
       html << "<p>#{inline_markdown(text)}</p>"
@@ -373,7 +399,7 @@ def render_markdown(markdown)
     if in_code
       if line.start_with?("```")
         language_class = code_language.empty? ? "" : %( class="language-#{CGI.escapeHTML(code_language)}")
-        html << %(<pre><code#{language_class}>#{CGI.escapeHTML(code_lines.join("\n"))}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>)
+        html << %(<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="#{UI[:copy]}" aria-live="polite">#{UI[:copy]}</button></div><pre><code#{language_class}>#{CGI.escapeHTML(code_lines.join("\n"))}</code></pre></div>)
         in_code = false
         code_language = ""
         code_lines.clear
@@ -400,10 +426,10 @@ def render_markdown(markdown)
 
       if level == 1
         html << %(<header class="hero" id="#{id}">)
-        html << "  <p class=\"eyebrow\">GUÍA DE REFERENCIA</p>"
+        html << "  <p class=\"eyebrow\">#{UI[:eyebrow]}</p>"
         html << "  <h1>#{inline_markdown(title)}</h1>"
-        html << "  <p class=\"hero-summary\">20 capítulos · sintaxis · comportamiento · límites · nomenclatura oficial</p>"
-        html << "  <p class=\"hero-note\">Los ejemplos son fragmentos breves de uso. Algunos dependen de tipos o variables definidos en su capítulo.</p>"
+        html << "  <p class=\"hero-summary\">#{UI[:summary]}</p>"
+        html << "  <p class=\"hero-note\">#{UI[:note]}</p>"
         html << "</header>"
       elsif level == 2
         close_section.call
@@ -414,15 +440,15 @@ def render_markdown(markdown)
         html << %(<section class="#{classes}" id="#{id}" data-search="#{CGI.escapeHTML(title.downcase)}">)
         html << "  <div class=\"chapter-heading\">"
         html << "    <h2>#{inline_markdown(title)}</h2>"
-        html << "    <button class=\"chapter-toggle\" type=\"button\" aria-expanded=\"true\" aria-label=\"Plegar capítulo\">−</button>"
+        html << "    <button class=\"chapter-toggle\" type=\"button\" aria-expanded=\"true\" aria-label=\"#{ENGLISH ? "Collapse chapter" : "Plegar capítulo"}\">−</button>"
         html << "  </div>"
         html << "    <div class=\"chapter-body\">"
         section_open = true
       else
         close_details.call
-        if title == "Nomenclatura oficial"
+        if title == (ENGLISH ? "Official nomenclature" : "Nomenclatura oficial")
           html << "    <details class=\"terminology\">"
-          html << "      <summary>Nomenclatura oficial <span>Ver términos</span></summary>"
+          html << "      <summary>#{ENGLISH ? "Official terminology" : "Nomenclatura oficial"} <span>#{ENGLISH ? "View terms" : "Ver términos"}</span></summary>"
           html << "      <div class=\"terminology-body\">"
           details_open = true
         else
@@ -464,7 +490,7 @@ def render_markdown(markdown)
         html << "<details class=\"study-card\">"
         html << "  <summary>"
         html << "    <span class=\"study-card-title\">#{inline_markdown(root_content)}</span>"
-        html << "    <span class=\"card-action\">Ver detalle</span>"
+        html << "    <span class=\"card-action\">#{ENGLISH ? "View details" : "Ver detalle"}</span>"
         html << "  </summary>"
         html << "  <div class=\"study-card-body\">"
         html << "    <dl>"
@@ -478,8 +504,8 @@ def render_markdown(markdown)
         end
         html << "    </dl>"
         html << "    <div class=\"example-block\">"
-        html << "      <div class=\"example-label\">Ejemplo de uso</div>"
-        html << %(<pre><code class="language-swift">#{CGI.escapeHTML(example)}</code><button class="copy-code" type="button" aria-label="Copiar código" aria-live="polite">Copiar</button></pre>)
+        html << "      <div class=\"example-label\">#{ENGLISH ? "Usage example" : "Ejemplo de uso"}</div>"
+        html << %(<div class="code-block"><div class="code-toolbar"><button class="copy-code" type="button" aria-label="#{UI[:copy]}" aria-live="polite">#{UI[:copy]}</button></div><pre><code class="language-swift">#{CGI.escapeHTML(example)}</code></pre></div>)
         html << "    </div>"
         html << "  </div>"
         html << "</details>"
@@ -554,14 +580,14 @@ end.join
 
 document = <<~HTML
   <!doctype html>
-  <html lang="es">
+  <html lang="#{LANGUAGE}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Guía de estudio de Swift: palabras clave, comportamiento, límites y nomenclatura oficial.">
+    <meta name="description" content="#{ENGLISH ? "Swift study guide: keywords, behavior, limits, and official terminology." : "Guía de estudio de Swift: palabras clave, comportamiento, límites y nomenclatura oficial."}">
     <meta name="theme-color" content="#e6532f" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#111b24" media="(prefers-color-scheme: dark)">
-    <title>Swift · Guía de estudio</title>
+    <title>Swift · #{ENGLISH ? "Study guide" : "Guía de estudio"}</title>
     <style>
       :root {
         color-scheme: light;
@@ -763,6 +789,26 @@ document = <<~HTML
 
       .guide-link.active .guide-link-action {
         color: var(--accent);
+      }
+
+      .language-switcher {
+        display: flex;
+        gap: 6px;
+        margin: 0 0 18px 8px;
+        font-size: 0.78rem;
+      }
+
+      .language-switcher a,
+      .language-switcher span {
+        padding: 4px 8px;
+        border-radius: 7px;
+        color: var(--sidebar-text);
+        text-decoration: none;
+      }
+
+      .language-switcher [aria-current="page"] {
+        background: var(--accent);
+        color: #fff;
       }
 
       .search {
@@ -1073,7 +1119,7 @@ document = <<~HTML
       }
 
       .terminology[open] summary span::before {
-        content: "Ocultar términos";
+        content: "#{ENGLISH ? "Hide terms" : "Ocultar términos"}";
         font-size: 0.76rem;
       }
 
@@ -1168,7 +1214,7 @@ document = <<~HTML
       }
 
       details.study-card[open] .card-action::before {
-        content: "Ocultar detalle";
+        content: "#{ENGLISH ? "Hide details" : "Ocultar detalle"}";
       }
 
       details.study-card[open] .card-action {
@@ -1216,7 +1262,7 @@ document = <<~HTML
         text-transform: uppercase;
       }
 
-      .example-block pre {
+      .example-block .code-block {
         margin: 0;
       }
 
@@ -1224,12 +1270,25 @@ document = <<~HTML
         padding-left: 1.4rem;
       }
 
-      pre {
-        position: relative;
-        overflow-x: auto;
+      .code-block {
         margin: 18px 0;
-        padding: 22px;
+        overflow: hidden;
         border-radius: 14px;
+        background: var(--code-bg);
+      }
+
+      .code-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        min-height: 44px;
+        padding: 0 10px;
+        border-bottom: 1px solid #42525e;
+      }
+
+      pre {
+        overflow-x: auto;
+        margin: 0;
+        padding: 22px;
         background: var(--code-bg);
         color: var(--code-text);
       }
@@ -1243,9 +1302,6 @@ document = <<~HTML
       }
 
       .copy-code {
-        position: absolute;
-        top: 10px;
-        right: 10px;
         min-width: 44px;
         min-height: 44px;
         padding: 5px 9px;
@@ -1355,6 +1411,7 @@ document = <<~HTML
         .mobile-bar,
         .progress,
         .chapter-toggle,
+        .code-toolbar,
         .copy-code {
           display: none !important;
         }
@@ -1395,8 +1452,8 @@ document = <<~HTML
   <body>
     <div class="progress" id="progress"></div>
     <div class="mobile-bar">
-      <strong>Swift · Estudio</strong>
-      <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button>
+      <strong>Swift · #{ENGLISH ? "Study" : "Estudio"}</strong>
+      <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">#{UI[:menu]}</button>
     </div>
     <div class="layout">
       <aside class="sidebar" id="sidebar">
@@ -1404,42 +1461,45 @@ document = <<~HTML
           <div class="brand-mark">S</div>
           <div>
             <strong>Swift Study</strong>
-            <small>20 capítulos</small>
+            <small>20 #{UI[:chapters]}</small>
           </div>
         </div>
-        <nav class="guide-switcher" aria-label="Guías de estudio">
-          <div class="guide-switcher-label">Guías de estudio</div>
+        <nav class="guide-switcher" aria-label="#{UI[:guides]}">
+          <div class="guide-switcher-label">#{UI[:guides]}</div>
           <span class="guide-link active" aria-current="page">
-            <span><strong>Swift</strong><small>Actual · 20 capítulos</small></span>
+            <span><strong>Swift</strong><small>#{UI[:current]} · 20 #{UI[:chapters]}</small></span>
             <span class="guide-link-action" aria-hidden="true">✓</span>
           </span>
           <a class="guide-link" href="clean-code.html">
-            <span><strong>Clean Code</strong><small>15 temas prácticos</small></span>
+            <span><strong>Clean Code</strong><small>15 #{UI[:practical_topics]}</small></span>
             <span class="guide-link-action" aria-hidden="true">→</span>
           </a>
           <a class="guide-link" href="solid.html">
-            <span><strong>SOLID</strong><small>10 temas de diseño</small></span>
+            <span><strong>SOLID</strong><small>10 #{UI[:design_topics]}</small></span>
             <span class="guide-link-action" aria-hidden="true">→</span>
           </a>
         </nav>
+        <nav class="language-switcher" aria-label="#{ENGLISH ? "Language" : "Idioma"}">
+          #{ENGLISH ? %(<a href="../index.html" hreflang="es">ES</a><span aria-current="page">EN</span>) : %(<span aria-current="page">ES</span><a href="en/index.html" hreflang="en">EN</a>)}
+        </nav>
         <div class="search-wrap">
-          <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
-          <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+          <input class="search" id="search" type="search" placeholder="#{UI[:search]}" aria-label="#{UI[:search]}" autocomplete="off">
+          <button class="clear-search" id="clearSearch" type="button" aria-label="#{UI[:clear_search]}" hidden>×</button>
         </div>
-        <div class="search-status" id="searchStatus" aria-live="polite">20 capítulos disponibles</div>
-        <div class="nav-label">Capítulos</div>
+        <div class="search-status" id="searchStatus" aria-live="polite">20 #{UI[:available]}</div>
+        <div class="nav-label">#{ENGLISH ? "Chapters" : "Capítulos"}</div>
         <nav id="navigation">
           #{navigation}
         </nav>
         <div class="sidebar-actions">
-          <button id="expandAll" type="button">Expandir</button>
-          <button id="collapseAll" type="button">Plegar</button>
-          <button id="printButton" type="button">Imprimir</button>
+          <button id="expandAll" type="button">#{UI[:expand]}</button>
+          <button id="collapseAll" type="button">#{UI[:collapse]}</button>
+          <button id="printButton" type="button">#{UI[:print]}</button>
         </div>
       </aside>
       <main class="main">
         #{content}
-        <div class="empty-state" id="emptyState">No se encontraron conceptos con esa búsqueda.</div>
+        <div class="empty-state" id="emptyState">#{ENGLISH ? "No concepts matched this search." : "No se encontraron conceptos con esa búsqueda."}</div>
       </main>
     </div>
     <script>
@@ -1459,13 +1519,13 @@ document = <<~HTML
         chapter.classList.toggle("collapsed", !expanded);
         button.textContent = expanded ? "−" : "+";
         button.setAttribute("aria-expanded", String(expanded));
-        button.setAttribute("aria-label", expanded ? "Plegar capítulo" : "Expandir capítulo");
+        button.setAttribute("aria-label", expanded ? "#{ENGLISH ? "Collapse chapter" : "Plegar capítulo"}" : "#{ENGLISH ? "Expand chapter" : "Expandir capítulo"}");
       };
 
       const setSidebarOpen = (open) => {
         sidebar.classList.toggle("open", open);
         menuButton.setAttribute("aria-expanded", String(open));
-        menuButton.textContent = open ? "Cerrar" : "Capítulos";
+        menuButton.textContent = open ? "#{UI[:close]}" : "#{UI[:menu]}";
       };
 
       document.querySelectorAll(".chapter-toggle").forEach((button) => {
@@ -1540,8 +1600,8 @@ document = <<~HTML
         clearSearch.hidden = !search.value;
         emptyState.style.display = matchingChapters ? "none" : "block";
         searchStatus.textContent = query
-          ? `${matchingChapters} ${matchingChapters === 1 ? "capítulo" : "capítulos"} · ${matchingCards} ${matchingCards === 1 ? "subpunto" : "subpuntos"}`
-          : `${numberedChapters.length} capítulos disponibles`;
+          ? `${matchingChapters} ${matchingChapters === 1 ? "#{ENGLISH ? "chapter" : "capítulo"}" : "#{UI[:chapters]}"} · ${matchingCards} ${matchingCards === 1 ? "#{ENGLISH ? "subtopic" : "subpunto"}" : "#{ENGLISH ? "subtopics" : "subpuntos"}"}`
+          : `${numberedChapters.length} #{UI[:available]}`;
       };
 
       search.addEventListener("input", runSearch);
@@ -1560,14 +1620,14 @@ document = <<~HTML
 
       document.querySelectorAll(".copy-code").forEach((button) => {
         button.addEventListener("click", async () => {
-          const code = button.parentElement.querySelector("code").textContent;
+          const code = button.closest(".code-block").querySelector("code").textContent;
           try {
             await navigator.clipboard.writeText(code);
-            button.textContent = "Copiado";
+            button.textContent = "#{UI[:copied]}";
           } catch {
-            button.textContent = "No disponible";
+            button.textContent = "#{UI[:unavailable]}";
           }
-          setTimeout(() => { button.textContent = "Copiar"; }, 1200);
+          setTimeout(() => { button.textContent = "#{UI[:copy]}"; }, 1200);
         });
       });
 
@@ -1626,5 +1686,6 @@ document = <<~HTML
   </html>
 HTML
 
+FileUtils.mkdir_p(File.dirname(OUTPUT))
 File.write(OUTPUT, document, mode: "w", encoding: "UTF-8")
 puts "Generated #{OUTPUT}"

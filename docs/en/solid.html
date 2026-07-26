@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SOLID reúne cinco ideas para que un cambio afecte la menor cantidad posible de código. Esta guía las aplica a una pantalla de perfiles y muestra cuándo ayudan y cuándo solo agregan complejidad.">
+  <meta name="description" content="SOLID brings together five ideas so that a change affects the least amount of code possible. This guide applies them to a profiles screen and shows when they help and when they just add complexity.">
   <meta name="theme-color" content="#5661d8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#3e48b8" media="(prefers-color-scheme: dark)">
-  <title>SOLID en Swift e iOS · Swift Study</title>
+  <title>SOLID in Swift and iOS · Swift Study</title>
   <style>
     :root {
       color-scheme: light;
@@ -359,7 +359,7 @@
     .card-title { font-weight: 760; }
     .card-action { color: var(--muted); font-size: .74rem; white-space: nowrap; }
     .study-card[open] .card-action { font-size: 0; }
-    .study-card[open] .card-action::after { content: "Ocultar"; font-size: .74rem; }
+    .study-card[open] .card-action::after { content: "Hide"; font-size: .74rem; }
     .card-body { padding: 18px; }
     dl {
       display: grid;
@@ -496,78 +496,78 @@
   <div class="progress" id="progress"></div>
   <div class="mobile-bar">
     <strong>SOLID · iOS</strong>
-    <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contenido</button>
+    <button id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false">Contents</button>
   </div>
   <aside class="sidebar" id="sidebar">
     <a class="brand" href="index.html">
       <span class="brand-mark">S</span>
-      <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
+      <span><strong>Swift Study</strong><small>iOS design guides</small></span>
     </a>
-    <nav class="guide-switcher" aria-label="Guías de estudio">
-      <div class="guide-switcher-label">Guías de estudio</div>
-      <a class="guide-link" href="index.html"><span><strong>Swift</strong><small>20 capítulos</small></span>
-<span class="guide-link-action" aria-hidden="true">→</span></a><a class="guide-link" href="clean-code.html"><span><strong>Clean Code</strong><small>15 temas prácticos</small></span>
-<span class="guide-link-action" aria-hidden="true">→</span></a><span class="guide-link active" aria-current="page"><span><strong>SOLID</strong><small>Actual · 10 temas de diseño</small></span>
+    <nav class="guide-switcher" aria-label="Study guides">
+      <div class="guide-switcher-label">Study guides</div>
+      <a class="guide-link" href="index.html"><span><strong>Swift</strong><small>20 chapters</small></span>
+<span class="guide-link-action" aria-hidden="true">→</span></a><a class="guide-link" href="clean-code.html"><span><strong>Clean Code</strong><small>15 practical topics</small></span>
+<span class="guide-link-action" aria-hidden="true">→</span></a><span class="guide-link active" aria-current="page"><span><strong>SOLID</strong><small>Current · 10 design topics</small></span>
 <span class="guide-link-action" aria-hidden="true">✓</span></span>
     </nav>
     <nav class="language-switcher" aria-label="Language / Idioma">
-      <span aria-current="page">ES</span><a href="en/solid.html" hreflang="en">EN</a>
+      <a href="../solid.html" hreflang="es">ES</a><span aria-current="page">EN</span>
     </nav>
     <div class="search-wrap">
-      <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto…" autocomplete="off">
-      <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+      <input class="search" id="search" type="search" placeholder="Search concept…" aria-label="Search concept…" autocomplete="off">
+      <button class="clear-search" id="clearSearch" type="button" aria-label="Clear search" hidden>×</button>
     </div>
-    <div class="search-status" id="searchStatus" aria-live="polite">10 subtemas disponibles</div>
-    <div class="nav-label">Contenido</div>
-    <nav><a class="section-link" href="#principios-solid" data-target="principios-solid">
-  <span>1</span>Principios SOLID
+    <div class="search-status" id="searchStatus" aria-live="polite">10 topics available</div>
+    <div class="nav-label">Contents</div>
+    <nav><a class="section-link" href="#solid-principles" data-target="solid-principles">
+  <span>1</span>SOLID principles
 </a>
-<a class="section-link" href="#como-conectar-las-piezas" data-target="como-conectar-las-piezas">
-  <span>2</span>Cómo conectar las piezas
+<a class="section-link" href="#how-to-connect-the-parts" data-target="how-to-connect-the-parts">
+  <span>2</span>How to connect the parts
 </a>
-<a class="section-link" href="#aplicarlo-con-criterio" data-target="aplicarlo-con-criterio">
-  <span>3</span>Aplicarlo con criterio
+<a class="section-link" href="#apply-it-judiciously" data-target="apply-it-judiciously">
+  <span>3</span>Apply it judiciously
 </a>
 </nav>
     <div class="sidebar-actions">
-      <button id="expandAll" type="button">Expandir</button>
-      <button id="collapseAll" type="button">Plegar</button>
-      <button id="printButton" type="button">Imprimir</button>
+      <button id="expandAll" type="button">Expand</button>
+      <button id="collapseAll" type="button">Collapse</button>
+      <button id="printButton" type="button">Print</button>
     </div>
   </aside>
   <main class="main">
     <header class="hero">
-      <div class="eyebrow">PRINCIPIOS DE DISEÑO</div>
-      <h1>SOLID en Swift e iOS</h1>
-      <p>SOLID reúne cinco ideas para que un cambio afecte la menor cantidad posible de código. Esta guía las aplica a una pantalla de perfiles y muestra cuándo ayudan y cuándo solo agregan complejidad.</p>
-      <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
+      <div class="eyebrow">DESIGN PRINCIPLES</div>
+      <h1>SOLID in Swift and iOS</h1>
+      <p>SOLID brings together five ideas so that a change affects the least amount of code possible. This guide applies them to a profiles screen and shows when they help and when they just add complexity.</p>
+      <p class="hero-note">Web examples focus on one concept. The linked playground contains the complete, runnable, and verified implementation.</p>
       <div class="hero-actions">
-        <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/SOLID/SOLID.playground/Contents.swift" target="_blank" rel="noreferrer">Abrir playground</a>
+        <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/SOLID/SOLID.playground/Contents.swift" target="_blank" rel="noreferrer">Open playground</a>
       </div>
     </header>
-    <section class="guide-section" id="principios-solid">
+    <section class="guide-section" id="solid-principles">
   <div class="section-heading">
-    <h2>Principios SOLID</h2>
-    <span>5 subtemas</span>
+    <h2>SOLID principles</h2>
+    <span>5 topics</span>
   </div>
-  <details class="study-card" id="s-una-responsabilidad-clara-srp">
+  <details class="study-card" id="s-a-clear-responsibility-srp">
   <summary>
-    <span class="card-title">S · Una responsabilidad clara (SRP)</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">S · A clear responsibility (SRP)</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Una pieza de código debería encargarse de una tarea que pueda explicarse con claridad.</dd>
-<dt>Qué ocurre</dt>
-<dd>Descargar, convertir, guardar y mostrar un perfil son tareas distintas. <code>ProfileImporter</code> las coordina, pero cada detalle puede cambiar sin reescribir los demás.</dd>
-<dt>Cuidado</dt>
-<dd>SRP no significa crear un tipo por cada línea o método. Si todo cambia por la misma razón y se entiende junto, puede permanecer junto.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A piece of code should take care of a task that can be clearly explained.</dd>
+<dt>What happens</dt>
+<dd>Downloading, converting, saving and displaying a profile are different tasks. <code>ProfileImporter</code> coordinates them, but each detail can change without rewriting the others.</dd>
+<dt>Watch out</dt>
+<dd>SRP does not mean creating a type for each line or method. If everything changes for the same reason and is understood together, it can stay together.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>struct ProfileDecoder {
     func decode(_ data: Data) throws -&gt; Profile {
@@ -601,24 +601,24 @@ struct ProfileImporter {
     </div>
   </div>
 </details>
-<details class="study-card" id="o-agregar-opciones-sin-romper-lo-existente-ocp">
+<details class="study-card" id="or-add-options-without-breaking-what-exists-ocp">
   <summary>
-    <span class="card-title">O · Agregar opciones sin romper lo existente (OCP)</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">OR · Add options without breaking what exists (OCP)</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Si sabes que aparecerán nuevas opciones, intenta poder agregarlas sin reescribir el código que ya funciona.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>ProfileAnalytics</code> trabaja con cualquier objeto que cumpla <code>AnalyticsTracking</code>. Se puede agregar otro proveedor sin modificar el flujo que envía el evento.</dd>
-<dt>Cuidado</dt>
-<dd>“Cerrado al cambio” no significa código intocable. Corrige errores y requisitos; crea extensiones solo para alternativas que realmente existen o están previstas.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>If you know new options will appear, try to be able to add them without rewriting code that already works.</dd>
+<dt>What happens</dt>
+<dd><code>ProfileAnalytics</code> works with any object that meets <code>AnalyticsTracking</code>. Another provider can be added without modifying the flow that sends the event.</dd>
+<dt>Watch out</dt>
+<dd>“Closed for modification” does not mean untouchable code. Fix bugs and requirements; add extension points only for alternatives that exist or are planned.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>enum AnalyticsEvent: String {
     case profileOpened = &quot;profile_opened&quot;
@@ -650,24 +650,24 @@ analytics.profileOpened()
     </div>
   </div>
 </details>
-<details class="study-card" id="l-cumplir-la-misma-promesa-lsp">
+<details class="study-card" id="l-keep-the-same-promise-lsp">
   <summary>
-    <span class="card-title">L · Cumplir la misma promesa (LSP)</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">L · Keep the same promise (LSP)</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Si dos tipos prometen hacer lo mismo, quien los usa debería poder intercambiarlos y recibir un resultado equivalente.</dd>
-<dt>Qué ocurre</dt>
-<dd>Cada cargador de avatar debe devolver datos válidos cuando encuentra la imagen y lanzar <code>notFound</code> cuando no existe. La promesa incluye resultados y errores, no solo el nombre de la función.</dd>
-<dt>Cuidado</dt>
-<dd>Swift comprueba que la función tenga la firma correcta, pero no que respete su significado. Un tipo puede cumplir el protocolo y aun así devolver resultados inesperados.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>If two types promise to do the same thing, the user should be able to swap them and receive an equivalent result.</dd>
+<dt>What happens</dt>
+<dd>Each avatar loader must return valid data when it finds the image and throw <code>notFound</code> when it does not. The contract includes results and errors, not just the function name.</dd>
+<dt>Watch out</dt>
+<dd>Swift checks that the function has the correct signature, but not that it respects its meaning. A type can comply with the protocol and still return unexpected results.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>protocol AvatarDataLoading {
     func loadAvatar(for id: UUID) throws -&gt; Data
@@ -687,24 +687,24 @@ struct CachedAvatarLoader: AvatarDataLoading {
     </div>
   </div>
 </details>
-<details class="study-card" id="i-pedir-solo-lo-necesario-isp">
+<details class="study-card" id="i-order-only-what-is-necessary-isp">
   <summary>
-    <span class="card-title">I · Pedir solo lo necesario (ISP)</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">I · Order only what is necessary (ISP)</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Cada pantalla o función debería conocer solo las operaciones que realmente necesita.</dd>
-<dt>Qué ocurre</dt>
-<dd>La pantalla de detalle recibe <code>ProfileReading</code> porque solo lee perfiles. No queda conectada por accidente a guardar, borrar o cargar avatares.</dd>
-<dt>Cuidado</dt>
-<dd>No todo método necesita su propio protocolo. Mantén juntas las operaciones que normalmente se usan y cambian juntas.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Each screen or function should know only the operations it really needs.</dd>
+<dt>What happens</dt>
+<dd>The detail screen receives <code>ProfileReading</code> because it only reads profiles. It is not accidentally coupled to saving, deleting, or loading avatars.</dd>
+<dt>Watch out</dt>
+<dd>Not every method needs its own protocol. Keep operations that are normally used and changed together.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>protocol ProfileReading: Sendable {
     func read(id: UUID) async throws -&gt; Profile
@@ -720,24 +720,24 @@ let profile = try await reader.read(id: profileID)</code></pre>
     </div>
   </div>
 </details>
-<details class="study-card" id="d-recibir-herramientas-desde-fuera-dip">
+<details class="study-card" id="d-receive-tools-from-outside-dip">
   <summary>
-    <span class="card-title">D · Recibir herramientas desde fuera (DIP)</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">D · Receive tools from outside (DIP)</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>La lógica principal debería recibir las herramientas que necesita en vez de decidir y construir una herramienta concreta dentro.</dd>
-<dt>Qué ocurre</dt>
-<dd><code>ProfileViewModel</code> pide algo capaz de leer perfiles. Desde fuera se le entrega el repositorio real en la app o uno controlado en las pruebas.</dd>
-<dt>Cuidado</dt>
-<dd>Inyección de dependencias es la forma de entregar esas herramientas; DIP es la idea de que la lógica no dependa del detalle concreto. No necesitas un framework ni un contenedor global.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>The main logic should receive the tools it needs instead of deciding and building a specific tool inside.</dd>
+<dt>What happens</dt>
+<dd><code>ProfileViewModel</code> asks for something capable of reading profiles. The app supplies the real repository, while tests can supply a controlled implementation.</dd>
+<dt>Watch out</dt>
+<dd>Dependency injection is the way to deliver those tools; DIP is the idea that logic does not depend on the specific detail. You don&#39;t need a framework or a global container.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>@MainActor
 final class ProfileViewModel {
@@ -763,29 +763,29 @@ final class ProfileViewModel {
 </details>
 
 </section>
-<section class="guide-section" id="como-conectar-las-piezas">
+<section class="guide-section" id="how-to-connect-the-parts">
   <div class="section-heading">
-    <h2>Cómo conectar las piezas</h2>
-    <span>3 subtemas</span>
+    <h2>How to connect the parts</h2>
+    <span>3 topics</span>
   </div>
-  <details class="study-card" id="la-promesa-de-un-protocolo">
+  <details class="study-card" id="the-promise-of-a-protocol">
   <summary>
-    <span class="card-title">La promesa de un protocolo</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">The promise of a protocol</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Un protocolo no solo enumera funciones; también debe dejar claro qué puede esperar quien las llama.</dd>
-<dt>Qué ocurre</dt>
-<dd>La misma prueba se ejecuta con cada cargador y confirma que todos devuelven datos válidos y comunican la ausencia con el mismo error.</dd>
-<dt>Cuidado</dt>
-<dd>No pruebes cada paso interno con mocks. Comprueba el resultado visible para evitar que una reorganización rompa pruebas aunque la función siga funcionando.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>A protocol does more than list functions; it should also make the caller&#39;s expectations clear.</dd>
+<dt>What happens</dt>
+<dd>The same test is run with each loader and confirms that they all return valid data and report the absence with the same error.</dd>
+<dt>Watch out</dt>
+<dd>Do not test every internal step with mocks. Check observable results so refactoring does not break tests while behavior remains correct.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>func verifyAvatarContract(
     makeLoader: () -&gt; any AvatarDataLoading
@@ -800,24 +800,24 @@ final class ProfileViewModel {
     </div>
   </div>
 </details>
-<details class="study-card" id="donde-se-conectan-las-piezas">
+<details class="study-card" id="where-the-pieces-connect">
   <summary>
-    <span class="card-title">Dónde se conectan las piezas</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">Where the pieces connect</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Conviene elegir y conectar los objetos reales en un único lugar cercano al inicio de la app.</dd>
-<dt>Qué ocurre</dt>
-<dd>Ese lugar se conoce como composition root. Allí se crean el cliente de red, el repositorio y el ViewModel antes de construir la pantalla.</dd>
-<dt>Cuidado</dt>
-<dd>Un contenedor global accesible desde cualquier archivo vuelve a ocultar las dependencias y dificulta saber cuándo se crean y se liberan.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>It is best to choose and connect the real objects in a single place near the start of the app.</dd>
+<dt>What happens</dt>
+<dd>That place is the composition root. It creates the network client, repository, and ViewModel before building the screen.</dd>
+<dt>Watch out</dt>
+<dd>A global container accessible from any file again hides dependencies and makes it difficult to know when they are created and released.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>@MainActor
 func makeProfileScreen() -&gt; ProfileViewController {
@@ -830,24 +830,24 @@ func makeProfileScreen() -&gt; ProfileViewController {
     </div>
   </div>
 </details>
-<details class="study-card" id="solid-y-concurrencia">
+<details class="study-card" id="solid-and-concurrency">
   <summary>
-    <span class="card-title">SOLID y concurrencia</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">SOLID and concurrency</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>En código asíncrono también debes aclarar quién puede cambiar un dato y desde dónde.</dd>
-<dt>Qué ocurre</dt>
-<dd>Un <code>actor</code> protege la caché compartida, <code>@MainActor</code> protege el estado de la interfaz y <code>Sendable</code> marca valores seguros para pasar entre zonas aisladas.</dd>
-<dt>Cuidado</dt>
-<dd>Un actor evita cambios simultáneos directos, pero sus datos pueden cambiar mientras una función está pausada en <code>await</code>. Comprueba de nuevo lo que siga siendo importante al continuar.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>In asynchronous code you must also clarify who can change data and from where.</dd>
+<dt>What happens</dt>
+<dd>An <code>actor</code> protects shared cache state, <code>@MainActor</code> protects interface state, and <code>Sendable</code> marks values that are safe to pass between isolation domains.</dd>
+<dt>Watch out</dt>
+<dd>An actor avoids direct simultaneous changes, but its data can change while a function is paused in <code>await</code>. Double-check what is still important as you continue.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>actor ProfileCache {
     private var values: [UUID: Profile] = [:]
@@ -866,29 +866,29 @@ func makeProfileScreen() -&gt; ProfileViewController {
 </details>
 
 </section>
-<section class="guide-section" id="aplicarlo-con-criterio">
+<section class="guide-section" id="apply-it-judiciously">
   <div class="section-heading">
-    <h2>Aplicarlo con criterio</h2>
-    <span>2 subtemas</span>
+    <h2>Apply it judiciously</h2>
+    <span>2 topics</span>
   </div>
-  <details class="study-card" id="comenzar-simple">
+  <details class="study-card" id="start-simple">
   <summary>
-    <span class="card-title">Comenzar simple</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">Start simple</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>Empieza con el tipo más sencillo que resuelva el problema y agrega una abstracción cuando aparezca una necesidad concreta.</dd>
-<dt>Qué ocurre</dt>
-<dd>Un tipo concreto muestra directamente qué se está usando. Un protocolo cobra valor cuando necesitas intercambiar implementaciones, separar módulos o controlar una prueba.</dd>
-<dt>Cuidado</dt>
-<dd>Un protocolo con una sola implementación no es siempre incorrecto, pero debería resolver una frontera real y no existir solo “por si acaso”.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>Start with the simplest type that solves the problem and add an abstraction when a specific need arises.</dd>
+<dt>What happens</dt>
+<dd>A concrete type directly shows what is being used. A protocol comes into its own when you need to swap implementations, separate modules, or control a test.</dd>
+<dt>Watch out</dt>
+<dd>A protocol with one implementation is not always wrong, but it should represent a real boundary rather than exist “just in case.”</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>// Empieza simple.
 func profileTitle(for profile: Profile) -&gt; String {
@@ -901,24 +901,24 @@ func profileTitle(for profile: Profile) -&gt; String {
     </div>
   </div>
 </details>
-<details class="study-card" id="senales-de-demasiada-arquitectura">
+<details class="study-card" id="signs-of-too-much-architecture">
   <summary>
-    <span class="card-title">Señales de demasiada arquitectura</span>
-    <span class="card-action">Ver detalle</span>
+    <span class="card-title">Signs of too much architecture</span>
+    <span class="card-action">View details</span>
   </summary>
   <div class="card-body">
-    <dl><dt>En simple</dt>
-<dd>SOLID debería facilitar los cambios, no convertir una acción sencilla en una cadena difícil de seguir.</dd>
-<dt>Qué ocurre</dt>
-<dd>Una abstracción útil tiene un consumidor claro, promete un resultado entendible y permite reemplazar algo que de verdad puede variar.</dd>
-<dt>Cuidado</dt>
-<dd>Revisa factories sin una decisión real, tipos que solo reenvían llamadas, herencia usada solo para compartir código y protocolos creados para casos imaginarios.</dd>
+    <dl><dt>In simple terms</dt>
+<dd>SOLID should make changes easier, not turn a simple action into a difficult-to-follow chain.</dd>
+<dt>What happens</dt>
+<dd>A useful abstraction has a clear consumer, promises an understandable result, and allows us to replace something that can really vary.</dd>
+<dt>Watch out</dt>
+<dd>Review factories with no real decision, types that only forward calls, inheritance used only to share code, and protocols created for imaginary cases.</dd>
 </dl>
     <div class="example">
-      <div class="example-label">Ejemplo</div>
+      <div class="example-label">Example</div>
       <div class="code-block">
         <div class="code-toolbar">
-          <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
+          <button class="copy-code" type="button" aria-label="Copy" aria-live="polite">Copy</button>
         </div>
         <pre><code>// Revisa una capa si no puede responder:
 // - ¿qué razón de cambio aísla?
@@ -933,9 +933,9 @@ func profileTitle(for profile: Profile) -&gt; String {
 
 </section>
 
-    <div class="empty" id="emptyState">No se encontraron subtemas con esa búsqueda.</div>
+    <div class="empty" id="emptyState">No topics match that search.</div>
     <footer class="sources">
-      <strong>Fuentes principales:</strong>
+      <strong>Main sources:</strong>
       <a href="https://developer.apple.com/videos/play/wwdc2015/408/" target="_blank" rel="noreferrer">Protocol-Oriented Programming in Swift</a><a href="https://developer.apple.com/videos/play/wwdc2019/415/" target="_blank" rel="noreferrer">Modern Swift API Design</a><a href="https://developer.apple.com/videos/play/wwdc2022/110353/" target="_blank" rel="noreferrer">Design protocol interfaces in Swift</a><a href="https://developer.apple.com/videos/play/wwdc2022/110351/" target="_blank" rel="noreferrer">Eliminate data races using Swift Concurrency</a>
     </footer>
   </main>
@@ -953,7 +953,7 @@ func profileTitle(for profile: Profile) -&gt; String {
     const setSidebarOpen = (open) => {
       sidebar.classList.toggle("open", open);
       menuButton.setAttribute("aria-expanded", String(open));
-      menuButton.textContent = open ? "Cerrar" : "Contenido";
+      menuButton.textContent = open ? "Close" : "Contents";
     };
 
     const normalizeText = (value) => {
@@ -986,8 +986,8 @@ func profileTitle(for profile: Profile) -&gt; String {
       });
 
       searchStatus.textContent = query
-        ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
-        : `${cards.length} subtemas disponibles`;
+        ? `${matches} ${matches === 1 ? "topic found" : "topics found"}`
+        : `${cards.length} topics available`;
       clearSearch.hidden = !search.value;
       emptyState.style.display = matches ? "none" : "block";
     };
@@ -1018,11 +1018,11 @@ func profileTitle(for profile: Profile) -&gt; String {
         const value = button.closest(".code-block").querySelector("code").textContent;
         try {
           await navigator.clipboard.writeText(value);
-          button.textContent = "Copiado";
+          button.textContent = "Copied";
         } catch {
-          button.textContent = "No disponible";
+          button.textContent = "Unavailable";
         }
-        setTimeout(() => { button.textContent = "Copiar"; }, 1100);
+        setTimeout(() => { button.textContent = "Copy"; }, 1100);
       });
     });
 

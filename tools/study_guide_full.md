@@ -122,6 +122,10 @@ Los nombres en inglés marcados como **Nomenclatura oficial** corresponden a los
 
 Claves del capítulo: `print`, `let`, `var`, `Int`, `Float`, `Double`, `String`, `Bool`, operadores e interpolación.
 
+### Error frecuente
+
+- Esperar conversiones numéricas implícitas o confundir la división entre enteros con una división decimal. Swift exige tipos compatibles: `5 / 2` produce `2`, mientras que `5.0 / 2.0` produce `2.5`.
+
 ---
 
 ## 1. TypeAlias
@@ -162,6 +166,10 @@ let temperature: Celsius = 12.2
 ```
 
 Límite esencial: `typealias` mejora la lectura, pero no agrega validación, identidad ni seguridad de tipo adicional. Para eso se necesita crear un `struct`, `class` o `enum`.
+
+### Error frecuente
+
+- Creer que `typealias` crea un tipo distinto. `typealias UserID = String` solo agrega otro nombre: un `UserID` sigue aceptando cualquier `String`.
 
 ---
 
@@ -225,6 +233,10 @@ Límite esencial: `typealias` mejora la lectura, pero no agrega validación, ide
 Usos presentes: agrupar datos relacionados, retornar varios valores, descomponer resultados y manejar pequeños grupos temporales.
 
 Límite esencial: una tupla es de tamaño fijo y no es una colección dinámica. Cuando el modelo necesita métodos, validaciones o una identidad clara, se debe preferir `struct`.
+
+### Error frecuente
+
+- Tratar una tupla como si conformara `Sequence` o fuera una colección. No admite directamente operaciones como `sorted()`; tampoco conviene representar éxito y error con una pareja de opcionales que permita estados inválidos.
 
 ---
 
@@ -305,6 +317,10 @@ Orden de seguridad:
 
 1. Preferir `if let`, `guard let`, `??` o `?.`.
 2. Usar `!` únicamente cuando la existencia del valor esté garantizada por una regla verificable.
+
+### Error frecuente
+
+- Forzar un opcional con `!` sin una garantía verificable. Si el valor es `nil`, el programa termina en ejecución; un valor por defecto con `??` tampoco debe ocultar silenciosamente un dato obligatorio.
 
 ---
 
@@ -442,6 +458,10 @@ Elección:
 - Unicidad y operaciones de conjuntos → `Set`.
 - Acceso mediante una clave → `Dictionary`.
 
+### Error frecuente
+
+- Usar índices, `first!` o `removeFirst()` sin comprobar que la colección contiene elementos. También es incorrecto depender del orden de un `Set`, porque ese orden no es estable.
+
 ---
 
 ## 5. ControlFlow
@@ -539,6 +559,10 @@ while        = preguntar → ejecutar
 repeat-while = ejecutar → preguntar
 ```
 
+### Error frecuente
+
+- Escribir un `switch` no exhaustivo, usar en `where` una variable distinta de la vinculada por el patrón o crear un ciclo cuya condición nunca cambia. El compilador detecta algunos casos, pero no puede demostrar que todo ciclo terminará.
+
 ---
 
 ## 6. Funciones
@@ -629,6 +653,10 @@ Firma que debes saber leer:
 func add(a: Int, b: Int) -> Int
 // tipo: (Int, Int) -> Int
 ```
+
+### Error frecuente
+
+- Considerar que un parámetro variádico es idéntico a recibir un array. Dentro de la función se ve como una colección, pero al llamar se pasan argumentos separados; además, ignorar resultados útiles puede ocultar errores de lógica.
 
 ---
 
@@ -726,6 +754,10 @@ Elección:
 - Datos independientes y modelos simples → `struct`.
 - Identidad compartida, herencia u Objective-C → `class`.
 
+### Error frecuente
+
+- Presentar stack y heap como garantías de `struct` y `class`, afirmar que las estructuras son inmutables por defecto o escribir inicializadores manuales sin necesidad. La decisión correcta se basa en semántica de valor o identidad compartida.
+
 ---
 
 ## 8. Métodos
@@ -783,6 +815,10 @@ instance.method() = método de instancia
 Type.method()     = método de tipo
 ```
 
+### Error frecuente
+
+- Escribir `@mutating`, exigir `self` donde no hace falta o asumir que una clase solo puede usar `class func`. La palabra correcta es `mutating`; `static` evita sobrescritura y `class` la permite.
+
 ---
 
 ## 9. Propiedades
@@ -809,7 +845,7 @@ Type.method()     = método de tipo
 
 - **`static var`**
   - **Comportamiento:** Comparte una propiedad en el tipo.
-  - **Límite o regla:** No requiere una instancia.
+  - **Límite o regla:** No requiere una instancia; si es mutable y compartida, debe aislarse o sincronizarse para evitar carreras de datos.
 
 - **`class var`**
   - **Comportamiento:** Propiedad de tipo sobrescribible.
@@ -871,6 +907,10 @@ willSet    = observa antes
 didSet     = observa después
 wrapper    = reutiliza reglas de lectura/escritura
 ```
+
+### Error frecuente
+
+- Confundir propiedades almacenadas con computadas, aplicar un property wrapper a la instancia equivocada o interpretar `didSet` como si recibiera el valor nuevo. Su parámetro implícito `oldValue` contiene el valor anterior.
 
 ---
 
@@ -981,6 +1021,10 @@ closure normal = se entrega código
 @autoclosure   = una expresión se envuelve automáticamente como código diferido
 ```
 
+### Error frecuente
+
+- Usar una firma de closure incompatible, aplicar trailing-closure syntax donde no corresponde o capturar `self` fuertemente en un closure almacenado sin revisar el ciclo de referencias. `weak` no se agrega por costumbre: se usa cuando la relación realmente puede formar un ciclo.
+
 ---
 
 ## 11. Enum
@@ -1079,6 +1123,10 @@ raw value       = dato fijo definido junto al caso
 
 Los enums tienen semántica de valor: asignarlos a otra variable crea una copia independiente.
 
+### Error frecuente
+
+- Decir que un `case` se usa “sin inicialización” o construir valores del enum que después no se utilizan. Cada `case` crea un valor válido; además, un `default` innecesario puede impedir que el compilador avise al agregar casos nuevos.
+
 ---
 
 ## 12. Herencia
@@ -1156,6 +1204,10 @@ UIButton → UIControl → UIView → UIResponder → NSObject
 ```
 
 Límite esencial: Swift permite herencia de implementación solo entre clases. Estructuras y enums amplían comportamiento mediante protocolos, composición y extensiones.
+
+### Error frecuente
+
+- Usar una subclase equivocada para intentar demostrar `final`, confundir `static` con algo exclusivo de estructuras o elegir herencia solo para reutilizar código. La herencia debe expresar una relación real; para combinar capacidades suele convenir composición.
 
 ---
 
@@ -1250,6 +1302,10 @@ Resolución esencial:
 - Una implementación concreta del tipo tiene prioridad sobre la implementación predeterminada.
 - Un método existente solo en la extensión y no declarado como requisito puede usar despacho estático cuando el valor está tipado como protocolo.
 
+### Error frecuente
+
+- Afirmar que una extensión de protocolo no puede aportar propiedades computadas o asumir que todos sus métodos usan el mismo despacho. Los requisitos del protocolo participan en el despacho dinámico; los miembros definidos únicamente en la extensión pueden resolverse de forma estática.
+
 ---
 
 ## 14. Genéricos
@@ -1336,6 +1392,10 @@ función para Double  ┘
 
 Límite esencial: un genérico no permite usar cualquier operación sobre `T`. Primero hay que garantizar esa capacidad mediante una restricción de protocolo.
 
+### Error frecuente
+
+- Cruzar variables de tipos genéricos distintos, crear parámetros genéricos que no aportan una relación útil o implementar `pop()` suponiendo que siempre existe un elemento. Una pila vacía debe devolver un opcional o expresar el fallo de forma segura.
+
 ---
 
 ## 15. Extensiones
@@ -1406,6 +1466,10 @@ No permiten:
 - Agregar un `deinit`.
 - Sobrescribir libremente métodos de una clase como si fueran una subclase.
 
+### Error frecuente
+
+- Afirmar que una extensión solo puede implementar métodos de protocolos o intentar agregarle propiedades almacenadas. Puede incorporar métodos, inicializadores, propiedades computadas y conformidades, pero no nuevo almacenamiento.
+
 ---
 
 ## 16. Access Level
@@ -1465,6 +1529,10 @@ No permiten:
 
 
 Regla esencial: una declaración no puede exponer públicamente un tipo que tenga un nivel de acceso más restrictivo.
+
+### Error frecuente
+
+- Enseñar únicamente `private`, olvidar el nivel `package` o declarar todo como `public`. Swift dispone de seis niveles; se debe exponer la API mínima que necesite el módulo o paquete y mantener privados sus detalles.
 
 ---
 
@@ -1594,6 +1662,10 @@ try  + do/catch = conserva y maneja el error
 try?            = solo entrega valor o nil; pierde el detalle del error
 ```
 
+### Error frecuente
+
+- Creer que un bloque `do` no comienza si después se lanza un error, usar `try?` cuando se necesita conocer la causa o recurrir a `try!` sin una garantía absoluta. `do` se ejecuta hasta el punto del `throw`; desde allí el control pasa al `catch` compatible.
+
 ---
 
 ## 18. Type Casting
@@ -1657,6 +1729,10 @@ Reglas:
 - `as!` obliga a bajar y puede bloquear la aplicación.
 - Type casting cambia la vista tipada de una instancia; no crea otro objeto.
 
+### Error frecuente
+
+- Confundir type casting con conversión de valores. `as?` no transforma `"123"` en `Int`; para eso se usa `Int("123")`. Un downcast forzado con `as!` termina la ejecución si el tipo real no coincide, e imprimir una función que retorna `Void` solo muestra `()`.
+
 ---
 
 ## 19. Operador ternario
@@ -1702,6 +1778,10 @@ let status = isConnected ? "Conectado" : "Desconectado"
 ```
 
 Usar ternario para elegir valores breves. Usar `if-else` para varias instrucciones, ternarios anidados o cambios de estado.
+
+### Error frecuente
+
+- Usar el operador ternario para efectos secundarios o anidar varias decisiones hasta volver ilegible la expresión. Debe elegir entre dos valores breves; para ejecutar acciones o explicar lógica compleja se prefiere `if-else`.
 
 ---
 
