@@ -122,7 +122,7 @@ print(fileCache.entries)
 //puede usar desde cualquier archivo del mismo módulo, pero no desde otro módulo.
 internal struct ModuleService {
   func execute() {
-    print("Internal: visible dentro del módulo")
+    print("Internal: visible within the module")
   }
 }
 
@@ -156,13 +156,13 @@ open class ExtensibleScreen {
   public init() {}
 
   open func render() {
-    print("Render base")
+    print("Base rendering")
   }
 }
 
 final class LocalScreen: ExtensibleScreen {
   override func render() {
-    print("Render personalizado")
+    print("Custom rendering")
   }
 }
 

@@ -58,7 +58,7 @@ enum ProfileFeatureError: Error, Sendable {
      func loadProfile(from data: Data) throws -> String {
          let profile = try JSONDecoder().decode(Profile.self, from: data)
          cachedProfiles[profile.id] = profile
-         return "Perfil de \(profile.name)"
+         return "Profile for \(profile.name)"
      }
  }
  */
@@ -91,7 +91,7 @@ actor ProfileCache {
 }
 
 func profileTitle(for profile: Profile) -> String {
-  "Perfil de \(profile.name)"
+  "Profile for \(profile.name)"
 }
 
 struct ProfileImporter {
@@ -108,7 +108,7 @@ struct ProfileImporter {
 let encodedProfile = try JSONEncoder().encode(exampleProfile)
 let decodedProfile = try ProfileDecoder().decode(encodedProfile)
 assert(decodedProfile == exampleProfile)
-assert(profileTitle(for: decodedProfile) == "Perfil de Rodolfo")
+assert(profileTitle(for: decodedProfile) == "Profile for Rodolfo")
 
 let profileCache = ProfileCache()
 let profileImporter = ProfileImporter(
@@ -362,7 +362,7 @@ let profileDeleter: any ProfileDeleting = memoryProfileRepository
 try await profileDeleter.delete(id: profileID)
 do {
   _ = try await profileReader.read(id: profileID)
-  assertionFailure("El perfil eliminado no debe estar disponible")
+  assertionFailure("The deleted profile should not be available")
 } catch ProfileFeatureError.notFound {
   // Resultado esperado.
 }

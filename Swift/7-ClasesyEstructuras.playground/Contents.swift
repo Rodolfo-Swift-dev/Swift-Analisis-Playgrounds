@@ -76,7 +76,7 @@ class Singer {
   }
 
   func sing() {
-    print("La la la la")
+    print("La, la, la")
   }
 }
 //con este ejemplo de código acabamos de crear un tipo te dato, el cual tiene propiedades y métodos.
@@ -86,8 +86,8 @@ class Singer {
 //Instanciar es un objeto concreto de una Class o Struct. Cuando creas una instancia, se asigna espacio en memoria para almacenar los datos de esa Class o Struct y se inicializan con sus valores iniciales. Al crear la instancia puedes usar las propiedades y métodos del tipo.
 let user = User(name: "Rodolfo", city: "Santiago")
 let singer = Singer(name: "Rodolfo", age: 36)
-print("\(user.name) vive en \(user.city)")
-print("\(singer.name) tiene \(singer.age) años")
+print("\(user.name) lives in \(user.city)")
+print("\(singer.name) is \(singer.age) years old")
 singer.sing()
 //let singer = Singer()
 //El código anterior nos arrojaría error porque al momento de Instanciar tenemos que inicializar con sus propiedades.

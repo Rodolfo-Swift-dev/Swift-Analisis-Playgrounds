@@ -221,7 +221,7 @@ assert(profileDraft.displayName.value == "Rodolfo")
  BAD: force unwrap finaliza el proceso si displayName es nil:
 
  func greeting(displayName: String?) -> String {
-     "Hola, \(displayName!)"
+     "Hello, \(displayName!)"
  }
  */
 
@@ -230,10 +230,10 @@ assert(profileDraft.displayName.value == "Rodolfo")
  */
 
 func greeting(displayName: String?) -> String {
-  "Hola, \(displayName ?? "Invitado")"
+  "Hello, \(displayName ?? "Guest")"
 }
 
-assert(greeting(displayName: nil) == "Hola, Invitado")
+assert(greeting(displayName: nil) == "Hello, Guest")
 
 /*
  GOOD: optional binding permite continuar solamente cuando existe un valor.
@@ -358,7 +358,7 @@ struct ConsoleAnalyticsTracker: AnalyticsTracking {
  */
 
 func profileTitle(for profile: UserProfile) -> String {
-  profile.name.isEmpty ? "Perfil" : "Perfil de \(profile.name)"
+  profile.name.isEmpty ? "Profile" : "Profile for \(profile.name)"
 }
 
 /*
@@ -380,7 +380,7 @@ struct ProfileOpeningHandler {
 
 let consoleHandler = ProfileOpeningHandler(analytics: ConsoleAnalyticsTracker())
 let consoleTitle = consoleHandler.execute(profile: sampleProfile)
-assert(consoleTitle == "Perfil de Rodolfo")
+assert(consoleTitle == "Profile for Rodolfo")
 
 /*
  LÍMITE:
@@ -451,7 +451,7 @@ final class ProfileViewModel {
     } catch is CancellationError {
       state = .idle
     } catch {
-      state = .failed(message: "No fue posible cargar el perfil")
+      state = .failed(message: "Unable to load the profile")
     }
   }
 }
@@ -525,7 +525,7 @@ func verifyProfileOpeningHandler() {
 
   let title = handler.execute(profile: sampleProfile)
 
-  assert(title == "Perfil de Rodolfo")
+  assert(title == "Profile for Rodolfo")
   assert(analytics.receivedEvents == [.profileOpened])
 }
 
@@ -547,7 +547,7 @@ verifyProfileOpeningHandler()
 
      let title = handler.execute(profile: sampleProfile)
 
-     #expect(title == "Perfil de Rodolfo")
+     #expect(title == "Profile for Rodolfo")
      #expect(analytics.receivedEvents == [.profileOpened])
  }
  */

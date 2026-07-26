@@ -29,7 +29,7 @@ English names marked as **Official nomenclature** correspond to the terms used b
 
 ### Output and comments
 
-- **`print(valor)`**
+- **`print(value)`**
   - **Behavior:** Write a value to the console.
   - **Limit or caution:** It is a debug output; does not modify the value.
 
@@ -43,15 +43,15 @@ English names marked as **Official nomenclature** correspond to the terms used b
 
 ### Variables, constants and types
 
-- **`let nombre = valor`**
+- **`let name = value`**
   - **Behavior:** Create a constant.
   - **Limit or caution:** It cannot receive another value afterwards.
 
-- **`var nombre = valor`**
+- **`var name = value`**
   - **Behavior:** Create a variable.
   - **Limit or caution:** It can change value, but retains its type.
 
-- **`nombre: Tipo`**
+- **`name: Type`**
   - **Behavior:** Declare the type explicitly.
   - **Limit or caution:** The assigned value must be compatible.
 
@@ -105,17 +105,17 @@ English names marked as **Official nomenclature** correspond to the terms used b
   - **Behavior:** It is written with two vertical bars and accepts a true condition.
   - **Limit or caution:** It also uses short circuit.
 
-- **`!valor`**
+- **`!value`**
   - **Behavior:** Inverts a boolean.
   - **Limit or caution:** Here `!` does not mean unwrapping an optional; its meaning depends on context.
 
 ### Text construction
 
-- **`"\(valor)"`**
+- **`"\(value)"`**
   - **Behavior:** Interpolates a value within a `String`.
   - **Limit or caution:** The expression must be valid.
 
-- **`textoA + textoB`**
+- **`textA + textB`**
   - **Behavior:** Concatenate strings.
   - **Limit or caution:** For other types it is convenient to interpolate or convert.
 
@@ -225,7 +225,7 @@ Essential limit: `typealias` improves readability, but does not add additional v
   - **Behavior:** Returns several values.
   - **Limit or caution:** For large or stable models, a separate type is preferable.
 
-- **`(resultado: Int?, error: String?)`**
+- **`(result: Int?, error: String?)`**
   - **Behavior:** Model two related outcomes.
   - **Limit or caution:** May represent invalid states; `Result` or throwable errors are safer.
 
@@ -310,7 +310,7 @@ Recommended safe flow:
 guard let value = optional else {
     return
 }
-// value ya no es opcional aquí
+// value is no longer optional here
 ```
 
 Safety order:
@@ -483,7 +483,7 @@ Choice:
 
 ### Conditions
 
-- **`if condición`**
+- **`if condition`**
   - **Behavior:** Executes a block when the `Bool` is true.
   - **Limit or rule:** The condition must be `Bool`; Swift does not support “truthy” values.
 
@@ -497,7 +497,7 @@ Choice:
 
 ### Early exit
 
-- **`guard condición else`**
+- **`guard condition else`**
   - **Behavior:** Requires the condition to be true to continue.
   - **Limit or rule:** The `else` must leave the scope.
 
@@ -507,7 +507,7 @@ Choice:
 
 ### Selection by cases
 
-- **`switch valor`**
+- **`switch value`**
   - **Behavior:** Compare a value with patterns or cases.
   - **Limit or rule:** It must be exhaustive.
 
@@ -519,7 +519,7 @@ Choice:
   - **Behavior:** Cover the remaining values.
   - **Limit or rule:** You can hide new instances of an enum; Skipping it helps detect changes.
 
-- **`case ... where condición`**
+- **`case ... where condition`**
   - **Behavior:** Add a filter to the pattern.
   - **Limit or rule:** The condition is evaluated after the pattern is matched.
 
@@ -543,11 +543,11 @@ Choice:
 
 ### Conditional loops
 
-- **`while condición`**
+- **`while condition`**
   - **Behavior:** Check and then run repeatedly.
   - **Limit or rule:** It may never run or produce an infinite loop.
 
-- **`repeat { ... } while condición`**
+- **`repeat { ... } while condition`**
   - **Behavior:** Run and then check.
   - **Limit or rule:** It is always executed at least once.
 
@@ -584,7 +584,7 @@ repeat-while = ejecutar → preguntar
 
 ### Declaration, return and signature
 
-- **`func nombre(...)`**
+- **`func name(...)`**
   - **Behavior:** Declare a reusable function.
   - **Limit or rule:** The types of your parameters must be declared.
 
@@ -744,7 +744,7 @@ b.value = 2       // a no cambia
 
 // class: referencia compartida
 var b = a
-b.value = 2       // a observa el cambio
+b.value = 2       // a observes the change
 ```
 
 Important conceptual limit: `struct` does not mean “always on the stack,” and `class` does not mean “always on the heap.” Swift can optimize memory. The difference that should guide the design is **value vs. shared identity**.
@@ -811,8 +811,8 @@ Choice:
 Comparison:
 
 ```text
-instance.method() = método de instancia
-Type.method()     = método de tipo
+instance.method() = instance method
+Type.method()     = type method
 ```
 
 ### Common mistake
@@ -901,11 +901,11 @@ Type.method()     = método de tipo
 Relationship:
 
 ```text
-almacenada = conserva estado
-computada  = calcula estado
-willSet    = observa antes
-didSet     = observa después
-wrapper    = reutiliza reglas de lectura/escritura
+stored   = preserves state
+computed = calculates state
+willSet  = observes before assignment
+didSet   = observes after assignment
+wrapper  = reuses read/write rules
 ```
 
 ### Common mistake
@@ -1016,9 +1016,9 @@ names.sorted(by: >)
 Deferred execution:
 
 ```text
-closure normal = se entrega código
-@escaping      = el código puede sobrevivir a la función
-@autoclosure   = una expresión se envuelve automáticamente como código diferido
+regular closure = code is passed directly
+@escaping       = the code may outlive the function call
+@autoclosure    = an expression is wrapped automatically as deferred code
 ```
 
 ### Common mistake
@@ -1117,8 +1117,8 @@ closure normal = se entrega código
 Difference:
 
 ```text
-valor asociado = dato variable entregado al crear el caso
-raw value       = dato fijo definido junto al caso
+associated value = variable data supplied when creating the case
+raw value        = fixed data declared with the case
 ```
 
 Enums have value semantics: assigning them to another variable creates a separate copy.
@@ -1292,9 +1292,9 @@ Essential limit: Swift allows implementation inheritance only between classes. S
 Three deployment locations:
 
 ```text
-1. Dentro del tipo
-2. En una extensión del tipo
-3. Como implementación predeterminada en una extensión del protocolo
+1. Inside the type
+2. In an extension of the type
+3. As a default implementation in a protocol extension
 ```
 
 Essential resolution:
@@ -1385,9 +1385,9 @@ Essential resolution:
 Problem they solve:
 
 ```text
-función para String  ┐
-función para Int     ├─→ una función genérica
-función para Double  ┘
+function for String  ┐
+function for Int     ├─→ one generic function
+function for Double  ┘
 ```
 
 Essential limit: a generic does not allow using any operation on `T`. This capacity must first be guaranteed through a protocol restriction.
@@ -1624,12 +1624,12 @@ Essential rule: A declaration cannot publicly expose a type that has a more rest
 Complete flow:
 
 ```text
-enum Error          identifica los fallos posibles
-throws              declara que una función puede fallar
-throw               produce el fallo concreto
-try                 intenta ejecutar la función
-do                  contiene el intento
-catch               recibe y maneja el error
+enum Error          identifies the possible failures
+throws              declares that a function may fail
+throw               produces the specific failure
+try                 attempts to execute the function
+do                  contains the attempt
+catch               receives and handles the error
 ```
 
 Integrated example:
@@ -1649,17 +1649,17 @@ func saveUser(name: String) throws {
 do {
     try saveUser(name: "")
 } catch DatabaseError.invalidName {
-    print("Nombre inválido")
+    print("Invalid name")
 } catch {
-    print("Otro error: \(error)")
+    print("Other error: \(error)")
 }
 ```
 
 Fundamental difference:
 
 ```text
-try  + do/catch = conserva y maneja el error
-try?            = solo entrega valor o nil; pierde el detalle del error
+try  + do/catch = preserves and handles the error
+try?            = returns only a value or nil; error details are lost
 ```
 
 ### Common mistake
@@ -1714,11 +1714,11 @@ if let fish = animal as? Fish {
 Polymorphism:
 
 ```text
-[Animal] puede contener Dog, Cat y Bird
+[Animal] can contain Dog, Cat, and Bird
           ↓
-as? recupera el subtipo concreto
+as? recovers the concrete subtype
           ↓
-permite usar el método específico
+allows use of the subtype-specific method
 ```
 
 Rules:

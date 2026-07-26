@@ -726,7 +726,7 @@ struct DisplayName: Equatable {
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
         <pre><code>func greeting(displayName: String?) -&gt; String {
-    &quot;Hola, \(displayName ?? &quot;Invitado&quot;)&quot;
+    &quot;Hello, \(displayName ?? &quot;Guest&quot;)&quot;
 }
 
 func normalizedToken(_ token: String?) -&gt; String? {
@@ -803,13 +803,13 @@ func decodeName(from data: Data) throws -&gt; String {
         <div class="code-toolbar">
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
-        <pre><code>/// Calcula el cargo de servicio del checkout.
+        <pre><code>/// Calculates the checkout service fee.
 ///
-/// La tienda absorbe el cargo desde 50 para respetar
-/// la regla comercial acordada con soporte.
+/// The store absorbs the fee from 50 onward to honor
+/// the business rule agreed with support.
 ///
-/// - Parameter subtotal: Valor previo a envío e impuestos.
-/// - Returns: Cero cuando la tienda absorbe el cargo.
+/// - Parameter subtotal: Value before shipping and taxes.
+/// - Returns: Zero when the store absorbs the fee.
 func serviceFee(for subtotal: Double) -&gt; Double {
     subtotal &gt;= 50 ? 0 : 2.5
 }</code></pre>
@@ -844,7 +844,7 @@ func serviceFee(for subtotal: Double) -&gt; Double {
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
         <pre><code>func profileTitle(for profile: UserProfile) -&gt; String {
-    profile.name.isEmpty ? &quot;Perfil&quot; : &quot;Perfil de \(profile.name)&quot;
+    profile.name.isEmpty ? &quot;Profile&quot; : &quot;Profile for \(profile.name)&quot;
 }
 
 enum AnalyticsEvent: String {
@@ -1009,7 +1009,7 @@ func openingProfileTracksEvent() {
 
     let title = handler.execute(profile: sampleProfile)
 
-    #expect(title == &quot;Perfil de Rodolfo&quot;)
+    #expect(title == &quot;Profile for Rodolfo&quot;)
     #expect(analytics.receivedEvents == [.profileOpened])
 }</code></pre>
       </div>
@@ -1107,12 +1107,12 @@ func shippingCost(subtotal: Double) -&gt; Double {
         <div class="code-toolbar">
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
-        <pre><code>// Preguntas antes de crear una abstracción:
-// 1. ¿Qué variación real resuelve?
-// 2. ¿Qué consumidor necesita este contrato?
-// 3. ¿Qué error, estado o efecto hace explícito?
-// 4. ¿Puede probarse por comportamiento?
-// 5. ¿Es más simple que usar el tipo concreto?</code></pre>
+        <pre><code>// Questions to ask before creating an abstraction:
+// 1. What real variation does it address?
+// 2. Which consumer needs this contract?
+// 3. Which error, state, or effect does it make explicit?
+// 4. Can it be tested through behavior?
+// 5. Is it simpler than using the concrete type?</code></pre>
       </div>
     </div>
   </div>

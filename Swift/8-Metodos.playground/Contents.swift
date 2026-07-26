@@ -108,7 +108,7 @@ struct NewUser {
   var name: String
 
   static func start() {
-    print("Utilizar metodo sin previa instancia")
+    print("Use a type method without creating an instance")
   }
 }
 

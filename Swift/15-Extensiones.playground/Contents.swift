@@ -11,7 +11,7 @@
 
 extension String {
   mutating func concatenate() {
-    self = self + " ¡Aprende Swift! 🚀"
+    self += " Learn Swift! 🚀"
   }
 }
 
@@ -205,7 +205,7 @@ protocol Printable {
 
 extension Printable {
   func printResult() {
-    print("Message from Protocolo Extension \(information)")
+    print("Message from protocol extension: \(information)")
   }
 }
 
@@ -233,14 +233,14 @@ user5.printResult()
 
 //creacion protocolo
 
-protocol Printa {
+protocol Printable2 {
   var information: String { get }
   func printResult()
 }
 
 //creacion objeto que conforma el protocolo
 
-struct User6: Printa {
+struct User6: Printable2 {
   var information: String { "Rodolfo" }
 }
 
@@ -250,7 +250,7 @@ struct User6: Printa {
 
 extension User6 {
   func printResult() {
-    print("Message from Protocolo Extension \(information)")
+    print("Message from protocol extension: \(information)")
   }
 }
 

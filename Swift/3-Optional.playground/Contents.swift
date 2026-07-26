@@ -80,7 +80,7 @@ print(myCar?.color ?? "blue")
 myCar = Car()
 
 //El encadenamiento opcional evita depender del orden de asignación o de un force unwrap.
-print(myCar?.color ?? "Color desconocido")
+print(myCar?.color ?? "Unknown color")
 if let color = myCar?.color {
   print(color)
 }

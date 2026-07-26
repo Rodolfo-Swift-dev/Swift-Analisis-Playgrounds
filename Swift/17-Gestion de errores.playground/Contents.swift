@@ -68,9 +68,9 @@ do {
   let message = try user.saveUser(name: "Rodolfo")
   print(message)
 } catch DatabaseError.userAlreadyExists {
-  print("El usuario ya existe")
+  print("The user already exists")
 } catch {
-  print("Error inesperado: \(error)")
+  print("Unexpected error: \(error)")
 }
 
 print("End")

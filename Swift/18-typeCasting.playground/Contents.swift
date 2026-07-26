@@ -31,13 +31,13 @@ class Animal {
 
 class Human: Animal {
   func writeCode() {
-    print("\(name) puede programar")
+    print("\(name) can write code")
   }
 }
 
 class Fish: Animal {
   func breatheUnderwater() {
-    print("\(name) respira bajo el agua")
+    print("\(name) breathes underwater")
   }
 }
 
@@ -53,7 +53,7 @@ let neighbors: [Any] = [nacho, martin, nemo, 1]
 func findNemo(from animals: [Any]) {
   for animal in animals {
     if animal is Fish {  // Type checking
-      print("Encontramos una instancia de Fish")
+      print("Found a Fish instance")
     }
   }
 }
@@ -88,7 +88,7 @@ findNemoSafely(from: neighbors)
 
 let numericText = "123"
 if let convertedNumber = Int(numericText) {
-  print("Conversión de contenido: \(convertedNumber)")
+  print("Converted content: \(convertedNumber)")
 }
 
 //as? no analiza ni modifica el contenido. Solo verifica en tiempo de ejecución si
@@ -122,29 +122,29 @@ class Animal1 {
 //creacion de subclases
 
 class Dog1: Animal1 {
-  func ladrido() {
-    print("\(name) ladrido: Guau Guau!")
+  func bark() {
+    print("\(name) barks: Woof!")
   }
 }
 
 class Cat1: Animal1 {
-  func maullido() {
-    print("\(name) maullido: Miau Miau!")
+  func meow() {
+    print("\(name) meows: Meow!")
   }
 }
 
 class Bird1: Animal1 {
-  func canto() {
-    print("\(name) canto: Pio Pio!")
+  func chirp() {
+    print("\(name) chirps: Tweet!")
   }
 }
 
 //instancia de tipos que heredan de superclase Animal
 
 let animals: [Animal1] = [
-  Dog1(name: "Perro"),
-  Cat1(name: "Gato"),
-  Bird1(name: "Pájaro"),
+  Dog1(name: "Dog"),
+  Cat1(name: "Cat"),
+  Bird1(name: "Bird"),
 ]
 
 //ocupar métodos de forma correcta con type casting
@@ -152,20 +152,20 @@ let animals: [Animal1] = [
 func soundAnimals(from animals: [Animal1]) {
   for animal in animals {
     if let dog = animal as? Dog1 {
-      dog.ladrido()
+      dog.bark()
     } else if let cat = animal as? Cat1 {
-      cat.maullido()
+      cat.meow()
     } else if let bird = animal as? Bird1 {
-      bird.canto()
+      bird.chirp()
     }
   }
 }
 soundAnimals(from: animals)
 
 // RESULTADO 👇
-// Perro ladrido: Guau Guau!
-// Gato maullido: Miau Miau!
-// Pájaro canto: Pio Pio!
+// Dog barks: Woof!
+// Cat meows: Meow!
+// Bird chirps: Tweet!
 
 //En este caso, por cada elemento del Array comprobamos si se puede transformar en los tipos de la instancia que contiene el Array animal, y si es posible se ejecuta su scope
 

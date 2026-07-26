@@ -121,7 +121,7 @@ print(fan.ageInDogYears)
 
 //willset = willSet se llamará un instante antes de asignarse un valor nuevo a una propiedad. Fíjate que recibimos el nuevo valor como parámetro, en el código anterior aparece como newName.
 //didset = didSet se llamará justo después de asignar un nuevo valor a una propiedad.
-struct DataBases {
+struct ObservedDatabase {
   var name: String {
     willSet(newName) {
       print("Will update name \(newName)")
@@ -132,19 +132,19 @@ struct DataBases {
   }
 }
 //vamos a instanciar la clase o Struct y vamos a dar un nuevo valor a la propiedad. Con esto automáticamente se acciona el código willset un instante antes de cambiar el valor a la propiedad y didSet se llamará justo después de asignar un nuevo valor a una propiedad.
-var dataBase = DataBases(name: "Users")
-dataBase.name = "Students"
+var observedDatabase = ObservedDatabase(name: "Users")
+observedDatabase.name = "Students"
 //modificada o cuándo ha sido modificada para lanzar lógica dentro de tu aplicación (por ejemplo para refrescar la información que estás mostrando en una vista).
 
 //si una propiedad de una clase esta utilizando las Observer properties con las keyword willSet y didSet, estas propiedades deben estar inicializadas si es que no se les asigna valor.
-class Persons {
+class ObservedPerson {
   var age: Int
   var name: String {
     willSet(newName) {
-      print("Se actualizara el nombre a \(newName)")
+      print("Name will change to \(newName)")
     }
     didSet(oldName) {
-      print("Se reemplazó el nombre \(oldName) por \(name)")
+      print("Replaced \(oldName) with \(name)")
     }
   }
 
@@ -158,7 +158,7 @@ class Persons {
   }
 }
 
-let observedPerson = Persons(age: 36, name: "Rodolfo")
+let observedPerson = ObservedPerson(age: 36, name: "Rodolfo")
 observedPerson.name = "Rodolfo González"
 print(observedPerson.ageInDogYears)
 
@@ -174,7 +174,7 @@ print(observedPerson.ageInDogYears)
 
 //creacion propertywrapper
 @propertyWrapper  // 1
-struct UserValidation {
+struct ValidatedName {
   private var name: String  // 2
   init() { self.name = "" }  // 3
   var wrappedValue: String {  // 4
@@ -196,22 +196,22 @@ struct UserValidation {
 
 //creamos una instancia de la structura o clase que almacena la propiedad con las características añadidas
 struct UserForm {
-  @UserValidation var userName: String
+  @ValidatedName var userName: String
 }
-var usersForm = UserForm()
-usersForm.userName = "Rodolfo"
-print(usersForm.userName)
+var validUserForm = UserForm()
+validUserForm.userName = "Rodolfo"
+print(validUserForm.userName)
 // Valid name
 //debido a la lógica de nuestro ejemplo se ejecuta el setter y la cláusula if.
 
-var userForm = UserForm()
-userForm.userName = "Rodo"
-print(userForm.userName)
+var shortNameForm = UserForm()
+shortNameForm.userName = "Rodo"
+print(shortNameForm.userName)
 // Error
 //debido a la lógica de nuestro ejemplo se ejecuta el setter y la cláusula else.
 
 @propertyWrapper  // 1
-class UserValid {
+class ValidatedReferenceName {
   private var name: String  // 2
   init() { self.name = "" }  // 3
   var wrappedValue: String {  // 4
@@ -228,7 +228,7 @@ class UserValid {
 }
 
 class FormUser {
-  @UserValid var userName: String
+  @ValidatedReferenceName var userName: String
 }
 
 //se activa clausula de bloque if
@@ -237,8 +237,8 @@ formUser.userName = "Rodolfo"
 print(formUser.userName)
 
 //se activa clausula else
-let formUs = FormUser()
-formUs.userName = "Rodo"
-print(formUs.userName)
+let shortReferenceForm = FormUser()
+shortReferenceForm.userName = "Rodo"
+print(shortReferenceForm.userName)
 
 //casos de usos

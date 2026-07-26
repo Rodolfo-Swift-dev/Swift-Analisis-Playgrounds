@@ -35,12 +35,12 @@ print(closureResult)
 //crear closure sin parámetros y sin datos de retorno
 //al no retornar datos podríamos indicarle con la keyword Void que no retorna datos pero en este caso se puede omitir sin problemas
 let myEmptyClosure = { () in
-  print("¡Hola")
+  print("Hello")
 }
 
 //al no tener parámetros podríamos optimizarlo aún más nuestro closure
 let emptyClosure = {
-  print("¡Hola Rodolfo!")
+  print("Hello, Rodolfo!")
 }
 
 //Para ejecutar su implementación debemos incluir los paréntesis.
@@ -83,14 +83,14 @@ reversedNames = names.sorted(by: >)
 //(Int)  -> Int
 
 //código función
-func doble(_ num: Int) -> Int {
-  return num * 2
+func double(_ number: Int) -> Int {
+  return number * 2
 }
 
 //llamado a la función dentro de un método
 // en este ejemplo hemos remplazado el closure por una función con firma(tipo de dato) equivalente
 var numbers = [2, 4, 6]
-var newNumbers = numbers.map(doble)
+var newNumbers = numbers.map(double)
 
 //equivalencia con closure
 newNumbers = numbers.map { $0 * 2 }
@@ -152,7 +152,7 @@ getDataFromBackend(status: "OK") {
 //al llamar a la funcion es donde establecemos la lógica de código de nuestros closure como parametros
 
 getDataFromBackend(
-  status: "OK", onSuccess: { print("Succes") }, onFailure: { print("Error: \($0)") })
+  status: "OK", onSuccess: { print("Success") }, onFailure: { print("Error: \($0)") })
 
 //funciones que pueden retornar funciones o closure
 

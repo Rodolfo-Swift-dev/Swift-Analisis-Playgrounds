@@ -60,8 +60,9 @@ Este repositorio contiene una colección completa de **Xcode Playgrounds** dise�
 - 🎯 Preparación para entrevistas técnicas
 - 📚 Referencia rápida de sintaxis y patrones
 
-Los playgrounds están documentados en **español** y la guía web ofrece textos
-estáticos en **español e inglés**, con el mismo código Swift en ambos idiomas.
+Los playgrounds mantienen sus explicaciones en **español**, con código e
+identificadores Swift en **inglés**. La guía web ofrece textos estáticos en español
+e inglés y comparte los mismos ejemplos de código entre ambos idiomas.
 
 ---
 

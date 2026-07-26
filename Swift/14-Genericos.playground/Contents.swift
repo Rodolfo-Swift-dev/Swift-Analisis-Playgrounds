@@ -19,13 +19,13 @@ func swapTwoStrings(a: inout String, b: inout String) {
 //creacion variables de tipo String
 
 var name = "Rodolfo"
-var book = "El Repo de Swift"
+var book = "The Swift Repository"
 
 //resultado con valores actuales
 
 print("name: \(name)\nbook: \(book)")
 // name: Rodolfo
-// book: El Repo de Swift
+// book: The Swift Repository
 
 //llamado a la función que invierte valores
 
@@ -34,7 +34,7 @@ swapTwoStrings(a: &name, b: &book)
 //resultado con valores actuales luego del llamado a la función
 
 print("name: \(name)\nbook: \(book)")
-// name: El Repo de Swift
+// name: The Swift Repository
 // book: Rodolfo
 
 //creacion de método con parámetros inout
@@ -83,7 +83,7 @@ func swapTwoValues<T>(a: inout T, b: inout T) {
 //creacion variables de tipo String
 
 var myName = "Rodolfo"
-var myBrand = "Aprende a programar"
+var myBrand = "Learn to code"
 
 //llamado a la función que invierte valores
 
@@ -95,7 +95,7 @@ swapTwoValues(
 
 print(myName)
 print(myBrand)
-// Aprende a programar
+// Learn to code
 // Rodolfo
 
 //creacion variables de tipo Int
@@ -179,7 +179,7 @@ var stackOfString = StackOfString()
 
 //métodos de la instancia
 stackOfString.push("Rodolfo")
-stackOfString.push("Aprende a Programar en Swift")
+stackOfString.push("Learn Swift Programming")
 if let poppedString = stackOfString.pop() {
   print(poppedString)
 }
@@ -223,8 +223,8 @@ var genericStack = Stack<String>()
 //acceso a métodos del objeto
 
 genericStack.push("Rodolfo")
-genericStack.push("Aprende Swift")
-genericStack.push("Aprende a Crear Apps")
+genericStack.push("Learn Swift")
+genericStack.push("Learn to Build Apps")
 if let poppedValue = genericStack.pop() {
   print(poppedValue)
 }
@@ -290,7 +290,7 @@ print(calculator2.sum(a: 2000, b: 3000))
 
 //creacion de protocolo genérico
 
-protocol Stackeable {
+protocol StackProtocol {
 
   associatedtype Element  // 1
   var items: [Element] { get set }  // 2
@@ -304,7 +304,7 @@ protocol Stackeable {
 
 //creacion de tipo que conforma protocolo genérico
 
-struct StackOfStrings: Stackeable {
+struct StackOfStrings: StackProtocol {
   var items: [String]
 
   mutating func push(_ item: String) {
@@ -331,7 +331,7 @@ if let poppedString = stackOfStrings.pop() {
 
 //creacion de objeto genérico que conforma protocolo genérico
 
-struct Stack1<Element>: Stackeable {
+struct Stack1<Element>: StackProtocol {
   var items: [Element]
 
   mutating func push(_ item: Element) {

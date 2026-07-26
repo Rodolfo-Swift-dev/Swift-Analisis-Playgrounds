@@ -116,7 +116,7 @@ if setNumbers.isEmpty {
 if let anyNumber = setNumbers.first {
   print(anyNumber)
 } else {
-  print("El Set está vacío")
+  print("The set is empty")
 }
 
 //Insert

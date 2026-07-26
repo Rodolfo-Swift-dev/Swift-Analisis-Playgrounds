@@ -41,7 +41,7 @@ struct Student: Named, Identifiable, Auditable {
   let course: String
 
   var auditDescription: String {
-    "\(name) estudia \(course)"
+    "\(name) studies \(course)"
   }
 }
 
@@ -70,11 +70,11 @@ protocol Mentoring {
 
 final class TeachingAssistant: Person, Studying, Mentoring {
   func study() {
-    print("\(name) estudia")
+    print("\(name) studies")
   }
 
   func mentor() {
-    print("\(name) guía a otros estudiantes")
+    print("\(name) mentors other students")
   }
 }
 
@@ -117,7 +117,7 @@ print(profile.displayName, Profile.defaultAge)
 
 //creacion de protocolo con propiedades de instancia que podemos escribir datos
 
-protocol Shippeable {
+protocol ShippingAddressProviding {
   var street: String { get }
   var city: String { get }
   var zip: String { get }
@@ -125,7 +125,7 @@ protocol Shippeable {
 
 //creacion de estructura que adopta protocolo creado
 
-struct Product: Shippeable {
+struct Product: ShippingAddressProviding {
   let id: Int
   let name: String
   let street: String
@@ -148,14 +148,14 @@ print(product.name, product.city)
 
 //creacion de protocolo con método
 
-protocol Calculable {
+protocol CalculationProviding {
   func calculate() -> String
   static func calculator() -> String
 }
 
 //creacion de estructura que conforme protocolo
 
-struct Calculator: Calculable {
+struct Calculator: CalculationProviding {
   static func calculator() -> String {
     return "MORE Some value..."
   }
@@ -198,7 +198,7 @@ class Logger: Printable {
 let logger = Logger(name: "Rodolfo")
 print(logger.name)
 let printableLogger: Printable = logger
-print(printableLogger.printResult?() ?? "Logger no implementa printResult")
+print(printableLogger.printResult?() ?? "Logger does not implement printResult")
 
 //cabe señalar que los parámetros dentro de los métodos de nuestro protocolo solo puede llevar el nombre y el tipo de datos que ingresa y retorna pero nunca valores o valores por defecto
 
@@ -321,14 +321,14 @@ protocol Printable1 {
 //creacion extension de protocolo
 
 extension Printable1 {
-  var information: String { "Información por defecto" }
+  var information: String { "Default information" }
 
   func printResult() {
-    print("Message from Protocolo Extension \(information)")
+    print("Message from protocol extension: \(information)")
   }
 
   func extensionOnlyMessage() {
-    print("Método definido solamente en Printable1")
+    print("Method defined only in Printable1")
   }
 }
 
@@ -336,11 +336,11 @@ extension Printable1 {
 
 struct User2: Printable1 {
   func printResult() {
-    print("Implementación de User2: \(information)")
+    print("User2 implementation: \(information)")
   }
 
   func extensionOnlyMessage() {
-    print("Método concreto de User2")
+    print("Concrete User2 method")
   }
 }
 //User2 adopta la propiedad computada por defecto de la extensión.
@@ -377,7 +377,7 @@ struct User3: Printable2 {
 
 extension User3 {
   func printResult() {
-    print("Message from Protocolo Extension \(information)")
+    print("Message from protocol extension: \(information)")
   }
 }
 

@@ -31,9 +31,9 @@ for numberOfSubscribers in [12, 8, 3] {
 //el bloque Else es opcional de nosotros si queremos ocuparlo ya que no es obligación
 for isUserLoggedIn in [true, false] {
   if isUserLoggedIn {
-    print("Muestra el contenido de la app")
+    print("Show the app content")
   } else {
-    print("Muestra el login")
+    print("Show the sign-in screen")
   }
 }
 

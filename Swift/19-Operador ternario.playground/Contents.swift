@@ -16,7 +16,7 @@ let greaterNumber = firstNumber > secondNumber ? firstNumber : secondNumber
 print(greaterNumber)
 
 let isAuthenticated = true
-let screenTitle = isAuthenticated ? "Inicio" : "Iniciar sesión"
+let screenTitle = isAuthenticated ? "Home" : "Sign in"
 print(screenTitle)
 
 //El ternario funciona mejor para seleccionar valores simples. No conviene utilizarlo
@@ -27,11 +27,11 @@ let score = 82
 let grade: String
 
 if score >= 90 {
-  grade = "Excelente"
+  grade = "Excellent"
 } else if score >= 60 {
-  grade = "Aprobado"
+  grade = "Passed"
 } else {
-  grade = "Reprobado"
+  grade = "Failed"
 }
 
 print(grade)

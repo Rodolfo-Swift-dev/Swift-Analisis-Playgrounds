@@ -29,7 +29,7 @@ Los nombres en inglés marcados como **Nomenclatura oficial** corresponden a los
 
 ### Salida y comentarios
 
-- **`print(valor)`**
+- **`print(value)`**
   - **Comportamiento:** Escribe un valor en la consola.
   - **Límite o cuidado:** Es una salida de depuración; no modifica el valor.
 
@@ -43,15 +43,15 @@ Los nombres en inglés marcados como **Nomenclatura oficial** corresponden a los
 
 ### Variables, constantes y tipos
 
-- **`let nombre = valor`**
+- **`let name = value`**
   - **Comportamiento:** Crea una constante.
   - **Límite o cuidado:** No puede recibir otro valor después.
 
-- **`var nombre = valor`**
+- **`var name = value`**
   - **Comportamiento:** Crea una variable.
   - **Límite o cuidado:** Puede cambiar de valor, pero conserva su tipo.
 
-- **`nombre: Tipo`**
+- **`name: Type`**
   - **Comportamiento:** Declara el tipo explícitamente.
   - **Límite o cuidado:** El valor asignado debe ser compatible.
 
@@ -105,17 +105,17 @@ Los nombres en inglés marcados como **Nomenclatura oficial** corresponden a los
   - **Comportamiento:** Se escribe con dos barras verticales y acepta una condición verdadera.
   - **Límite o cuidado:** También usa cortocircuito.
 
-- **`!valor`**
+- **`!value`**
   - **Comportamiento:** Invierte un booleano.
   - **Límite o cuidado:** Aquí `!` no significa desempaquetar un opcional; depende del contexto.
 
 ### Construcción de texto
 
-- **`"\(valor)"`**
+- **`"\(value)"`**
   - **Comportamiento:** Interpola un valor dentro de un `String`.
   - **Límite o cuidado:** La expresión debe ser válida.
 
-- **`textoA + textoB`**
+- **`textA + textB`**
   - **Comportamiento:** Concatena strings.
   - **Límite o cuidado:** Para otros tipos conviene interpolar o convertir.
 
@@ -225,7 +225,7 @@ Límite esencial: `typealias` mejora la lectura, pero no agrega validación, ide
   - **Comportamiento:** Retorna varios valores.
   - **Límite o cuidado:** Para modelos grandes o estables es preferible un tipo propio.
 
-- **`(resultado: Int?, error: String?)`**
+- **`(result: Int?, error: String?)`**
   - **Comportamiento:** Modela dos resultados relacionados.
   - **Límite o cuidado:** Puede representar estados inválidos; `Result` o errores lanzables son más seguros.
 
@@ -310,7 +310,7 @@ Flujo seguro recomendado:
 guard let value = optional else {
     return
 }
-// value ya no es opcional aquí
+// value is no longer optional here
 ```
 
 Orden de seguridad:
@@ -483,7 +483,7 @@ Elección:
 
 ### Condiciones
 
-- **`if condición`**
+- **`if condition`**
   - **Comportamiento:** Ejecuta un bloque cuando el `Bool` es verdadero.
   - **Límite o regla:** La condición debe ser `Bool`; no admite valores “truthy”.
 
@@ -497,7 +497,7 @@ Elección:
 
 ### Salida anticipada
 
-- **`guard condición else`**
+- **`guard condition else`**
   - **Comportamiento:** Exige que la condición sea verdadera para continuar.
   - **Límite o regla:** El `else` debe abandonar el scope.
 
@@ -507,7 +507,7 @@ Elección:
 
 ### Selección por casos
 
-- **`switch valor`**
+- **`switch value`**
   - **Comportamiento:** Compara un valor con patrones o casos.
   - **Límite o regla:** Debe ser exhaustivo.
 
@@ -519,7 +519,7 @@ Elección:
   - **Comportamiento:** Cubre los valores restantes.
   - **Límite o regla:** Puede ocultar nuevos casos de un enum; omitirlo ayuda a detectar cambios.
 
-- **`case ... where condición`**
+- **`case ... where condition`**
   - **Comportamiento:** Agrega un filtro al patrón.
   - **Límite o regla:** La condición se evalúa después de coincidir el patrón.
 
@@ -543,11 +543,11 @@ Elección:
 
 ### Ciclos condicionales
 
-- **`while condición`**
+- **`while condition`**
   - **Comportamiento:** Comprueba y después ejecuta repetidamente.
   - **Límite o regla:** Puede no ejecutarse nunca o producir un bucle infinito.
 
-- **`repeat { ... } while condición`**
+- **`repeat { ... } while condition`**
   - **Comportamiento:** Ejecuta y después comprueba.
   - **Límite o regla:** Siempre se ejecuta al menos una vez.
 
@@ -584,7 +584,7 @@ repeat-while = ejecutar → preguntar
 
 ### Declaración, retorno y firma
 
-- **`func nombre(...)`**
+- **`func name(...)`**
   - **Comportamiento:** Declara una función reutilizable.
   - **Límite o regla:** Los tipos de sus parámetros deben estar declarados.
 
@@ -744,7 +744,7 @@ b.value = 2       // a no cambia
 
 // class: referencia compartida
 var b = a
-b.value = 2       // a observa el cambio
+b.value = 2       // a observes the change
 ```
 
 Límite conceptual importante: `struct` no significa “siempre en el stack” y `class` no significa “siempre accesible solo desde el heap”. Swift puede optimizar la memoria. La diferencia que debe guiar el diseño es **valor frente a identidad compartida**.
@@ -1649,9 +1649,9 @@ func saveUser(name: String) throws {
 do {
     try saveUser(name: "")
 } catch DatabaseError.invalidName {
-    print("Nombre inválido")
+    print("Invalid name")
 } catch {
-    print("Otro error: \(error)")
+    print("Other error: \(error)")
 }
 ```
 

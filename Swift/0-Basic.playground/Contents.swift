@@ -41,19 +41,19 @@ print(1 >= 1)  //mayor o igual que
 //tipos basicos de datos indicando el tipo de datos
 let numInt: Int = 2
 let numFloat: Float = 2.0
-let word: String = "palabra"
+let word: String = "word"
 let female: Bool = true
 print(numInt, numFloat, word, female)
 
 //inferencia de tipo
 var myInt = 1
-var myString = "¡Hola Developer!"
+var myString = "Hello, Developer!"
 var myDouble = 2.0
 var myBoolean = true
 print(myInt, myString, myDouble, myBoolean)
 
 //interpolacion
-let newWord = "la \(word) \(word) se repite \(numInt) veces"
+let newWord = "The \(word) \(word) repeats \(numInt) times"
 
 //concatenacion
 let phrase = newWord + word
@@ -61,7 +61,7 @@ print(phrase)
 
 //variables
 var myName = "Rodolfo Gonzalez"
-myName = "saludos Rodolfo"
+myName = "Greetings, Rodolfo"
 //se puede modificar la variable pero siempre respetando el tipo de datos
 var myNum = 5
 myNum = 7

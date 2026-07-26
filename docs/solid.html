@@ -584,7 +584,7 @@ actor ProfileCache {
 }
 
 func profileTitle(for profile: Profile) -&gt; String {
-    &quot;Perfil de \(profile.name)&quot;
+    &quot;Profile for \(profile.name)&quot;
 }
 
 struct ProfileImporter {
@@ -890,13 +890,13 @@ func makeProfileScreen() -&gt; ProfileViewController {
         <div class="code-toolbar">
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
-        <pre><code>// Empieza simple.
+        <pre><code>// Start simple.
 func profileTitle(for profile: Profile) -&gt; String {
-    &quot;Perfil de \(profile.name)&quot;
+    &quot;Profile for \(profile.name)&quot;
 }
 
-// Extrae un contrato cuando aparezca una necesidad real,
-// no solo para aumentar la cantidad de capas.</code></pre>
+// Extract a contract when a real need appears,
+// not just to increase the number of layers.</code></pre>
       </div>
     </div>
   </div>
@@ -920,12 +920,12 @@ func profileTitle(for profile: Profile) -&gt; String {
         <div class="code-toolbar">
           <button class="copy-code" type="button" aria-label="Copiar" aria-live="polite">Copiar</button>
         </div>
-        <pre><code>// Revisa una capa si no puede responder:
-// - ¿qué razón de cambio aísla?
-// - ¿qué contrato protege?
-// - ¿qué consumidor la necesita?
-// - ¿qué implementación permite sustituir?
-// - ¿qué prueba demuestra su valor?</code></pre>
+        <pre><code>// Review a layer if it cannot answer:
+// - Which reason for change does it isolate?
+// - Which contract does it protect?
+// - Which consumer needs it?
+// - Which implementation can it replace?
+// - Which test demonstrates its value?</code></pre>
       </div>
     </div>
   </div>

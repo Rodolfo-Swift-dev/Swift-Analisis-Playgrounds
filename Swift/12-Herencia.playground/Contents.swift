@@ -97,7 +97,7 @@ class Dog1: Animal {
 
   override func sound() {
 
-    print("Gruauuuuur")
+    print("Woof")
   }
 
   func eat() {
@@ -121,7 +121,7 @@ class Dog2: Animal {
   }
 
   override func sound() {
-    print("Gruauuuuur")
+    print("Woof")
   }
 
   func eat() {
@@ -217,7 +217,7 @@ print(Chihuahua3.size)
 
 //creacion de clase que no hereda
 
-final class Animals {
+final class FinalAnimal {
   var name: String
   var age: Int
 
@@ -228,9 +228,12 @@ final class Animals {
   }
 
   func sound() {
-    print("Animals Sounds")
+    print("Animal sound")
   }
 }
+
+let finalAnimal = FinalAnimal(name: "Bird", age: 2)
+finalAnimal.sound()
 
 //código error implementación herencia de una clase final
 //class Dog5: Animals {

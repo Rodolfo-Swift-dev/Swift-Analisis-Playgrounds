@@ -111,7 +111,7 @@ struct DisplayName: Equatable {
 
 ```swift
 func greeting(displayName: String?) -> String {
-    "Hola, \(displayName ?? "Invitado")"
+    "Hello, \(displayName ?? "Guest")"
 }
 
 func normalizedToken(_ token: String?) -> String? {
@@ -164,13 +164,13 @@ func decodeName(from data: Data) throws -> String {
 **Cuidado:** No describas línea por línea lo que el código ya dice. Ese comentario agrega ruido y puede quedar desactualizado.
 
 ```swift
-/// Calcula el cargo de servicio del checkout.
+/// Calculates the checkout service fee.
 ///
-/// La tienda absorbe el cargo desde 50 para respetar
-/// la regla comercial acordada con soporte.
+/// The store absorbs the fee from 50 onward to honor
+/// the business rule agreed with support.
 ///
-/// - Parameter subtotal: Valor previo a envío e impuestos.
-/// - Returns: Cero cuando la tienda absorbe el cargo.
+/// - Parameter subtotal: Value before shipping and taxes.
+/// - Returns: Zero when the store absorbs the fee.
 func serviceFee(for subtotal: Double) -> Double {
     subtotal >= 50 ? 0 : 2.5
 }
@@ -188,7 +188,7 @@ func serviceFee(for subtotal: Double) -> Double {
 
 ```swift
 func profileTitle(for profile: UserProfile) -> String {
-    profile.name.isEmpty ? "Perfil" : "Perfil de \(profile.name)"
+    profile.name.isEmpty ? "Profile" : "Profile for \(profile.name)"
 }
 
 enum AnalyticsEvent: String {
@@ -300,7 +300,7 @@ func openingProfileTracksEvent() {
 
     let title = handler.execute(profile: sampleProfile)
 
-    #expect(title == "Perfil de Rodolfo")
+    #expect(title == "Profile for Rodolfo")
     #expect(analytics.receivedEvents == [.profileOpened])
 }
 ```
@@ -357,10 +357,10 @@ func shippingCost(subtotal: Double) -> Double {
 **Cuidado:** Tener funciones cortas, muchos protocolos o alta cobertura no garantiza claridad. Lo importante es que el comportamiento sea comprensible y comprobable.
 
 ```swift
-// Preguntas antes de crear una abstracción:
-// 1. ¿Qué variación real resuelve?
-// 2. ¿Qué consumidor necesita este contrato?
-// 3. ¿Qué error, estado o efecto hace explícito?
-// 4. ¿Puede probarse por comportamiento?
-// 5. ¿Es más simple que usar el tipo concreto?
+// Questions to ask before creating an abstraction:
+// 1. What real variation does it address?
+// 2. Which consumer needs this contract?
+// 3. Which error, state, or effect does it make explicit?
+// 4. Can it be tested through behavior?
+// 5. Is it simpler than using the concrete type?
 ```

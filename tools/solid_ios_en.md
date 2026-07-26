@@ -28,7 +28,7 @@ actor ProfileCache {
 }
 
 func profileTitle(for profile: Profile) -> String {
-    "Perfil de \(profile.name)"
+    "Profile for \(profile.name)"
 }
 
 struct ProfileImporter {
@@ -228,13 +228,13 @@ actor ProfileCache {
 **Watch out:** A protocol with one implementation is not always wrong, but it should represent a real boundary rather than exist “just in case.”
 
 ```swift
-// Empieza simple.
+// Start simple.
 func profileTitle(for profile: Profile) -> String {
-    "Perfil de \(profile.name)"
+    "Profile for \(profile.name)"
 }
 
-// Extrae un contrato cuando aparezca una necesidad real,
-// no solo para aumentar la cantidad de capas.
+// Extract a contract when a real need appears,
+// not just to increase the number of layers.
 ```
 
 ### Signs of too much architecture
@@ -246,10 +246,10 @@ func profileTitle(for profile: Profile) -> String {
 **Watch out:** Review factories with no real decision, types that only forward calls, inheritance used only to share code, and protocols created for imaginary cases.
 
 ```swift
-// Revisa una capa si no puede responder:
-// - ¿qué razón de cambio aísla?
-// - ¿qué contrato protege?
-// - ¿qué consumidor la necesita?
-// - ¿qué implementación permite sustituir?
-// - ¿qué prueba demuestra su valor?
+// Review a layer if it cannot answer:
+// - Which reason for change does it isolate?
+// - Which contract does it protect?
+// - Which consumer needs it?
+// - Which implementation can it replace?
+// - Which test demonstrates its value?
 ```

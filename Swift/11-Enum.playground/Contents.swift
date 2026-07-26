@@ -6,10 +6,10 @@
 
 //Sintaxis
 
-enum Clima {
-  case sol
-  case lluvia
-  case nublado
+enum Weather {
+  case sunny
+  case rainy
+  case cloudy
 }
 
 //Dentro del Enum podemos definir diferentes estados que queremos usar dentro de nuestro nuevo tipo y se llamarán case.
@@ -18,69 +18,69 @@ enum Clima {
 
 //Instancia de un enum
 
-let climaStatus: Clima = .sol
+let weatherStatus: Weather = .sunny
 
 //Instancia de  un enum señalando su tipo
 
-let climaStatus1: Clima = .sol
-print(climaStatus, climaStatus1)
+let anotherWeatherStatus: Weather = .sunny
+print(weatherStatus, anotherWeatherStatus)
 
 //con este último ejemplo lo instanciamos indicando su tipo, lo que nos permite asignarle cualquier clase dentro de este tipo
 
 //Enum con inicializador
 
 enum WeatherCondition {
-  case sol, lluvia, nublado
+  case sunny, rainy, cloudy
   init(isRain: Bool) {
     if isRain {
-      self = .lluvia
+      self = .rainy
     } else {
-      self = .sol
+      self = .sunny
     }
   }
 }
 
-let statusClima = WeatherCondition(isRain: true)
-print(statusClima)
+let weatherCondition = WeatherCondition(isRain: true)
+print(weatherCondition)
 
 // RESULTADO 👇
-// lluvia
+// rainy
 
 //Seleccionar un case también construye un valor del enum. Normalmente no escribimos
-//un init explícito porque `.sol` o `.lluvia` ya inicializan el valor; un init propio
+//un init explícito porque `.sunny` o `.rainy` ya inicializan el valor; un init propio
 //es útil cuando debemos decidir el case a partir de otros datos.
 
 //Enum con Switch
 
-enum ClimaState {
-  case sol
-  case lluvia
-  case nublado
+enum WeatherState {
+  case sunny
+  case rainy
+  case cloudy
 }
 
-for currentWeather in [ClimaState.sol, .lluvia, .nublado] {
+for currentWeather in [WeatherState.sunny, .rainy, .cloudy] {
   switch currentWeather {
-  case .sol:
-    print("Lindo día")
-  case .lluvia:
-    print("Húmedo y mojado")
-  case .nublado:
-    print("Frío y viento")
+  case .sunny:
+    print("Nice day")
+  case .rainy:
+    print("Wet and rainy")
+  case .cloudy:
+    print("Cold and windy")
   }
 }
 
 //En ocasiones también podemos agrupar distintos case dentro de un bloque de codigo
 
-for currentWeather in [WeatherCondition.sol, .lluvia, .nublado] {
+for currentWeather in [WeatherCondition.sunny, .rainy, .cloudy] {
   switch currentWeather {
-  case .sol:
+  case .sunny:
     break
-  case .lluvia, .nublado:
-    print("Húmedo y mojado")
+  case .rainy, .cloudy:
+    print("Wet weather")
   }
 }
 
-//También podríamos ocupar la keyword break dentro de un case, así indicándole que no queremos implementar ningún tipo de lógica de codigo. En este caso si se llegara a ejecutar el case .sol se ejecutará el break y salimos del scope del código y continuamos con el resto de control de flujo.
+//También podríamos ocupar la keyword break dentro de un case, así indicándole que no queremos implementar ningún tipo de lógica de codigo. En este caso si se llegara a ejecutar el case .sunny se ejecutará el break y salimos del scope del código y continuamos con el resto de control de flujo.
 
 //en vez de un switch también podríamos  ver los valores del enum con sentencia if y de esta forma podríamos ver el valor o los valores como nosotros queramos, a diferencia  del switch, que me evalúa el total de posibles valores del enum.
 
@@ -126,12 +126,12 @@ enum CompassPoint {
 
   // Método de Instancia
   func printValue() -> String {
-    "Value: Método de Instancia"
+    "Value: Instance method"
   }
 
   // Método de Tipo
   static func printMessage() -> String {
-    "Message: Método de tipo"
+    "Message: Type method"
   }
 }
 
@@ -143,11 +143,11 @@ print(compassPoint.printValue())
 
 // RESULTADO 👇
 // Rodolfo
-// Value: Método de Instancia
+// Value: Instance method
 
 print(CompassPoint.printMessage())
 // RESULTADO 👇
-// Message: Método de tipo”
+// Message: Type method
 
 //Enum con tipo de valor
 

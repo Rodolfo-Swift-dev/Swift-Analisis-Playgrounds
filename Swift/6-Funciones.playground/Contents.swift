@@ -39,7 +39,7 @@ print(message)
 //recomendable para el retorno de pocos valores, cuando son muchos valores se recomienda estructuras o clases
 func getTuple() -> (String, String) {
   let name = "Rodolfo"
-  let action = "Suscríbete"
+  let action = "Subscribe"
   return (name, action)
 }
 let (name, action) = getTuple()

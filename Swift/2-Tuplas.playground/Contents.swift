@@ -24,18 +24,21 @@ print(myUser.4)
 // true
 
 //extraer ciertos datos de una tupla
-let (name1, apellido1, apellido2, _, _) = myUser
+let (firstName, firstSurname, secondSurname, _, _) = myUser
+print(firstName, firstSurname, secondSurname)
 
 //extraer todos los datos de una tupla
-var (name2, apellidoA, apellidoB, years, married) = myUser
+let (givenName, paternalSurname, maternalSurname, years, married) = myUser
+print(givenName, paternalSurname, maternalSurname, years, married)
 
 //tuplas nombradas
-let (name, learn, language, score, isProUser) = ("Rodolfo", "Gonzalez", "Hernandez", 36, true)
+let (profileName, familyName, secondFamilyName, score, isProUser) =
+  ("Rodolfo", "Gonzalez", "Hernandez", 36, true)
 
 //acceder a elementos de tupla segun su nombre
-print(name)
-print(learn)
-print(language)
+print(profileName)
+print(familyName)
+print(secondFamilyName)
 print(score)
 print(isProUser)
 
@@ -48,6 +51,7 @@ print(isProUser)
 
 //tuplas con tuplas en su interior
 let (names, age, phones) = (("martin", "ignacio"), 25, (92_423_423, 458393))
+print(names, age, phones)
 
 //casos de usos
 //se recomienda usar con datos que esten relacionados emtre ellos
@@ -71,16 +75,16 @@ print(point.y)
 
 //Parametros etiquetados en funciones
 
-func sendMessage(destinatario: String, mensaje: String) {
-  print("Para \(destinatario): \(mensaje)")
+func sendMessage(to recipient: String, message: String) {
+  print("To \(recipient): \(message)")
 }
 
-sendMessage(destinatario: "Rodolfo", mensaje: "Hola")
+sendMessage(to: "Rodolfo", message: "Hello")
 
 //valores relacionados
 
-let coordenada = (latitud: 37.7, longitude: 38.4)
-print(coordenada.latitud, coordenada.longitude)
+let coordinate = (latitude: 37.7, longitude: 38.4)
+print(coordinate.latitude, coordinate.longitude)
 
 //Las tuplas son útiles para retornar varios valores relacionados, pero no es
 //recomendable representar errores con una tupla (resultado: T?, error: Error?).
@@ -101,7 +105,7 @@ func performDivision(_ dividend: Int, by divisor: Int) throws -> (quotient: Int,
 
 do {
   let operation = try performDivision(36, by: 5)
-  print("Cociente: \(operation.quotient), resto: \(operation.remainder)")
+  print("Quotient: \(operation.quotient), remainder: \(operation.remainder)")
 } catch OperationError.divisionByZero {
-  print("No se puede dividir por cero")
+  print("Cannot divide by zero")
 }
