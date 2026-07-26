@@ -1,18 +1,35 @@
-import Foundation
+//Operador ternario
+//
+//Es una expresión con tres partes:
+//condición ? valorSiEsVerdadera : valorSiEsFalsa
+//
+//La condición debe ser Bool y las dos ramas deben producir tipos compatibles.
+//Solo se evalúa la rama elegida, pero ambas ramas son obligatorias: no existe un
+//operador ternario “sin else”.
 
+let firstNumber = 8
+let secondNumber = 4
 
-var number1 = 2
-var number2 = 4
-var number3 = 2
-var number4 = 6
- 
-//operador ternario
-var result1: () = (number1 == number3) ? (number1 = 6) : (number2 = 2)
-print(number1)
-//operador ternario multiple consultas
-var result2: () = (number1 == number3) ? (number1 = 6) : (number2 == number3) ? (number3 = 6) : (number2 = 2)
+let greaterNumber = firstNumber > secondNumber ? firstNumber : secondNumber
+print(greaterNumber)
 
+let isAuthenticated = true
+let screenTitle = isAuthenticated ? "Inicio" : "Iniciar sesión"
+print(screenTitle)
 
-//operador ternario sin else
-var result3: () = (number1 == number3) ? (number1 = 6) : ()
+//El ternario funciona mejor para seleccionar valores simples. No conviene utilizarlo
+//para mutaciones con resultado Void ni encadenar varias condiciones difíciles de leer.
+//Para decisiones con más de dos caminos, if/else o switch expresan mejor la intención.
 
+let score = 82
+let grade: String
+
+if score >= 90 {
+    grade = "Excelente"
+} else if score >= 60 {
+    grade = "Aprobado"
+} else {
+    grade = "Reprobado"
+}
+
+print(grade)

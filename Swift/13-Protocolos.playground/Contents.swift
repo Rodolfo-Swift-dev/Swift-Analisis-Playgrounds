@@ -323,9 +323,13 @@ database1.removeData()
 
 //a la hora de usar protocolos y extensions, tenemos 3 opciones. Una es añadir las implementaciones del protocolo al interior de un extensión directamente del protocolo (por defecto), añadir implementación del protocolo directamente en el tipo o añadir implementaciones del protocolo al interior de una extensión del tipo que conforma el protocolo
 
-//en la extension del protocolo podemos implementar solo los métodos requeridos, no las propiedades, para implementar estas debemos implementarlas en el tipo.
+//Una extensión de protocolo puede proporcionar métodos y propiedades computadas,
+//pero no propiedades almacenadas. Esas implementaciones pueden satisfacer requisitos
+//del protocolo y actuar como valores por defecto.
 
-//cabe señalar que si tenemos un método implementado en una extensión del protocolo y además el mismo método lo implementamos en el tipo, luego de Instanciar el tipo y acceder a sus métodos al método que accederá será el del tipo, no el de la extension(como que existiera una jerarquia)
+//El despacho depende de si el miembro es un requisito. Una implementación del tipo
+//para un requisito se mantiene al usar `any Protocolo`. Un miembro declarado solo
+//en la extensión se elige según el tipo estático del valor.
 
 
 
@@ -348,23 +352,40 @@ protocol Printable1 {
 //creacion extension de protocolo
 
 extension Printable1 {
+    var information: String { "Información por defecto" }
+
     func printResult() {
         print("Message from Protocolo Extension \(information)")
+    }
+
+    func extensionOnlyMessage() {
+        print("Método definido solamente en Printable1")
     }
 }
 
 //creacion objeto que conforma el protocolo
 
 struct User2: Printable1 {
-    var information: String { "RodolfoDev" }
+    func printResult() {
+        print("Implementación de User2: \(information)")
+    }
+
+    func extensionOnlyMessage() {
+        print("Método concreto de User2")
+    }
 }
-//cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo(Struct), no en la extension
+//User2 adopta la propiedad computada por defecto de la extensión.
 
 
 //instancia de objeto que conforma protocolo
 
 let user2 = User2()
 user2.printResult()
+user2.extensionOnlyMessage()
+
+let printableUser: any Printable1 = user2
+printableUser.printResult()          // Requisito: usa la implementación de User2.
+printableUser.extensionOnlyMessage() // Solo extensión: usa la de Printable1.
 
 
 
@@ -404,5 +425,4 @@ extension User3 {
 
 let user3 = User3()
 user3.printResult()
-
 

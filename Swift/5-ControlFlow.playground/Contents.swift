@@ -3,7 +3,7 @@ import Foundation
 //Control Flow
 
 
-var condition = true
+let condition = CommandLine.arguments.contains("--condition-is-true")
 //If
 //control de flujo en donde evaluamos una condición y si esta es verdadera  se ejecutará el código entre { }. Cabe señalar que si la condición a evaluar es falsa entonces podremos agregar o no, una cláusula else.
 if (condition) {
@@ -16,7 +16,7 @@ if (condition) {
 //Else If
 // la cláusula else If ejecuta el bloque de código dentro de las { }, siempre y cuando la condición del If sea falsa y la condición del actual Else If sea verdadera.
 //si tuviera varios ELSE IF, se ejecuta por orden desde el principio y se activará el código de la primera condición Else If que sea true, y si no es true se saltará al siguiente bloque de código.
-var numberOfSubscribers = 6
+let numberOfSubscribers = CommandLine.arguments.count + 5
 if numberOfSubscribers > 10 {
     print("A lot of subscribers!")
 } else if numberOfSubscribers > 5 {
@@ -30,7 +30,7 @@ if numberOfSubscribers > 10 {
 // la cláusula else ejecuta el bloque de código dentro de las { }, siempre y cuando la condición del If sea falsa y si tuviera ELSE IF también tendrían que ser falsas.
 //cabe señalar que el Else se ejecuta sin consultar ninguna condición, solo que no se cumplan condiciones anteriores.
 //el bloque Else es opcional de nosotros si queremos ocuparlo ya que no es obligación
-var isUserLogged = false
+let isUserLogged = CommandLine.arguments.contains("--logged-in")
 if isUserLogged {
     print("Muestra el contenido de la app")
 } else {
@@ -77,9 +77,10 @@ checkMyOptional()
 
 
 //Switch
-//Similares a los If, controlan el flujo de nuestro codigo, pudiendo evaluar diferentes condiciones.
-//nuestros switch deben tener al final una sentencia DEFAULT que se activará cuando ninguna condición del Switch se haya activado, este sería el equivalente a Else en un if.
-var numberOfSubscriber = 100
+//Un switch debe ser exhaustivo: todos los valores posibles deben quedar cubiertos.
+//default es útil como caso restante, pero no es obligatorio cuando enumeramos todos
+//los casos, como sucede con MessageStatus más abajo.
+let numberOfSubscriber = CommandLine.arguments.contains("--exactly-100") ? 100 : 50
 switch numberOfSubscriber {
 case 100:
     print("A bunch of subscribers! 🤓")
@@ -91,9 +92,9 @@ default:
 //la Keyword Where se puede utilizar en Switch para filtrar datos, en If let, Guard let y Do catch, for, genéricos, protocolos y extensiones para filtrar tipos y también en funciones de orden superior como sorted, first, etc
 
 //en el siguiente ejemplo añadiremos la Keyword where e incluiremos una condición y además creamos una constante en donde luego la podemos utilizar para añadir una condición extra.
-var numberOfSubscrib = 100
+let numberOfSubscrib = CommandLine.arguments.count * 10
 switch numberOfSubscrib {
-case let x where numberOfSubscribers > 5:
+case let x where x > 5:
     print("A bunch of subscribers! TOTAL: \(x)")
 default:
     print("Keep working!")
@@ -107,7 +108,8 @@ enum MessageStatus {
     case delivered
     case read
 }
-let status: MessageStatus = .read
+let messageStatuses: [MessageStatus] = [.sent, .delivered, .read]
+let status = messageStatuses[CommandLine.arguments.count % messageStatuses.count]
 switch status {
 case .sent:
     print("Message sent, add grey stick")
@@ -149,7 +151,9 @@ for language in languages where language.count < 7 {
 //While
 //seria pregunta y acción
 //sirve para Manejar el flujo del código, este incluye una condición y mientras esta sea verdadera se puede ejecutará el código repetidamente, evaluando en cada interacción hasta que cuando la condición sea falsa se termine el ciclo While y avance al siguiente código.
-//cabe señalar que tenemos que estar seguro que la condición a evaluar en algún momento será falsa si no se ejecutará repetidamente, acabando solo cuando se consuma toda la memoria del equipo haciendo un crush
+//Debemos garantizar que la condición pueda llegar a ser falsa o salir con break.
+//Un ciclo infinito puede mantener la CPU ocupada indefinidamente; no implica por sí
+//solo que vaya a consumir toda la memoria.
 let numbers = [1, 2, 3, 4, 5]
 var counter = 0
 while (counter < numbers.count) {
@@ -200,4 +204,3 @@ repeat {
 
 //hacer y despues preguntar
 //ejecutara un bloque de codigo en repetidas ocasiones, verificando despues de la ejecucion del codigo si es que la condicion se cumple, para luego ejecutar nuevamente el codigo y volver a preguntar ka condicion. cuando la condicion no se cumpla se detendra el bucle
-

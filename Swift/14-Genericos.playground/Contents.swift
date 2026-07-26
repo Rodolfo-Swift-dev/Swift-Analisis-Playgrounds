@@ -207,8 +207,8 @@ struct StackOfString {
         items.append(item)
     }
     
-    mutating func pop() -> String {
-        return items.removeLast()
+    mutating func pop() -> String? {
+        items.popLast()
     }
 }
 
@@ -218,8 +218,10 @@ var stackOfString = StackOfString()
 //métodos de la instancia
 stackOfString.push("Rodolfo")
 stackOfString.push("Aprende a Programar en Swift")
-stackOfString.pop()
-stackOfString.items
+if let poppedString = stackOfString.pop() {
+    print(poppedString)
+}
+print(stackOfString.items)
 
 
 //ahora si quisiéramos implementar este mismo objeto con sus propiedades y sus métodos pero con otro tipo de datos, no podríamos a menos que ocupemos Genéricos en tipos de datos(class, Struct y Enum)
@@ -235,8 +237,8 @@ struct Stack<Element> {
         items.append(item)
     }
     
-    mutating func pop() -> Element {
-        return items.removeLast()
+    mutating func pop() -> Element? {
+        items.popLast()
     }
 }
 //podemos ver que añadiendo el placeholder <Element> después del nombre del tipo y añadiendo el placeholder Element como tipo de dato cuando es requerido dentro del cuerpo de nuestro tipo.
@@ -252,7 +254,9 @@ var stack = Stack<Int>()
 stack.push(1)
 stack.push(2)
 stack.push(3)
-stack.pop()
+if let poppedNumber = stack.pop() {
+    print(poppedNumber)
+}
 
 //inicializacion de objeto genérico que recibe tipos String
 
@@ -264,7 +268,9 @@ var genericStack = Stack<String>()
 genericStack.push("Rodolfo")
 genericStack.push("Aprende Swift")
 genericStack.push("Aprende a Crear Apps")
-genericStack.pop()
+if let poppedValue = genericStack.pop() {
+    print(poppedValue)
+}
 
 
 
@@ -280,7 +286,8 @@ genericStack.pop()
 
 //restricciones de tipo usando genericos
 
-//la flexibilidad de los genéricos es impresionante pero podemos también añadir restricciones. Esto significa que podemos limitar el tipo de datos, ejemplo cuando queremos sumar y solo debemos trabajar con datos numericos
+//Los genéricos también admiten restricciones. Para utilizar + no basta con un tipo
+//T totalmente libre: el compilador necesita un protocolo que garantice esa operación.
 
 //código erróneo de genérico
 //struct Calculator<Value> {
@@ -289,7 +296,8 @@ genericStack.pop()
    // }
 //}
 
-//como mencionábamos este código anterior tiene un método el cual no puede ejecutarse debido a que el dato ingresado pueda ser un valor no numérico como String o Bool.
+//El código anterior no compila porque un Value sin restricciones no garantiza que
+//exista el operador +.
 //para poder aplicar estas restricciones a los genéricos debemos hacer lo siguiente
 
 
@@ -301,7 +309,9 @@ struct Calculator1<Value: AdditiveArithmetic> {
     }
 }
 
-//en este ejemplo el <value :> le indicamos que sea de tipo que conforme el protocolo AdditiveArithmetic, el cual nos permite funciones aritméticas, entonces con esto le aplicamos restricción a nuestro objeto genérico trabaje solo con tipos de datos que se puedan sumar o hacer funciones aritméticas, de lo contrario si ingresamos datos no numéricos como Bool o String nos arrojará un error
+//Value debe conformar AdditiveArithmetic, protocolo que exige zero, suma y resta.
+//No significa estrictamente “tipo numérico”: un tipo propio también puede conformarlo
+//si implementa esos requisitos. Bool y String no conforman este protocolo.
 
 
 
@@ -313,7 +323,9 @@ struct Calculator2<Value> where Value: AdditiveArithmetic {
     }
 }
 
-//aquí podemos ver un código más claro y conciso de un objeto genérico el cual tiene un placeholder <value> que deberá conformar el protocolo AdditiveArithmetic el cual nos permite sumar, en resumen solo nos pide tipos de datos numéricos para poder trabajar en el objeto
+//La cláusula where expresa la misma restricción de otra forma. Calculator2 acepta
+//cualquier tipo que conforme AdditiveArithmetic, no solamente los tipos numéricos de
+//la biblioteca estándar.
 
 
 //instancia de objeto genérico con restricción de tipo de dato
@@ -330,9 +342,10 @@ print(calculator2.sum(a: 2000, b: 3000))
  
  
  
-//tipos asociativos
+//Tipos asociados
 
-//también podemos usar genéricos en protocolos y para hacerlo debemos ocupar como placeholder la keyword associated types dentro del protocolo  y luego el nombre. Puede ser el nombre T, U como anteriormente le llamamos pero para esta ocasión le daremos un nombre más descriptivo, lo llamaremos Element
+//Un protocolo declara un tipo asociado con la keyword associatedtype. Cada tipo que
+//conforma el protocolo determina qué tipo concreto representa Element.
 
 
 //creacion de protocolo genérico
@@ -342,7 +355,7 @@ protocol Stackeable {
     associatedtype Element              // 1
     var items: [Element] { get set }    // 2
     mutating func push(_ item: Element) // 3
-    mutating func pop() -> Element      // 4
+    mutating func pop() -> Element?     // 4
 }
 
 //para implementar un protocolo con datos genéricos debemos agregar el placeholder associated types seguido por el nombre que en nuestro caso será Element
@@ -361,8 +374,8 @@ struct StackOfStrings: Stackeable {
         items.append(item)
     }
     
-    mutating func pop() -> String {
-        items.removeLast()
+    mutating func pop() -> String? {
+        items.popLast()
     }
 }
 
@@ -373,7 +386,9 @@ var stackOfStrings = StackOfStrings(items: [])
 stackOfStrings.push("Rodolfo")
 stackOfStrings.push("Martin")
 stackOfStrings.push("Nacho")
-stackOfString.pop()
+if let poppedString = stackOfStrings.pop() {
+    print(poppedString)
+}
 
 //aquí vemos cómo creamos un protocolo genérico y el objeto que lo conforme puede con el tipo de datos deseado.
 //En el objeto creado le indicamos que el tipo de datos a utilizar por el objeto será String pero si quisiéramos que la implementación de métodos y propiedades fuera de cualquier tipo de datos podríamos indicarle a nuestra estructura o nuestro tipo que sea genérica quedando asi
@@ -388,8 +403,8 @@ struct Stack1<Element>: Stackeable {
         items.append(item)
     }
     
-    mutating func pop() -> Element {
-        items.removeLast()
+    mutating func pop() -> Element? {
+        items.popLast()
     }
 }
 
@@ -400,9 +415,15 @@ var stack1 = Stack1<String>(items: [])
 stack1.push("Rodolfo")
 stack1.push("Nacho")
 stack1.push("Martin")
-stack1.pop()
+if let poppedItem = stack1.pop() {
+    print(poppedItem)
+}
 
-print(stack.items)
+print(stack1.items)
+
+//pop retorna Optional para representar de forma segura un stack vacío. Usar
+//removeLast directamente impondría como precondición que existiera un elemento y
+//provocaría un error de ejecución si esa precondición no se cumple.
 
 
 

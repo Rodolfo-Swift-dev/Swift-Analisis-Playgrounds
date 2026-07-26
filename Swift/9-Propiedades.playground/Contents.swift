@@ -89,7 +89,9 @@ print(Databa.age)
 
 
 //Propiedades computadas
-//las propiedades de tipo y propidades de Instancia almacenan valores, pero las propiedades computadas no almacenan valores y calculan su valor cada vez que llamamos a la propiedad.
+//Tanto las propiedades de instancia como las de tipo pueden ser almacenadas o
+//computadas. Una propiedad computada no guarda su propio valor: ejecuta su getter
+//al leer y, si existe, su setter al asignar.
 //para utilizar estas propiedades utilizamos la palabra var(o sea variable) y { } en donde irá nuestra logica
 //opcional podemos añadir un getter y setter
 
@@ -141,7 +143,8 @@ print(fan.ageInDogYears)
 //Observadores de propiedad
 //estos observadores se aplican a las propiedades de instancias más {willset y didset }.
 //Esta propiedad es muy útil para saber cuándo asignamos un nuevo valor a una propiedad.
-//Son métodos especiales willSet y didSet que se pueden agregar a una propiedad almacenada para observar y reaccionar a los cambios en su valor. Se utilizan para realizar acciones antes o después de que la propiedad cambie
+//willSet y didSet son observadores, no métodos. Pueden agregarse a una propiedad
+//almacenada para reaccionar antes y después de una asignación.
 
 
 //willset = willSet se llamará un instante antes de asignarse un valor nuevo a una propiedad. Fíjate que recibimos el nuevo valor como parámetro, en el código anterior aparece como newName.
@@ -169,8 +172,8 @@ class Persons {
         willSet(newName) {
             print("Se actualizara el nombre a \(newName)")
         }
-        didSet (newName){
-            print("Se remplazo el nombre \(name) a \(newName)")
+        didSet(oldName) {
+            print("Se reemplazó el nombre \(oldName) por \(name)")
         }
     }
     
@@ -229,7 +232,7 @@ struct UserForm {
 }
 var usersForm = UserForm()
 usersForm.userName = "Rodolfo"
-print(userForm.userName)
+print(usersForm.userName)
 // Valid name
 //debido a la lógica de nuestro ejemplo se ejecuta el setter y la cláusula if.
 
@@ -279,4 +282,3 @@ print(formUs.userName)
 
 
 //casos de usos
-

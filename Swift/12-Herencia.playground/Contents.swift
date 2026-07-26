@@ -88,7 +88,7 @@ class Chihuahua: Dog {
 //instancia de objeto que hereda
 
 let chihuahua = Chihuahua(legs: 4, name: "Puppy", age: 2)
-chihuahua.name
+print(chihuahua.name)
 chihuahua.eat()
 
 
@@ -162,7 +162,9 @@ class Dog2: Animal {
     }
 }
 
-//en el código anterior debimos anteponer la keyword class antes del nombre del método de Tipo, como es una clase debe ser así, si fuera una estructura sería la keyword static
+//En una clase, static crea un método de tipo que no puede sobrescribirse. Usamos
+//class aquí porque queremos permitir que Chihuahua1 implemente override. Las
+//estructuras y enumeraciones solamente admiten static.
 
 
 //creacion de subclase que hereda y además hace Owerride sobre método de tipo
@@ -215,7 +217,7 @@ class Chihuahua2: Dog3 {
 //instancia de objeto que hereda y sobreescribe propiedad
 
 let chihuahua2 = Chihuahua2(name: "Rodolfo", age: 20, legs: 5)
-chihuahua2.description
+print(chihuahua2.description)
 
 // RESULTADO 👇
 // Chihuahua 🐶
@@ -239,7 +241,8 @@ class Dog4: Animal {
     }
 }
 
-//para indicar en una clase si un método o propiedad es de tipo debemos indicarlo mediante la keyword class anteponiéndose a la propiedad o metodo
+//Una clase puede declarar miembros de tipo con static o class. class var se utiliza
+//aquí porque la subclase sobrescribe la propiedad; static impediría el override.
 
 
 //creacion de subclase con Override de una propiedad de tipo
@@ -352,7 +355,7 @@ class Dog7: Animal {
 
 //código error implementación herencia de una clase con una propiedad que no se puede sobreescribir
 
-class Chihuahua5: Dog {
+class Chihuahua5: Dog7 {
     //codigo erroneo
    // override var description: String { "Chihuahua" }
 }
@@ -371,4 +374,3 @@ class Chihuahua5: Dog {
 //mapa de herencia componente UiButton
 
 //.   UIButton -> UIControl -> UIView -> UIResponser -> NSObject
-

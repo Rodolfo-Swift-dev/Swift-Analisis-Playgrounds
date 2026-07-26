@@ -51,8 +51,9 @@ if Int(myInt) != nil{
 //print(myNumber!)//crash
 
 
-//OPERADOR DE FUSION NULA
-// si el valor no es opcional entonces arroja un dato desempaquetado el cual ocuparemos dentro de una variable o constante y si no es opcional entonces fijaremos un valor por defecto
+//OPERADOR DE FUSIÓN NULA (nil-coalescing)
+//a ?? b devuelve el valor desempaquetado de a cuando a no es nil. Si a es nil,
+//devuelve el valor alternativo b. El resultado deja de ser opcional.
 var myNewNumber = Int(myInt) ?? 0
 var myStringNum = "2500"
 var myNewIntNumber = Int(myStringNum) ?? 0
@@ -93,10 +94,11 @@ let follower: User?
 //nil
 //ENCADENAMIENTO OPCIONAL
 
-print(myCar?.color ?? Car(color: "blue"))
+print(myCar?.color ?? "blue")
 myCar = Car()
 
-print(myCar!.color)//metodo erroneo ya que no hay verificacion y nos puede arrojar un error
+//El encadenamiento opcional evita depender del orden de asignación o de un force unwrap.
+print(myCar?.color ?? "Color desconocido")
 if let color = myCar?.color {
     print(color)
 }
@@ -122,5 +124,10 @@ func checkMyOptional() {
 checkMyOptional()
 
 
-//Extraer valor con un MAP
-//myIntNumber?.map { print("value = \($0)")  }  CORREGIR EL LIBRO, NO SE PERMITE EL MAP
+//Transformar o consumir un Optional con map
+//Optional sí implementa map. Se escribe .map, no ?.map: map opera sobre el
+//contenedor Optional y ejecuta el closure solamente cuando existe un valor.
+let parsedNumber = Int(myInt)
+let doubledNumber = parsedNumber.map { $0 * 2 }
+parsedNumber.map { print("value = \($0)") }
+print(doubledNumber ?? 0)

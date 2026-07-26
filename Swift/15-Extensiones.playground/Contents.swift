@@ -278,9 +278,13 @@ struct User5: Printable {
 let user5 = User5()
 user5.printResult()
 
-//en la extension del protocolo podemos implementar solo los métodos requeridos, no las propiedades, para implementar estas debemos implementarlas en el tipo.
+//Una extensión de protocolo puede implementar métodos y propiedades computadas,
+//incluidos valores por defecto para requisitos. No puede añadir propiedades
+//almacenadas porque una extensión no cambia el almacenamiento de las instancias.
 
-//cabe señalar que si tenemos un método implementado en una extensión del protocolo y además el mismo método lo implementamos en el tipo, luego de Instanciar el tipo y acceder a sus métodos al método que accederá será el del tipo, no el de la extension(como que existiera una jerarquia)
+//Si el método es un requisito del protocolo, la implementación del tipo participa en
+//el despacho dinámico. Si el método existe solamente en la extensión, se resuelve
+//según el tipo estático; esta diferencia se demuestra en 13-Protocolos.
 
 
 

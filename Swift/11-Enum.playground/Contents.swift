@@ -60,7 +60,9 @@ print ( statusClima)
 // RESULTADO 👇
 // lluvia
 
-//un enum a pesar de ser un tipo como Class o Struct no necesita inicializacion para poder utilizar el enum, podemos asignar directamente el case de un Enum a una constante o variable
+//Seleccionar un case también construye un valor del enum. Normalmente no escribimos
+//un init explícito porque `.sol` o `.lluvia` ya inicializan el valor; un init propio
+//es útil cuando debemos decidir el case a partir de otros datos.
 
 
 
@@ -76,7 +78,8 @@ case lluvia
 case nublado
 }
 
-let climaActual = ClimaState.sol
+let availableWeather: [ClimaState] = [.sol, .lluvia, .nublado]
+let climaActual = availableWeather[CommandLine.arguments.count % availableWeather.count]
 
 switch climaActual {
 
@@ -91,7 +94,8 @@ case .nublado :
 
 //En ocasiones también podemos agrupar distintos case dentro de un bloque de codigo
 
-let climaActual1 = clima.sol
+let availableWeatherCases: [clima] = [.sol, .lluvia, .nublado]
+let climaActual1 = availableWeatherCases[CommandLine.arguments.count % availableWeatherCases.count]
 
 switch climaActual1 {
 
@@ -127,7 +131,10 @@ enum MessageStatus {
     case read
 }
 
-let messageStatus = MessageStatus.sent
+let availableMessageStatuses: [MessageStatus] = [.received, .sent, .read]
+let messageStatus = availableMessageStatuses[
+    CommandLine.arguments.count % availableMessageStatuses.count
+]
 
 switch messageStatus {
     case .received:
@@ -170,15 +177,15 @@ enum CompassPoint {
 //Ahora podemos crear una constante con el valor de un case de nuestro Enum. De esta manera podemos llamar a la propiedad computada y al método de instancia y además podemos llamar al método de tipo
 
 let compassPoint: CompassPoint = .north
-compassPoint.owner
-compassPoint.printValue()
+print(compassPoint.owner)
+print(compassPoint.printValue())
 
 // RESULTADO 👇
 // SwiftBeta
 // Value: Método de Instancia
 
 
-CompassPoint.printMessage()
+print(CompassPoint.printMessage())
 // RESULTADO 👇
 // Message: Método de tipo”
 

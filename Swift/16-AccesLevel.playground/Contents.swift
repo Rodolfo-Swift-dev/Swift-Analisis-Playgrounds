@@ -1,17 +1,15 @@
 import Foundation
 
-//Level Access Private en Swift
+//Niveles de control de acceso en Swift
 
 
 
-//Tipos control de acceso
-//en Swift tenemos 5 keyword con la cuales podemos restringir el acceso del código
-
-//Private
-//Open
-//Public
-//Internal
-//FilePrivate
+//Swift tiene seis niveles de acceso, ordenados aquí desde el contexto más amplio al
+//más restringido:
+//open, public, package, internal, fileprivate y private.
+//
+//El nivel de una declaración también está limitado por los tipos que aparecen en su
+//firma: una API public, por ejemplo, no puede exponer un tipo internal.
 
 //estos se pueden aplicar a propiedades, métodos, extensiones, etc. incluso tipos(Struct, Class y Enum). Con los tipos resulta muy útil ya que podemos restringir el acceso, de esta manera solo ciertas partes del código son visibles desde “fuera” del tipo.
 
@@ -24,7 +22,7 @@ import Foundation
 
 //Private en propiedades
 
-//el control de acceso Private es el más restrictivo de los 5 y también es uno de los más utilizados
+//private es el nivel más restrictivo y uno de los más utilizados.
 
 
 //creacion de tipo con 2 variables de instancia e instancia del objeto
@@ -74,8 +72,17 @@ print(worker.language)
 // 'name' is inaccessible due to 'private' protection level
 
 
-//al hacer una propiedad privase le indicamos que esta propiedad solo es accesible desde dentro de la implementación del tipo y no desde fuera(instancia)
-//esto nos permite ocultar que digo que no es necesario exponerlo más allá de su propio tipo y así garantizamos seguridad ante un error de mal uso de ese código
+//private permite acceso desde la declaración que lo contiene y desde extensiones del
+//mismo tipo ubicadas en este archivo. No puede accederse desde una instancia externa.
+//Esto oculta detalles de implementación que no forman parte de la API.
+
+extension Worker {
+    func displayedName() -> String {
+        name
+    }
+}
+
+print(worker.displayedName())
 
 
 
@@ -89,7 +96,8 @@ print(worker.language)
 
 //los private en métodos funcionan de la misma forma que los Private en propiedades.
 
-//debemos agregar la keyword Prevate antes del método y con estamos restringiendo el acceso a su código desde instancias, solo se puede acceder a través de su tipo nada más
+//Anteponemos private al método para que solo pueda utilizarse dentro de su ámbito y
+//en extensiones del mismo tipo escritas en este archivo.
 
 
 //creacion de tipo con 2 variables de instancia y 1 metodo privado
@@ -119,6 +127,66 @@ let user1 = User1(name: "Rodolfo",
 
 print(user1.name)
 
+//fileprivate
+//Permite usar la declaración desde cualquier código del mismo archivo fuente. Es más
+//amplio que private, pero continúa ocultándola para los demás archivos del módulo.
+fileprivate struct FileCache {
+    fileprivate var entries: [String] = []
+}
+
+fileprivate var fileCache = FileCache()
+fileCache.entries.append("Swift")
+print(fileCache.entries)
+
+//internal
+//Es el nivel predeterminado cuando no escribimos un modificador. La declaración se
+//puede usar desde cualquier archivo del mismo módulo, pero no desde otro módulo.
+internal struct ModuleService {
+    func execute() {
+        print("Internal: visible dentro del módulo")
+    }
+}
+
+ModuleService().execute()
+
+//package
+//Disponible desde Swift 5.9. Permite compartir una declaración entre módulos del
+//mismo Swift Package y la oculta a clientes externos. Solo puede declararse cuando
+//el código se compila como parte de un package, por eso no se activa en este
+//playground independiente:
+//
+// package struct PackageService { }
+
+//public
+//Permite usar una API desde otros módulos. Una clase public no puede heredarse ni
+//sus miembros sobrescribirse fuera del módulo, salvo que sean open.
+public struct PublicProfile {
+    public let name: String
+
+    public init(name: String) {
+        self.name = name
+    }
+}
+
+print(PublicProfile(name: "Rodolfo").name)
+
+//open
+//Es el acceso más amplio y solo se aplica a clases y miembros de clases. Además de
+//ser visible fuera del módulo, permite herencia y override externos.
+open class ExtensibleScreen {
+    public init() {}
+
+    open func render() {
+        print("Render base")
+    }
+}
+
+final class LocalScreen: ExtensibleScreen {
+    override func render() {
+        print("Render personalizado")
+    }
+}
+
+LocalScreen().render()
+
 //casos de usos
-
-

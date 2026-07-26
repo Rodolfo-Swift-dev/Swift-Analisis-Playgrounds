@@ -4,7 +4,9 @@ import Foundation
 //conjunto de elementos que tienen un orden y se puede acceder a ellos a traves de su indice. pueden ser de diferentes tipos de datos.
 //es frecuente usar las tuplas como constantes aunque tambien pueden ser variables.
 
-//las tuplas no incluyen metodos Sorted() comom el Array, pero si se pueden aplicar metodos o funciones de orden superior como el Sorted({closure}), en donde agregas la logica a traves de un closure
+//Una tupla agrupa una cantidad fija de valores, pero no conforma Sequence ni
+//Collection. Por eso no se puede llamar sorted, map o filter directamente sobre
+//ella. Si necesitamos recorrer u ordenar elementos homogéneos, debemos usar Array.
 
 
 //acceder a elementos de tupla segun su posicion
@@ -88,21 +90,29 @@ sendMessage(destinatario: "Rodolfo", mensaje: "Hola")
 let coordenada = (latitud: 37.7, longitude: 38.4)
 
 
-//Manejo de errores
+//Las tuplas son útiles para retornar varios valores relacionados, pero no es
+//recomendable representar errores con una tupla (resultado: T?, error: Error?).
+//Ese diseño permite estados inválidos: ambos valores podrían ser nil o no nil.
+//Para errores recuperables usamos throws; Result es otra alternativa cuando
+//necesitamos almacenar o transportar el resultado.
 
-func realizarOperacion() -> (resultado: Int?, error: String?) {
-    //Logica de la operacion
-    return (resultado: 36, error: nil)
+enum OperationError: Error {
+    case divisionByZero
 }
 
-let operacion = realizarOperacion()
-
-if let resultado = operacion.resultado {
-    print("Resultado: \(resultado)")
-} else if let error = operacion.error {
-    print("Error: \(error)")
+func performDivision(_ dividend: Int, by divisor: Int) throws -> (quotient: Int, remainder: Int) {
+    guard divisor != 0 else {
+        throw OperationError.divisionByZero
+    }
+    return (dividend / divisor, dividend % divisor)
 }
 
+do {
+    let operation = try performDivision(36, by: 5)
+    print("Cociente: \(operation.quotient), resto: \(operation.remainder)")
+} catch OperationError.divisionByZero {
+    print("No se puede dividir por cero")
+}
 
 
 

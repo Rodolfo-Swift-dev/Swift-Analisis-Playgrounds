@@ -5,7 +5,9 @@ import Foundation
 
 //Type casting
 
-//type casting en swift es una manera de comprobar el tipo de una instancia o cambiar el tipo de una instancia por alguna superclase o subclase, todo esto con la finalidad de continuar con el flujo de nuestro programa
+//Type casting comprueba o trata una instancia como otro tipo compatible dentro de
+//una jerarquía, protocolo o tipo existencial. No convierte el contenido de un valor:
+//para transformar "123" en Int se utiliza Int("123"), no as?.
 
 //caracteristicas
 
@@ -19,7 +21,9 @@ import Foundation
 //comprobacion de tipos en tiempo de ejecución
 // una vez hemos dado un tipo a una variable, no podemos cambiar su tipo. Pero en ocasiones tendremos que hacer comprobaciones en el tiempo de ejecución de nuestro código para saber exactamente el tipo de una instancia.
 
-//con las keyword is, as! y as podremos comprobar el tipo de una instancia, hacer type casting
+//is comprueba el tipo. as realiza un upcast o coerción conocida por el compilador;
+//as? intenta un downcast seguro y retorna Optional; as! fuerza el downcast y provoca
+//un error de ejecución si el tipo no coincide.
 
 
 class Animal{
@@ -51,20 +55,11 @@ let neighbors : [Any] = [nacho, martin, nemo,1]
 
 
 
-// is
-// as!
-//usamos el operador is para comprobar el tipo de una istancia, retornando un true si la instancia es del tipo que especificamos o false si no lo es
-
-//consulta con keyword is si variable es de tipo String
-
-//el operador o keyword is nos sirve para comprobar un tipo y dependiendo del resultado controlar el flujo del programa
-
-
+//is devuelve true cuando una instancia es compatible con el tipo consultado.
 func findNemo(from animals : [Any]){
     for animal in animals{
         if animal is Fish{//TYPECHECKING
-            let pez = animal as! Fish// DOWNCAST
-            print(pez.name)
+            print("Encontramos una instancia de Fish")
         }
     }
 }
@@ -77,28 +72,32 @@ findNemo(from: neighbors)
 
 
 
-//as
+//as realiza una conversión de tipo garantizada, como subir desde Fish hacia Animal.
+//El objeto no cambia; cambia el tipo estático desde el que lo observamos.
+let aquaticAnimal = nemo as Animal
+print(aquaticAnimal.name)
+
+//as! fuerza un downcast. Después de comprobar is, este cast concreto es seguro,
+//pero normalmente as? evita depender de que ambas operaciones permanezcan juntas.
 func findinNemo1(from animals : [Any]){
     for animal in animals{
         if animal is Fish{//TYPECHECKING
             let pececillo = animal as! Fish// DOWNCAST
             print(pececillo.name)
-            print(pececillo.respirarBajoAgua())
-           
-            let animalFish = animal as Any// as UPCAST
+            pececillo.respirarBajoAgua()
             
         }
     }
 }
-print(findinNemo1(from: neighbors))
+findinNemo1(from: neighbors)
 
 //ERROR en tiempo de ejecucion por que el downcast no corresponde a la subclase
-//let pescado = neighbors[0] as! fish
+//let pescado = neighbors[0] as! Fish
 
 //as?
 if let pescado = neighbors[2] as? Fish{//secure DOWNCAST
     
-    print(pescado.respirarBajoAgua())
+    pescado.respirarBajoAgua()
     
 }else{
     print("Not fish")
@@ -111,27 +110,12 @@ if let pescado = neighbors[2] as? Fish{//secure DOWNCAST
 
 
 
-//as?
-
-//usamos el operador as para convertir una instancia de un tipo a otro, es decir cambiar el tipo.
-
-//Este operador consulta si un tipo se puede convertir
-
-
-
+//as? combina la comprobación y el downcast en una sola operación segura.
 func findinNemo2(from animals : [Any]){
     for animal in animals{
-        if animal is Fish{//TYPECHECKING
-            //metodo inseguro sin verificar
-            if let pezcado = animal as? Fish{
-                print(pezcado.name)
-                print(pezcado.respirarBajoAgua())
-            }
-            //let pezcado = animal as! Fish// DOWNCAST
-           
-           
-            let animalFish = animal as Any// as UPCAST
-            
+        if let pescado = animal as? Fish {
+            print(pescado.name)
+            pescado.respirarBajoAgua()
         }
     }
 }
@@ -139,22 +123,16 @@ func findinNemo2(from animals : [Any]){
 findinNemo2(from: neighbors)
 
 
-/*
-var message = "¡Suscríbete a SwiftBeta!"
-
-if let _ = message as? String {
-    print("message es de tipo String")
-} else {
-    print("message NO es de tipo String")
+let numericText = "123"
+if let convertedNumber = Int(numericText) {
+    print("Conversión de contenido: \(convertedNumber)")
 }
-*/
 
-//en el código anterior no tenemos problemas por que es un String pero si fuera una comprobación de si es un Int, ay veces que podremos convertir un String en dato Int(solo cuando tenga solo dígitos y punto o coma según la región)
+//as? no analiza ni modifica el contenido. Solo verifica en tiempo de ejecución si
+//la instancia ya es compatible con el tipo solicitado y devuelve ese valor o nil.
 
-
-//Este operador intenta transformar una instancia al tipo que le especificamos, por eso as se suele usar con ?, de esta manera si no hemos podido transformar el tipo especificado obtenemos un nil
-
-//para desempaquetar el opcional podemos usar el desempaquetamiento forzado pero si no estamos seguros de convertir el tipo de dato y nos arroja un nil tendremos un bloqueo y Error en la aplicación. La forma segura de desenvolver el opcional es con optional binding(if let), el cual asignará el valor a la constante creada para ocuparla en el código if, de lo contrario se ejecutará la sentencia else
+//El resultado de as? se consume normalmente con optional binding. Forzar ese
+//Optional elimina la seguridad obtenida y puede cerrar la aplicación cuando es nil.
 
 
 
@@ -169,9 +147,11 @@ if let _ = message as? String {
 //si creáramos un arreglo de tipo animal en el cual incluyéramos una instancia de cat, dog y bird, no hay inconveniente ya que los 3 objetos son de tipo animal.
 //si iteraramos sobre el arreglo animals y quisiéramos ocupar el método correspondiente de cada animal como podríamos saber si es cat, dog o bird, ya que dentro del arreglo son de tipo animal.
 //as!
-//con as! Podríamos afirmar que cierto tipo es de un tipo, pero si no verificamos previamente de que sea así podríamos obtener un Error al esperar un tipo y que no sea el correspondiente.
+//as! afirma que el valor es del subtipo solicitado. Si la afirmación es falsa, el
+//programa se detiene en ejecución.
 //as?
-//con as? Podemos consultar si un tipo puede ser convertido a otro tipo y si se puede, entonces se convierte, funciona en conjunto con if let, si se puede convertir se ejecuta el código y desempaquetamos el dato, si no se puede se salta el código, según las reglas del if
+//as? intenta tratar el valor como el subtipo y retorna un Optional. Con if let
+//ejecutamos el bloque solamente cuando el downcast es válido.
 
 
 

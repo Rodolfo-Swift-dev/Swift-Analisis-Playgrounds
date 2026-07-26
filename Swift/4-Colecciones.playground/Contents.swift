@@ -15,7 +15,8 @@ var strings = Array(["Rodolfo", "Martin", "Naxo"])
 var numbers = [1, 2, 7]
 
 //Acceder a un valor de un arreglo
-//recomendable ver cuántos datos tiene el arreglo y luego podemos acceder al índice de forma segura si no nos arroja error.
+//El subíndice no es opcional: usar un índice fuera de numbers.indices provoca
+//un error en ejecución. Podemos comprobar numbers.indices.contains(index).
 var newNumber = numbers[0]
 
 
@@ -36,7 +37,7 @@ print(myNewSkills.count)
 
 //IsEmpty
 //retorna Booleano que indica si un arreglo contiene o no contiene elementos
-myNewSkills.isEmpty
+print(myNewSkills.isEmpty)
 
 //método comúnmente ocupado con IF
 if myNewSkills.isEmpty {
@@ -46,9 +47,11 @@ if myNewSkills.isEmpty {
 }
 
 //First y Last
-//retorna primer o último elemento de un arreglo respectivamente. Cabe señalar que el dato devuelto por estos métodos es un tipo opcionales por que puede que no existan.
-print(myNewSkills.first!)//recomendable comprob ar si existe para desempaquetar, de lo contrario nos puede arrojar error
-print(myNewSkills.last!)
+//Retornan opcionales porque la colección podría estar vacía.
+if let firstSkill = myNewSkills.first, let lastSkill = myNewSkills.last {
+    print(firstSkill)
+    print(lastSkill)
+}
 
 //Append
 //añadir valores dentro de un arreglo, de forma automática se agrega en la última posición
@@ -111,8 +114,13 @@ if setNumbers.isEmpty {
 }
 
 //First
-//en los set se puede ocupar este método, pero no me arroja el primer valor si no que retorna cualquier valor dentro de la colección pero Opcional. Los set no tienen orden.
-print(setNumbers.first!)
+//En un Set retorna un elemento cualquiera como Optional, porque el Set no tiene
+//orden y también puede estar vacío. Nunca debemos forzar este resultado.
+if let anyNumber = setNumbers.first {
+    print(anyNumber)
+} else {
+    print("El Set está vacío")
+}
 
 //Insert
 //añadir valores dentro del set, este método acepta un parametro que es el valor a insertar.
@@ -247,4 +255,3 @@ print(myDictionaryInfo)
 //uso de diccionario en funciones
 //inicializacion vacia y agregado de elementos
 //obtencion de claves y valores
-

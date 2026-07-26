@@ -1,6 +1,3 @@
-import Foundation
-
-
 //ejecucion funcion print me imprime en consola
 print("Hello, playground")
 
@@ -68,7 +65,6 @@ let numberPi = 3.14
 //este valor no cambia nunca en el transcurso del programa
 
 //es recomendable en variables y constantes que el nombre sea descriptivo y claro de su uso
-
 
 
 

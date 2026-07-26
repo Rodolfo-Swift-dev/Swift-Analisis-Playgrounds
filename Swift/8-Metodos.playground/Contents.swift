@@ -28,11 +28,14 @@ let games = Games()
 games.increaseScore()
 games.reset()
 
-//en el código anterior creamos métodos que modifican una propiedad, no hay problema ya que es una clase y es mutable pero en una propiedad tendríamos que anteponer la keyword @mutating antes del método y así podríamos modificar propiedades dentro de una estructura.
+//Una referencia declarada con let sigue permitiendo modificar propiedades var de la
+//instancia de clase. En una estructura, el método debe usar la keyword mutating
+//cuando modifica una propiedad o reemplaza self. mutating no lleva @.
 
 
-//medodo de instancia Struct
-//una estructura es inmutable por lo que para modificar sus propiadades a través de métodos, debemos anteponer la Keyword @mutating antes del método que va a modificar la propiedad.
+//Método de instancia en una Struct
+//Una estructura guardada en var es mutable. Para que uno de sus métodos modifique el
+//valor, debemos anteponer la keyword mutating.
 struct User {
     var name: String
     mutating func update(name: String) {
@@ -50,9 +53,10 @@ print(user.name)
 //user.printName() codigo erroneo ya que no podemos acceder al metodo desde fuera del tipo ya que es privado
 
 
-//Self
-//una analogía para definir self sería cuando estamos dentro de un método es como estar un nivel más adentro o más arriba dentro de nuestro tipo(Class o Struct) y para poder acceder a las propiedades de la estructura tenemos que indicar con self seguido por un punto y el nombre de la propiedad o el método al cual acceder.
-//el self en el ejemplo anterior se refiere al tipo (Class o Struct) que almacena la propiedad o método la cual queremos acceder.
+//self
+//self representa la instancia actual. Normalmente Swift permite omitirlo; es
+//obligatorio cuando necesitamos distinguir una propiedad de un parámetro con el
+//mismo nombre y resulta útil para hacer explícita la captura dentro de closures.
 
 class Game {
     var score = 0
@@ -78,9 +82,10 @@ game.reset()
 
 
 
-//Metodos de tipo en Swift
-//los métodos de tipo son métodos que podemos llamar directamente desde una Struct o Class sin la necesidad de ser inastanciados, pero obligatoriamente debe ocuparse la Keyword static. Al igual que las propiedades de tipo
-//para indicar que un método es de tipo, debemos anteponer la keyword static antes del método, al momento de crear nuestro tipo(Struct o Class)
+//Métodos de tipo en Swift
+//Se llaman sobre el tipo y no sobre una instancia. static funciona en Struct, Enum y
+//Class. Dentro de una clase también puede usarse class para permitir que una
+//subclase sobrescriba el método; un método static no puede sobrescribirse.
 class Car {
     var passengers = 0
     static func startEngine() {
@@ -97,7 +102,8 @@ class Car {
 //ahora para poder ocuparlos podemos recurrir directamente al tipo (clase o estructura) y a su método, sin la necesidad de Instanciar previamente para poder ocuparlo.
 Car.startEngine()
 
-//cabe señalar que cuando queremos crear propiedades o métodos de tipo, si el tipo es una Struct debemos ocupar la Keyword static y si el tipo es una class debemos ocupar la keyword Class
+//Car.startEngine usa static aunque Car sea una clase. Usaríamos class func solamente
+//si necesitáramos personalizar el comportamiento mediante override en una subclase.
 
 
 struct NewUser {

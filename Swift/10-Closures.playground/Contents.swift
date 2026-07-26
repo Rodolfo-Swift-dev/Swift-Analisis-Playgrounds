@@ -2,7 +2,9 @@
 import Foundation
 //Closures
 
-//un clousure es como una función con sus mismo contenido, la única diferencia es que sería anónima, sin nombre
+//Un closure es un bloque de código que puede almacenarse y pasarse como valor.
+//Puede ser anónimo, capturar valores de su contexto y compartir el mismo tipo de
+//función que una función declarada con func cuando sus firmas coinciden.
 
 //caracteristicas
 //Inferir tipos de parámetros y valores de retorno a partir del contexto
@@ -28,9 +30,11 @@ let myClosure =
 
 
 //los closure son limpios y claros y pueden implementarse optimizaciones para una sintaxis breve y ordenada
-//los closure deben asignarse a una variable o constante siempre y cuando retornen un valor. Con esto ya podremos llamar nuestro Closure otorgándole un parametro de entrada del tipo de dato correspondiente.
+//Un closure puede almacenarse, pasarse como argumento, retornarse o ejecutarse
+//directamente. Si retorna un valor, debemos utilizarlo o descartarlo explícitamente.
 
-myClosure(2)
+let closureResult = myClosure(2)
+print(closureResult)
 
 
 
@@ -49,8 +53,8 @@ let emptyClosure = {
     print("¡Hola Rodolfo!")
 }
 
-//para ejecutar su implementación solo basta con llamarlo
-emptyClosure
+//Para ejecutar su implementación debemos incluir los paréntesis.
+emptyClosure()
 
 
 var names = ["Rodolfo", "Martin", "Nacho"]
@@ -224,19 +228,19 @@ func makeCounter2(withValue value: Int) -> () -> Int {
 //este código es equivalente al que retorna una función
 //en este ejemplo tanto como cuando retorna una función o cuando retorna un closure el llamado a la función que los contiene es el mismo
 
-//llamado a la función que retorna closure o función
+//Llamado a una función que retorna otra función. La primera llamada crea y retorna
+//el contador; la segunda ejecuta la función retornada.
+let returnedCounter = makeCounter(withValue: 10)
+print(returnedCounter())
 
-makeCounter(withValue: 10)
-//este código nos retornará el tipo de dato de la función o closure
-
-//para poder ejecutar la función o closure que nos retorna la función que lo contiene, debemos agregar paréntesis () al Ejemplo del llamado anterior a la función
-
-makeCounter(withValue: 10)()
-//esto ejecutará el código de la función o closure de retorno
+//También podemos crear el contador y ejecutarlo inmediatamente.
+print(makeCounter(withValue: 10)())
 
 
-//closure y funciones de tipo por referencia
-//al igual que las clases, los closure y funciones son de tipo por referencia, es decir un cambio a alguna copia de un closure o función, afectará ese cambio a cada copia que exista.
+//Captura y estado compartido
+//No debemos describir todos los closures como clases o como simples copias por
+//referencia. En este ejemplo, las variables almacenan el mismo closure y este
+//mantiene un contexto capturado compartido donde vive counter.
 
 var counterA = makeCounter(withValue: 10)
 var counterB = counterA
@@ -247,7 +251,8 @@ print(counterA())
 //aqui llamamos a ejecutar al closure o función, agregando los () con la finalidad que se ejecute el closure o función
 
 print(counterB())
-//si ejecutamos este código como es por referencia, afecta a cada una de sus copias, si en la primera interacción el counter se incrementa a 11, la segunda ejecución en vez de partir en 10 comienza en 11 después de verse afectada
+//counterA y counterB ejecutan el mismo contexto capturado: la primera llamada
+//incrementa a 11 y la segunda continúa desde ese estado hasta 12.
 
 
 
@@ -256,8 +261,10 @@ print(counterB())
 
 //Escaping closure
 
-//En ocasiones el closure que pasamos como parámetro a una función no podrá ejecutarse al instante, es decir, el closure puede ejercutarse una vez la función haya acabado. Como el nombre indica, el closure "escapa" del scope de la función. un ejemplo muy claro es cuando hacemos una operación asíncrona, como por ejemplo una petición HTTP a un servidor. Necesitamos la respuesta para poder continuar con el flujo de la aplicacion
-//alcodigo debemos agregar la keyword @escaping, indicando que nuestro closure será llamado cuando la función haya acabado de ejecutar todo su código.
+//Un parámetro closure es escaping cuando puede almacenarse o ejecutarse después de
+//que la función que lo recibió haya retornado. @escaping permite esa posibilidad;
+//no garantiza cuándo ni cuántas veces se llamará. Las operaciones asíncronas son un
+//caso habitual.
 
 func getDataFromBackend (completionHandler: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -315,9 +322,10 @@ remove2(arrayOfNumbers: arrayNumbers,
         removeFirstNumber: arrayNumbers.remove(at: 0) )
 
 // RESULTADO 👇
-// Number Removed 1!
-
-//visualmente es mucho más claro y conciso
+// Numbers OK!
+//arrayNumbers tiene 6 elementos, por lo que el @autoclosure no se evalúa. Esta
+//evaluación diferida es la característica importante; @autoclosure debe reservarse
+//para APIs donde haga más legible la llamada.
 
 
 

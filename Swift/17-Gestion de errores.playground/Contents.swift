@@ -50,12 +50,12 @@ enum DatabaseError1: Error {
     case invalidCharacters
 }
 
-func saveUser(name: String) throws {
+func saveUser(name: String) throws -> String {
 
     if name == "Rodolfo" {
         throw DatabaseError1.userAlreadyExists
     } else {
-        print("Saving user...")
+        return "Saving user..."
     }
   }
 }
@@ -83,9 +83,12 @@ func saveUser(name: String) throws {
 let user = User()
 
 do {
-    try user.saveUser(name: "Rodolfo")
+    let message = try user.saveUser(name: "Rodolfo")
+    print(message)
+} catch User.DatabaseError1.userAlreadyExists {
+    print("El usuario ya existe")
 } catch {
-    print(error)
+    print("Error inesperado: \(error)")
 }
 
 print("End")
@@ -97,14 +100,18 @@ print("End")
 
 
 
-//con la keyword try antes del llamado de la funcion y dentro de las llaves del do, le indicamos al compilador que estamos conscientes que puede lanzar un error y que aún así  intente ejecutar la función. A esta altura aún no capturamos nuestro error
+//try marca el punto exacto donde una operación puede lanzar un error.
 //do
-//Con la keyword do le indicamos que haga, que actúe. Dentro del do estará el try lanzando el método y en caso de que llegue a haber un error no se ejecuta el do y se ejecuta el catch
+//El bloque do comienza a ejecutarse normalmente. Si una operación lanza un error,
+//se interrumpe el resto del bloque y el flujo salta al primer catch compatible.
 //catch
-//Con la keyword catch estamos capturando el error en caso de que lo hubiese. El catch trabaja en conjunto con el do y se activa uno o el otro.
+//catch recibe el error lanzado. Podemos usar varios catch para distinguir casos y
+//un catch final para cubrir cualquier error restante.
 
 //es importante mencionar que esta es la forma correcta de gestionar errores en Swift, con las keywords antes señaladas.
-//con la gestión de errores evitamos que nuestra App sea segura y no se bloquee ni cierre en ejecución, además de retroalimentarnos de los errores actuales y también poder transmitir información al usuario, como en el ejemplo anterior, si es que el nombre ya existe, le indicamos al usuario y le solicitamos que ingrese otro.
+//La gestión de errores hace nuestra aplicación más segura y permite recuperarse o
+//informar al usuario. No captura automáticamente fallos como índices fuera de rango,
+//force unwrap de nil, precondiciones incumplidas o errores de programación.
 
 
 
@@ -123,15 +130,18 @@ print("End")
 
 //try?
 
-//con try? cláusula podemos omitir las keyword do y catch e intentar ejecutar nuestra función, pero esto nos condiciona a saber solo si existe error pero no es capturado por lo tanto no conseguimos mayor información, al contrario de cuanto trabajamos con do y catch
+//try? convierte el resultado en Optional: devuelve nil si se lanza un error y
+//descarta la información del error. Es apropiado cuando solo importa éxito o fracaso.
 
-//instancia de objeto y que arroja error y no es capturado
+//Este nombre sí provoca el error, que try? transforma en nil.
 
 let user1 = User()
 
-try? user1.saveUser(name: "Nacho")
+let saveResult = try? user1.saveUser(name: "Rodolfo")
+print(saveResult == nil)
 
 
-//aunque este método no es completo y la mejor forma es gestión y manejo de errores, pero tal vez en ciertas ocasiones necesitemos no tanta información ni manejar errores y aquí es donde podremos ocupar la cláusula try?
-
+//try! afirma que la operación no fallará y cierra el programa si la afirmación es
+//incorrecta. Debe reservarse para invariantes realmente garantizadas.
+//defer permite ejecutar limpieza al abandonar un ámbito, haya o no un error.
 

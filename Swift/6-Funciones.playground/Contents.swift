@@ -13,8 +13,9 @@ func add(a: Int, b: Int) -> Int {
 }
 
 
-//Mandar a llamar una funcion
-add(a: 10, b: 2)
+//Llamar a una función y conservar o utilizar su resultado
+let additionResult = add(a: 10, b: 2)
+print(additionResult)
 
 //o mandarla a llamar desde otra funcion o método
 print(add(a: 10, b: 2))
@@ -79,7 +80,8 @@ func validateUser(_ value: String) -> Bool {
     return value.count > 5
 }
 //luego al momento de llamar a la función se escribe directamente el parámetro sin su nombre
-validateUser("Rodolfo")
+let isValidUser = validateUser("Rodolfo")
+print(isValidUser)
 print(validateUser("rodolfo"))
 
 
@@ -94,7 +96,8 @@ print(validateUser("rodolfo"))
 
 
 //valores por defecto parámetros de funciones
-//en una función podemos crear parámetros con valores por defecto que en el momento de llamar la función no se ingresen datos al parametro, este tendrá valor por defecto que no puede ser modificado
+//Un parámetro puede declarar un valor por defecto. La llamada puede omitirlo o
+//proporcionar otro valor, como muestran los dos ejemplos siguientes.
 func createDatabase(name: String, path: String = "/") {
     print(path)
 }
@@ -115,8 +118,10 @@ func validate(names: String...) {
 
 validate(names: "Rodolfo", "Martin", "Nacho")
 
-//señalando que el parametro sea de tipo arreglo de datos sería el equivalente a un parametro varíadic
-print(validate())
+//Dentro de validate, names se recibe como [String]. Sin embargo, un parámetro
+//variádico y un parámetro [String] no son equivalentes en la llamada: al variádico
+//se le entregan valores separados y al segundo se le entrega un Array.
+validate()
 
 func validates(names: [String]) {
     print("Names \(names)")

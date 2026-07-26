@@ -3,7 +3,9 @@ import Foundation
 //Clases y Estructuras
 
 
-//Al crear una instancia de nuestros tipos es obligatorio dar un estado inicial a todas sus propedades(en clases es obligatorio el init y en struct es opcional ya que se inicializa por defecto
+//Al crear una instancia, todas sus propiedades almacenadas deben tener un valor.
+//Ese valor puede venir de una declaración, un inicializador propio, un inicializador
+//sintetizado por Swift o, en ciertas clases, un inicializador heredado.
 //subScript
 //Los subscripts son otra forma de acceder a los elementos de una Clase, Estructura, enum, array, Dict, son atajos para actualizar o obtener su valor.
 
@@ -28,19 +30,34 @@ import Foundation
 //Caracteristicas
 
 //Struct
-//Stack = En el caso del Stack (o pila de llamadas) cabe destacar que su ejecución es inmediata, controlada por la CPU. Es muy eficiente y rápido. Funciona bajo el concepto de LIFO (last in first out), de ahí su rapidez y eficiencia.
-//por Valor = se crea una nueva copia lo que la hace independiente frente a algún cambio de una de sus copias, no afecta al resto.
-//Init = crean un método init por defecto (MEMBERWISE Init) con tantos parámetros como propiedades tenga. ¡Ojo!, porque en el momento que nosotros creemos un init, el que se crea por defecto desaparece y tendríamos que añadirlo manualmente. si en un Struct añades los inits dentro de una extensión, el init por defecto no se destruye y no tenemos que añadirlo de nuevo. las estructuras no tienen inits de conveniencia.
-//Mutating = En las structs TODO es inmutable por defecto. Para poder modificar un struct, hay que poner la palabra mutating delante de la firma de la función. Curiosidad: la palabra mutating, en realidad, reemplaza el value type anterior por el nuevo. Es decir, en realidad no se modifica, sino que se crea uno nuevo con los datos modificados que sustituye al anterior.
+//Memoria = una estructura no está obligada a vivir en el Stack. El compilador puede
+//almacenar u optimizar un valor en Stack, Heap o registros. Esa decisión de
+//implementación no define la semántica del tipo.
+//Por valor = al asignar o pasar una estructura se obtiene un valor independiente.
+//Swift puede usar copy-on-write internamente sin cambiar este comportamiento visible.
+//Init = Swift sintetiza un memberwise initializer para las propiedades de la
+//estructura. Declarar un init dentro del tipo elimina ese memberwise init; declararlo
+//en una extensión permite conservarlo. Las estructuras no tienen convenience init.
+//Mutating = una estructura guardada en var puede cambiar. Un método que modifica sus
+//propiedades o reemplaza self debe declararse mutating. Si la instancia está en let,
+//no se puede mutar.
 //Herencia = Las structs no tienen Herencia, ni type casting ni métodos deinit.
 //Entonces, ¿cómo pueden añadirse super-poderes a las structs si no se puede utilizar la Herencia? Mediante composición, utilizando protocolos.
 
 //Class
-//Heap = (o almacenamiento libre) es una enorme pieza de memoria que el sistema puede soliciar reservar un trocito para su uso (mediante alloc). Añadir o borrar memoria del heap es un proceso más costoso y pesado.
-//por Referencia = se crea una nueva referencia que apunta a un mismo objeto, lo que lo hace dependiente frente a algún cambio de una de sus copias, afecta al resto.
-//Init = tenemos que definir nosotros mismos el inicializador. Siempre. las clases tienen inits de conveniencia, marcados con la palabra convenience delante.
+//Memoria = las instancias tienen identidad y normalmente se administran mediante
+//referencias y ARC. No debemos depender de una ubicación concreta Stack/Heap como
+//parte del comportamiento del lenguaje.
+//Por referencia = asignar una instancia copia la referencia; ambas variables apuntan
+//al mismo objeto y observan sus cambios.
+//Init = no siempre debemos escribir un inicializador. Una clase puede recibir un
+//inicializador por defecto cuando todas sus propiedades tienen valores iniciales y
+//también puede heredar inicializadores bajo reglas específicas. convenience declara
+//un inicializador secundario que debe delegar finalmente a uno designado.
 //Mutating = En el caso de las clases, aunque declares un objeto como constante (con let), puedes modificar sus propiedades si estas están declaradas como var.
-//Herencia = Las Classes tienen herencia, es decir, puede tener cero o una superclase. Por ello, también se puede utilizar type casting con las clases. Como las classes se crean en el Heap, y es memoria que hay que crear y liberar, todas ellas tienen un método deinit que se ejecuta justo antes de liberarse de memoria.
+//Herencia = una clase puede tener cero o una superclase. También puede participar en
+//type casting. Se puede declarar deinit para liberar recursos justo antes de que ARC
+//destruya la instancia; no es un método que se llame manualmente.
 
 
 
