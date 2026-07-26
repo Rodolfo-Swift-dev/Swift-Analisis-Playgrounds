@@ -4,20 +4,30 @@
 [![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20macOS-lightgrey.svg)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds.svg)](https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/stargazers)
+[![Guía web](https://img.shields.io/website?label=Gu%C3%ADa%20web&url=https%3A%2F%2Frodolfo-swift-dev.github.io%2FSwift-Analisis-Playgrounds%2F)](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/)
 
 > 🎯 Repositorio educativo completo con ejemplos prácticos de Swift, principios SOLID y Clean Code implementados en Xcode Playgrounds.
 
-## 🌐 Guía web
+## 🌐 Guía interactiva
 
-La guía completa está publicada para computador y móvil en:
+La guía reúne los 20 capítulos con buscador, ejemplos desplegables, palabras clave,
+comportamiento y límites del lenguaje. Funciona en Safari móvil y navegadores de
+escritorio.
 
-**[Abrir Swift · Guía de estudio](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/)**
+### **[➡️ Abrir Swift · Guía de estudio](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/)**
+
+También puedes consultar los archivos directamente en el repositorio:
+
+- [HTML publicado (`docs/index.html`)](docs/index.html)
+- [Resumen en Markdown](docs/TEMARIO_DE_ESTUDIO_SWIFT.md)
+- [Ruta de aprendizaje](docs/LEARNING_PATH.md)
 
 ---
 
 ## 📋 Tabla de Contenidos
 
 - [Sobre el Proyecto](#-sobre-el-proyecto)
+- [Guía interactiva](#-guía-interactiva)
 - [Contenido](#-contenido)
 - [Requisitos](#-requisitos)
 - [Instalación](#-instalación)
@@ -67,9 +77,9 @@ Colección completa de playgrounds organizados por tema:
 | 13 | **Protocolos** | Protocols y conformance |
 | 14 | **Genéricos** | Generic functions y types |
 | 15 | **Extensiones** | Extender tipos existentes |
-| 16 | **AccesLevel** | Public, private, internal, fileprivate |
+| 16 | **Access Level** | open, public, package, internal, fileprivate, private |
 | 17 | **Gestión de Errores** | do-try-catch, throws |
-| 18 | **Type Casting** | is, as, any, anyobject |
+| 18 | **Type Casting** | is, as, as?, as!, Any, AnyObject |
 | 19 | **Operador Ternario** | Sintaxis y casos de uso |
 | + | **KeywordsSwift** | Palabras clave del lenguaje |
 | + | **Content** | Índice general |
@@ -130,9 +140,16 @@ open .
 
 ## 🎯 Uso
 
+### Desde móvil o navegador
+
+1. Abre la [guía interactiva](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/).
+2. Usa el buscador para localizar una palabra clave.
+3. Despliega cada subpunto para revisar su explicación y ejemplo.
+4. Pulsa **Abrir playground** para consultar el código fuente correspondiente en GitHub.
+
 ### Para Principiantes
 
-1. Comienza con `Swift/0-Basic.playground`
+1. Comienza con [`Swift/0-Basic.playground`](Swift/0-Basic.playground/Contents.swift)
 2. Sigue el orden numérico (0 → 19)
 3. Ejecuta cada ejemplo línea por línea
 4. Experimenta modificando los valores
@@ -168,7 +185,11 @@ print(defaultValue) // "Hello"
 ```
 Swift-Analisis-Playgrounds/
 ├── README.md                          # Este archivo
+├── CHANGELOG.md                       # Historial de cambios
 ├── docs/                              # Guía web publicada con GitHub Pages
+│   ├── .nojekyll
+│   ├── CONTRIBUTING.md
+│   ├── LEARNING_PATH.md
 │   ├── index.html
 │   └── TEMARIO_DE_ESTUDIO_SWIFT.md
 ├── tools/                             # Fuente y generador de la guía web
@@ -202,6 +223,29 @@ Swift-Analisis-Playgrounds/
 └── Clean_Code/                        # Clean Code
     └── CleanCode.playground
 ```
+
+---
+
+## 🛠️ Mantenimiento de la guía
+
+GitHub Pages publica [`docs/index.html`](docs/index.html) desde la rama `main`.
+El navegador no necesita Ruby ni las herramientas del proyecto.
+
+Para actualizar el HTML:
+
+1. Edita [`tools/study_guide_full.md`](tools/study_guide_full.md).
+2. Actualiza los ejemplos del generador cuando corresponda.
+3. Ejecuta:
+
+   ```bash
+   ruby tools/generate_study_html.rb
+   ```
+
+4. Comprueba que `docs/index.html` contiene los cambios.
+
+[`tools/generate_study_html.rb`](tools/generate_study_html.rb) es una herramienta de
+mantenimiento: genera una salida reproducible y evita editar manualmente un HTML de
+miles de líneas.
 
 ---
 
@@ -265,7 +309,8 @@ Swift-Analisis-Playgrounds/
 
 ## 🤝 Contribuir
 
-Las contribuciones son bienvenidas y apreciadas. Para contribuir:
+Las contribuciones son bienvenidas. Consulta también la
+[guía completa de contribución](docs/CONTRIBUTING.md).
 
 1. **Fork** el proyecto
 2. Crea tu rama de feature (`git checkout -b feature/AmazingFeature`)
@@ -294,7 +339,6 @@ Distribuido bajo la licencia MIT. Ver `LICENSE` para más información.
 
 **Rodolfo Gonzalez**
 - GitHub: [@Rodolfo-Swift-dev](https://github.com/Rodolfo-Swift-dev)
-- LinkedIn: [Tu LinkedIn]
 
 **Link del Proyecto**: [https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds](https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds)
 
