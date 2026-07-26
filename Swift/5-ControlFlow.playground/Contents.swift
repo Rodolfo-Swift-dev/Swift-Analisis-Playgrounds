@@ -129,7 +129,7 @@ for i in myCollection {
     print(i)
 }
 
-let myDictionary = ["name": "SwiftBeta", "city": "Barcelona"]
+let myDictionary = ["name": "Rodolfo", "city": "Santiago"]
 for (key, value) in myDictionary {
     print("Key \(key) with value: \(value)")
 }

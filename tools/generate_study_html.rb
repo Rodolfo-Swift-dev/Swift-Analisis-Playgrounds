@@ -404,6 +404,10 @@ def render_markdown(markdown)
         html << "  <h1>#{inline_markdown(title)}</h1>"
         html << "  <p class=\"hero-summary\">20 capítulos · sintaxis · comportamiento · límites · nomenclatura oficial</p>"
         html << "  <p class=\"hero-note\">Los ejemplos son fragmentos breves de uso. Algunos dependen de tipos o variables definidos en su capítulo.</p>"
+        html << "  <div class=\"hero-guides\">"
+        html << "    <a href=\"clean-code.html\">Clean Code en iOS</a>"
+        html << "    <a href=\"solid.html\">SOLID en iOS</a>"
+        html << "  </div>"
         html << "</header>"
       elsif level == 2
         close_section.call
@@ -666,7 +670,7 @@ document = <<~HTML
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 26px;
+        margin-bottom: 18px;
       }
 
       .brand-mark {
@@ -688,6 +692,31 @@ document = <<~HTML
 
       .brand small {
         color: var(--sidebar-muted);
+      }
+
+      .guide-switcher {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        margin-bottom: 18px;
+        padding: 5px;
+        border: 1px solid #31414c;
+        border-radius: 11px;
+      }
+
+      .guide-switcher a {
+        padding: 7px 4px;
+        border-radius: 7px;
+        color: var(--sidebar-muted);
+        font-size: 0.73rem;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .guide-switcher a:hover,
+      .guide-switcher a.active {
+        background: var(--accent);
+        color: #fff;
       }
 
       .search {
@@ -864,6 +893,22 @@ document = <<~HTML
         margin: 12px 0 0;
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.84rem;
+      }
+
+      .hero-guides {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 22px;
+      }
+
+      .hero-guides a {
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        border-radius: 9px;
+        color: #fff;
+        font-size: 0.84rem;
+        text-decoration: none;
       }
 
       .chapter {
@@ -1318,6 +1363,11 @@ document = <<~HTML
             <small>20 capítulos</small>
           </div>
         </div>
+        <div class="guide-switcher">
+          <a class="active" href="index.html">Swift</a>
+          <a href="clean-code.html">Clean Code</a>
+          <a href="solid.html">SOLID</a>
+        </div>
         <div class="search-wrap">
           <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
           <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda">×</button>
@@ -1457,17 +1507,10 @@ document = <<~HTML
           const code = button.parentElement.querySelector("code").textContent;
           try {
             await navigator.clipboard.writeText(code);
+            button.textContent = "Copiado";
           } catch {
-            const temporary = document.createElement("textarea");
-            temporary.value = code;
-            temporary.style.position = "fixed";
-            temporary.style.opacity = "0";
-            document.body.appendChild(temporary);
-            temporary.select();
-            document.execCommand("copy");
-            temporary.remove();
+            button.textContent = "No disponible";
           }
-          button.textContent = "Copiado";
           setTimeout(() => { button.textContent = "Copiar"; }, 1200);
         });
       });

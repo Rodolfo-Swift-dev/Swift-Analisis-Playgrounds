@@ -34,9 +34,9 @@ struct User: NameProtocol {
 
 protocol AnotherProtocol { }
 
-protocol BetaProtocol { }
+protocol AuditableProtocol { }
 
-struct Student: NameProtocol, AnotherProtocol, BetaProtocol {
+struct Student: NameProtocol, AnotherProtocol, AuditableProtocol {
     
 }
 
@@ -425,4 +425,3 @@ extension User3 {
 
 let user3 = User3()
 user3.printResult()
-

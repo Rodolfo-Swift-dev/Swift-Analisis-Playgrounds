@@ -173,7 +173,7 @@ var appDatabase = chatDatabase
 var remoteDatabase = chatDatabase
 
 //cambiemos el valor de una propiedad de una instancia y podremos darnos cuenta que este cambio se verá reflejado en las demás instancias.
-remoteDatabase.nameBase = "💻 AmazonBetaDatabase"
+remoteDatabase.nameBase = "💻 RemoteDatabase"
 print(chatDatabase.nameBase)
 print(appDatabase.nameBase)
 print(remoteDatabase.nameBase)

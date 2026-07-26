@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Los cinco principios aplicados a una misma funcionalidad de perfiles. La meta no es producir más capas: es controlar razones de cambio, contratos y dirección de dependencias.">
+  <meta name="theme-color" content="#5661d8">
+  <title>SOLID en Swift e iOS · Swift Study</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #f3f6f8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafb;
+      --text: #17212b;
+      --muted: #667580;
+      --line: #dce4e8;
+      --code: #101a22;
+      --code-text: #edf5f7;
+      --sidebar: #101a22;
+      --sidebar-text: #dbe6eb;
+      --accent: #5661d8;
+      --accent-dark: #3e48b8;
+      --accent-soft: #eceeff;
+      --shadow: 0 14px 38px rgba(22, 32, 40, 0.08);
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --background: #0c1318;
+      --surface: #14212a;
+      --surface-soft: #101b22;
+      --text: #edf4f6;
+      --muted: #9caeb8;
+      --line: #2a3a44;
+      --code: #080d11;
+      --code-text: #e8f1f4;
+      --sidebar: #081015;
+      --accent-soft: #1b3136;
+      --shadow: 0 16px 42px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 22px; }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+    }
+    button, input { font: inherit; }
+    a { color: var(--accent-dark); text-underline-offset: 3px; }
+    code {
+      padding: .12rem .36rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface-soft);
+      color: var(--accent-dark);
+      font: .91em/1.4 "SFMono-Regular", Consolas, monospace;
+    }
+    .progress {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 30;
+      width: 300px;
+      overflow-y: auto;
+      padding: 28px 22px;
+      background: var(--sidebar);
+      color: var(--sidebar-text);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+    }
+    .brand strong, .brand small { display: block; }
+    .brand small { color: #91a4ae; }
+    .guide-switcher {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin: 24px 0 18px;
+      padding: 5px;
+      border: 1px solid #2e3f49;
+      border-radius: 11px;
+    }
+    .guide-link {
+      padding: 7px 4px;
+      border-radius: 7px;
+      color: #9db0ba;
+      font-size: .73rem;
+      text-align: center;
+      text-decoration: none;
+    }
+    .guide-link:hover, .guide-link.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .search-wrap { position: relative; }
+    .search {
+      width: 100%;
+      padding: 11px 38px 11px 12px;
+      border: 1px solid #31434e;
+      border-radius: 10px;
+      outline: none;
+      background: #0b151b;
+      color: #fff;
+    }
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+    }
+    .clear-search {
+      position: absolute;
+      top: 50%;
+      right: 7px;
+      width: 28px;
+      height: 28px;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #91a4ae;
+    }
+    .search-status {
+      min-height: 21px;
+      margin: 7px 2px 16px;
+      color: #91a4ae;
+      font-size: .78rem;
+    }
+    .nav-label {
+      margin: 18px 8px 8px;
+      color: #8297a2;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .section-link {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 2px 0;
+      padding: 8px 9px;
+      border-radius: 9px;
+      color: #d5e1e6;
+      font-size: .87rem;
+      text-decoration: none;
+    }
+    .section-link span {
+      display: grid;
+      flex: 0 0 25px;
+      height: 25px;
+      place-items: center;
+      border-radius: 7px;
+      background: #24343e;
+      color: #a8bac3;
+      font-size: .72rem;
+    }
+    .section-link:hover, .section-link.active { background: #1d2a32; color: #fff; }
+    .section-link.active span { background: var(--accent); color: #fff; }
+    .sidebar-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 22px;
+    }
+    .sidebar-actions button {
+      padding: 8px;
+      border: 1px solid #31434e;
+      border-radius: 8px;
+      background: transparent;
+      color: #d5e1e6;
+    }
+    .main {
+      width: min(calc(100% - 300px), 1220px);
+      margin-left: 300px;
+      padding: 48px clamp(24px, 5vw, 76px) 90px;
+    }
+    .hero, .guide-section, .sources {
+      width: min(100%, 920px);
+      margin-inline: auto;
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 26px;
+      padding: clamp(36px, 6vw, 66px);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,.2), transparent 28%),
+        linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: .7rem;
+      font-weight: 850;
+      letter-spacing: .16em;
+    }
+    .hero h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(2.15rem, 5vw, 4.2rem);
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+    .hero p { max-width: 650px; color: rgba(255,255,255,.82); }
+    .hero-note {
+      margin-bottom: 0;
+      color: rgba(255,255,255,.68) !important;
+      font-size: .82rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 22px;
+    }
+    .hero-actions a {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 9px;
+      color: #fff;
+      font-size: .85rem;
+      text-decoration: none;
+    }
+    .guide-section {
+      margin-bottom: 24px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .section-heading h2 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+    .section-heading > span { color: var(--muted); font-size: .78rem; }
+    .study-card {
+      margin: 11px 0;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      background: var(--surface-soft);
+      overflow: hidden;
+    }
+    .study-card summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 17px 18px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .study-card summary::-webkit-details-marker { display: none; }
+    .study-card[open] summary {
+      border-bottom: 1px solid var(--line);
+      background: var(--accent-soft);
+    }
+    .card-title { font-weight: 760; }
+    .card-action { color: var(--muted); font-size: .74rem; white-space: nowrap; }
+    .study-card[open] .card-action { font-size: 0; }
+    .study-card[open] .card-action::after { content: "Ocultar"; font-size: .74rem; }
+    .card-body { padding: 18px; }
+    dl {
+      display: grid;
+      grid-template-columns: 125px 1fr;
+      gap: 8px 13px;
+      margin: 0;
+    }
+    dt {
+      color: var(--accent-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    dd { margin: 0; }
+    .example {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid var(--line);
+    }
+    .example-label {
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    pre {
+      position: relative;
+      overflow-x: auto;
+      margin: 0;
+      padding: 22px;
+      border-radius: 12px;
+      background: var(--code);
+      color: var(--code-text);
+    }
+    pre code {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-size: .86rem;
+    }
+    .copy-code {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      padding: 5px 8px;
+      border: 1px solid #41515b;
+      border-radius: 7px;
+      background: #22313a;
+      color: #e4edf0;
+    }
+    .sources {
+      padding: 22px 4px;
+      color: var(--muted);
+      font-size: .83rem;
+    }
+    .sources strong { color: var(--text); }
+    .sources a { margin-right: 12px; }
+    .empty {
+      display: none;
+      width: min(100%, 920px);
+      margin: 20px auto;
+      padding: 38px;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .mobile-bar { display: none; }
+    @media (max-width: 900px) {
+      .mobile-bar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 15px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface);
+      }
+      .mobile-bar button {
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+      }
+      .sidebar {
+        width: min(85vw, 320px);
+        transform: translateX(-105%);
+        transition: transform 180ms ease;
+        box-shadow: 22px 0 50px rgba(0,0,0,.3);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .main { width: 100%; margin-left: 0; padding: 22px 15px 65px; }
+      .hero { border-radius: 20px; }
+    }
+    @media (max-width: 560px) {
+      .guide-section { padding: 17px; }
+      .section-heading { align-items: flex-start; flex-direction: column; }
+      dl { grid-template-columns: 1fr; }
+      dt { margin-top: 7px; }
+      pre { padding: 20px 16px; }
+    }
+    @media print {
+      .sidebar, .mobile-bar, .progress, .copy-code { display: none !important; }
+      .main { width: 100%; margin: 0; padding: 0; }
+      .hero { border: 1px solid #aaa; background: #fff; color: #000; box-shadow: none; }
+      .hero p { color: #333; }
+      .guide-section { break-inside: avoid-page; box-shadow: none; }
+      .study-card:not([open]) .card-body { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="mobile-bar">
+    <strong>SOLID · iOS</strong>
+    <button id="menuButton" type="button">Contenido</button>
+  </div>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">S</span>
+      <span><strong>Swift Study</strong><small>Guías de diseño iOS</small></span>
+    </a>
+    <div class="guide-switcher">
+      <a class="guide-link" href="index.html">Swift</a>
+      <a class="guide-link" href="clean-code.html">Clean Code</a><a class="guide-link active" href="solid.html">SOLID</a>
+    </div>
+    <div class="search-wrap">
+      <input class="search" id="search" type="search" placeholder="Buscar concepto…" aria-label="Buscar concepto" autocomplete="off">
+      <button class="clear-search" id="clearSearch" type="button" aria-label="Limpiar búsqueda">×</button>
+    </div>
+    <div class="search-status" id="searchStatus" aria-live="polite">10 subtemas disponibles</div>
+    <div class="nav-label">Contenido</div>
+    <nav><a class="section-link" href="#principios-solid" data-target="principios-solid">
+  <span>1</span>Principios SOLID
+</a>
+<a class="section-link" href="#contratos-y-composicion" data-target="contratos-y-composicion">
+  <span>2</span>Contratos y composición
+</a>
+<a class="section-link" href="#limites-de-solid" data-target="limites-de-solid">
+  <span>3</span>Límites de SOLID
+</a>
+</nav>
+    <div class="sidebar-actions">
+      <button id="expandAll" type="button">Expandir</button>
+      <button id="collapseAll" type="button">Plegar</button>
+      <button id="themeToggle" type="button">Tema</button>
+      <button id="printButton" type="button">Imprimir</button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="hero">
+      <div class="eyebrow">PRINCIPIOS DE DISEÑO</div>
+      <h1>SOLID en Swift e iOS</h1>
+      <p>Los cinco principios aplicados a una misma funcionalidad de perfiles. La meta no es producir más capas: es controlar razones de cambio, contratos y dirección de dependencias.</p>
+      <p class="hero-note">Los ejemplos web son fragmentos enfocados en un concepto. El playground enlazado contiene la implementación completa, ejecutable y verificada.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds/blob/main/SOLID/SOLID.playground/Contents.swift" target="_blank" rel="noreferrer">Abrir playground</a>
+        <a href="index.html">Guía de Swift</a>
+        <a href="clean-code.html">Guía de Clean Code</a>
+      </div>
+    </header>
+    <section class="guide-section" id="principios-solid">
+  <div class="section-heading">
+    <h2>Principios SOLID</h2>
+    <span>5 subtemas</span>
+  </div>
+  <details class="study-card" id="s-single-responsibility-principle">
+  <summary>
+    <span class="card-title">S · Single Responsibility Principle</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Un tipo debe tener una razón cohesionada para cambiar. No significa obligatoriamente un método por tipo.</dd>
+<dt>Comportamiento</dt>
+<dd>Transporte, decodificación, cache y presentación pueden evolucionar independientemente. Un caso de uso puede conservar la responsabilidad de coordinarlos.</dd>
+<dt>Límite</dt>
+<dd>Fragmentar cada instrucción en un tipo distinto aumenta navegación y acoplamiento sin mejorar cohesión.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>struct ProfileDecoder {
+    func decode(_ data: Data) throws -&gt; Profile {
+        try JSONDecoder().decode(Profile.self, from: data)
+    }
+}
+
+actor ProfileCache {
+    private var profiles: [UUID: Profile] = [:]
+
+    func save(_ profile: Profile) {
+        profiles[profile.id] = profile
+    }
+}
+
+func profileTitle(for profile: Profile) -&gt; String {
+    &quot;Perfil de \(profile.name)&quot;
+}
+
+struct ProfileImporter {
+    let decoder: ProfileDecoder
+    let cache: ProfileCache
+
+    func execute(data: Data) async throws -&gt; Profile {
+        let profile = try decoder.decode(data)
+        await cache.save(profile)
+        return profile
+    }
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="o-open-closed-principle">
+  <summary>
+    <span class="card-title">O · Open/Closed Principle</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Una variación prevista debe poder extenderse sin reescribir el flujo estable que la consume.</dd>
+<dt>Comportamiento</dt>
+<dd><code>ProfileAnalytics</code> acepta nuevos proveedores que respeten el contrato sin agregar casos a un <code>switch</code>.</dd>
+<dt>Límite</dt>
+<dd>Cerrado no significa intocable. Corrige errores y cambia requisitos. No diseñes puntos de extensión para escenarios puramente hipotéticos.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>enum AnalyticsEvent: String {
+    case profileOpened = &quot;profile_opened&quot;
+}
+
+protocol AnalyticsTracking {
+    func track(event: AnalyticsEvent)
+}
+
+struct ConsoleAnalytics: AnalyticsTracking {
+    func track(event: AnalyticsEvent) {
+        print(&quot;Console:&quot;, event.rawValue)
+    }
+}
+
+struct ProfileAnalytics {
+    let tracker: any AnalyticsTracking
+
+    func profileOpened() {
+        tracker.track(event: .profileOpened)
+    }
+}
+
+let analytics = ProfileAnalytics(tracker: ConsoleAnalytics())
+analytics.profileOpened()
+
+// Agregar FirebaseAnalytics no modifica ProfileAnalytics.</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="l-liskov-substitution-principle">
+  <summary>
+    <span class="card-title">L · Liskov Substitution Principle</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Toda implementación aceptada por un contrato debe poder sustituirse sin romper las expectativas del consumidor.</dd>
+<dt>Comportamiento</dt>
+<dd>Los loaders retornan datos no vacíos cuando existe un avatar y lanzan <code>notFound</code> cuando falta. El contrato abarca valores, errores, efectos, cancelación y aislamiento.</dd>
+<dt>Límite</dt>
+<dd>El compilador verifica firmas, pero no toda la semántica. Una implementación puede conformar al protocolo y aun así violar LSP.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>protocol AvatarDataLoading {
+    func loadAvatar(for id: UUID) throws -&gt; Data
+}
+
+struct CachedAvatarLoader: AvatarDataLoading {
+    let cache: [UUID: Data]
+
+    func loadAvatar(for id: UUID) throws -&gt; Data {
+        guard let data = cache[id], !data.isEmpty else {
+            throw ProfileError.notFound
+        }
+        return data
+    }
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="i-interface-segregation-principle">
+  <summary>
+    <span class="card-title">I · Interface Segregation Principle</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Cada consumidor debe depender únicamente de las capacidades que utiliza.</dd>
+<dt>Comportamiento</dt>
+<dd>La pantalla de detalle conoce lectura, pero no escritura, borrado o carga de avatar.</dd>
+<dt>Límite</dt>
+<dd>Protocolos de una sola operación no son siempre mejores. Conserva juntas las capacidades que cambian y se consumen juntas.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>protocol ProfileReading: Sendable {
+    func read(id: UUID) async throws -&gt; Profile
+}
+
+protocol ProfileSaving: Sendable {
+    func save(_ profile: Profile) async throws
+}
+
+let reader: any ProfileReading = repository
+let profile = try await reader.read(id: profileID)</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="d-dependency-inversion-principle">
+  <summary>
+    <span class="card-title">D · Dependency Inversion Principle</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Las reglas de alto nivel declaran sus necesidades y no construyen detalles como <code>URLSession</code>, <code>UserDefaults</code> o una base de datos.</dd>
+<dt>Comportamiento</dt>
+<dd>El composition root inyecta un repositorio live en producción y un stub en pruebas.</dd>
+<dt>Límite</dt>
+<dd>Dependency Injection es una técnica; Dependency Inversion describe la dirección. No requiere service locators ni frameworks globales.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>@MainActor
+final class ProfileViewModel {
+    private let reader: any ProfileReading
+    private(set) var state: State = .idle
+
+    init(reader: any ProfileReading) {
+        self.reader = reader
+    }
+
+    func load(id: UUID) async {
+        state = .loading
+        do {
+            state = .loaded(try await reader.read(id: id))
+        } catch {
+            state = .failed
+        }
+    }
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+
+</section>
+<section class="guide-section" id="contratos-y-composicion">
+  <div class="section-heading">
+    <h2>Contratos y composición</h2>
+    <span>3 subtemas</span>
+  </div>
+  <details class="study-card" id="contrato-observable">
+  <summary>
+    <span class="card-title">Contrato observable</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Un protocolo útil documenta más que sus métodos: define resultados, errores, precondiciones, efectos, cancelación y aislamiento.</dd>
+<dt>Comportamiento</dt>
+<dd>La misma prueba de contrato se ejecuta contra cada loader y detecta implementaciones no sustituibles.</dd>
+<dt>Límite</dt>
+<dd>Los mocks que reproducen detalles internos hacen frágiles las pruebas. Verifica la conducta visible para el consumidor.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>func verifyAvatarContract(
+    makeLoader: () -&gt; any AvatarDataLoading
+) throws {
+    let loader = makeLoader()
+    #expect(try loader.loadAvatar(for: knownID).isEmpty == false)
+    #expect(throws: ProfileError.notFound) {
+        try loader.loadAvatar(for: missingID)
+    }
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="composition-root">
+  <summary>
+    <span class="card-title">Composition root</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Las implementaciones concretas se ensamblan en un límite de la app, no dentro de los casos de uso.</dd>
+<dt>Comportamiento</dt>
+<dd>Solo el composition root conoce el cliente HTTP, el repositorio live y su conexión con el ViewModel.</dd>
+<dt>Límite</dt>
+<dd>Un contenedor global que resuelve dependencias desde cualquier lugar vuelve a ocultarlas y dificulta razonar sobre su vida útil.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>@MainActor
+func makeProfileScreen() -&gt; ProfileViewController {
+    let httpClient = URLSessionHTTPClient()
+    let repository = LiveProfileRepository(client: httpClient)
+    let viewModel = ProfileViewModel(reader: repository)
+    return ProfileViewController(viewModel: viewModel)
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="solid-y-concurrencia">
+  <summary>
+    <span class="card-title">SOLID y concurrencia</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Aislamiento y <code>Sendable</code> también forman parte de los contratos modernos.</dd>
+<dt>Comportamiento</dt>
+<dd>Un actor protege cache mutable; <code>@MainActor</code> protege estado de presentación; las dependencias que cruzan actores son <code>Sendable</code>.</dd>
+<dt>Límite</dt>
+<dd>Un actor elimina accesos simultáneos de bajo nivel, pero su estado puede cambiar durante un <code>await</code>. Revalida invariantes después de la suspensión.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>actor ProfileCache {
+    private var values: [UUID: Profile] = [:]
+
+    func profile(id: UUID) -&gt; Profile? {
+        values[id]
+    }
+
+    func save(_ profile: Profile) {
+        values[profile.id] = profile
+    }
+}</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+
+</section>
+<section class="guide-section" id="limites-de-solid">
+  <div class="section-heading">
+    <h2>Límites de SOLID</h2>
+    <span>2 subtemas</span>
+  </div>
+  <details class="study-card" id="concrete-first">
+  <summary>
+    <span class="card-title">Concrete first</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>Comienza con una implementación concreta y extrae una abstracción cuando aparezca una frontera o variación real.</dd>
+<dt>Comportamiento</dt>
+<dd>Los tipos concretos conservan información y permiten al compilador optimizar y diagnosticar mejor.</dd>
+<dt>Límite</dt>
+<dd>Un protocolo con una implementación no es automáticamente incorrecto, pero debe justificar testabilidad, módulos, plataforma o inversión arquitectónica.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>// Empieza simple.
+func profileTitle(for profile: Profile) -&gt; String {
+    &quot;Perfil de \(profile.name)&quot;
+}
+
+// Extrae un contrato cuando aparezca una necesidad real,
+// no solo para aumentar la cantidad de capas.</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+<details class="study-card" id="senales-de-sobrearquitectura">
+  <summary>
+    <span class="card-title">Señales de sobrearquitectura</span>
+    <span class="card-action">Ver detalle</span>
+  </summary>
+  <div class="card-body">
+    <dl><dt>Idea</dt>
+<dd>SOLID debe reducir el costo del cambio, no maximizar el número de tipos.</dd>
+<dt>Comportamiento</dt>
+<dd>Una buena abstracción muestra quién la consume, qué comportamiento promete y qué variación admite.</dd>
+<dt>Límite</dt>
+<dd>Factories sin propósito, tipos que solo reenvían llamadas, herencia para reutilizar código y protocolos hipotéticos son señales de revisión.</dd>
+</dl>
+    <div class="example">
+      <div class="example-label">Ejemplo</div>
+      <pre><code>// Revisa una capa si no puede responder:
+// - ¿qué razón de cambio aísla?
+// - ¿qué contrato protege?
+// - ¿qué consumidor la necesita?
+// - ¿qué implementación permite sustituir?
+// - ¿qué prueba demuestra su valor?</code><button class="copy-code" type="button">Copiar</button></pre>
+    </div>
+  </div>
+</details>
+
+</section>
+
+    <div class="empty" id="emptyState">No se encontraron subtemas con esa búsqueda.</div>
+    <footer class="sources">
+      <strong>Fuentes principales:</strong>
+      <a href="https://developer.apple.com/videos/play/wwdc2015/408/" target="_blank" rel="noreferrer">Protocol-Oriented Programming in Swift</a><a href="https://developer.apple.com/videos/play/wwdc2019/415/" target="_blank" rel="noreferrer">Modern Swift API Design</a><a href="https://developer.apple.com/videos/play/wwdc2022/110353/" target="_blank" rel="noreferrer">Design protocol interfaces in Swift</a><a href="https://developer.apple.com/videos/play/wwdc2022/110351/" target="_blank" rel="noreferrer">Eliminate data races using Swift Concurrency</a>
+    </footer>
+  </main>
+  <script>
+    const cards = [...document.querySelectorAll(".study-card")];
+    const sections = [...document.querySelectorAll(".guide-section")];
+    const sectionLinks = [...document.querySelectorAll(".section-link")];
+    const search = document.querySelector("#search");
+    const searchStatus = document.querySelector("#searchStatus");
+    const sidebar = document.querySelector("#sidebar");
+
+    const normalizeText = (value) => {
+      const lowered = String(value || "").toLowerCase();
+      return typeof lowered.normalize === "function"
+        ? lowered.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        : lowered;
+    };
+
+    const runSearch = () => {
+      const query = normalizeText(search.value.trim());
+      let matches = 0;
+
+      cards.forEach((card) => {
+        const sectionTitle = card.closest(".guide-section").querySelector("h2").textContent;
+        const sectionMatches = Boolean(query && normalizeText(sectionTitle).includes(query));
+        const visible = !query || sectionMatches || normalizeText(card.textContent).includes(query);
+        card.hidden = !visible;
+        if (visible) matches += 1;
+        if (query && visible) card.open = true;
+      });
+
+      sections.forEach((section) => {
+        section.hidden = ![...section.querySelectorAll(".study-card")].some((card) => !card.hidden);
+      });
+
+      sectionLinks.forEach((link) => {
+        const target = document.getElementById(link.dataset.target);
+        link.hidden = Boolean(target && target.hidden);
+      });
+
+      searchStatus.textContent = query
+        ? `${matches} ${matches === 1 ? "subtema encontrado" : "subtemas encontrados"}`
+        : `${cards.length} subtemas disponibles`;
+      document.querySelector("#emptyState").style.display = matches ? "none" : "block";
+    };
+
+    search.addEventListener("input", runSearch);
+    search.addEventListener("search", runSearch);
+    search.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      search.value = "";
+      runSearch();
+    });
+
+    document.querySelector("#clearSearch").addEventListener("click", () => {
+      search.value = "";
+      runSearch();
+      search.focus();
+    });
+
+    document.querySelector("#expandAll").addEventListener("click", () => {
+      cards.forEach((card) => { card.open = true; });
+    });
+    document.querySelector("#collapseAll").addEventListener("click", () => {
+      cards.forEach((card) => { card.open = false; });
+    });
+
+    document.querySelectorAll(".copy-code").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const value = button.parentElement.querySelector("code").textContent;
+        try {
+          await navigator.clipboard.writeText(value);
+          button.textContent = "Copiado";
+        } catch {
+          button.textContent = "No disponible";
+        }
+        setTimeout(() => { button.textContent = "Copiar"; }, 1100);
+      });
+    });
+
+    try {
+      const savedTheme = localStorage.getItem("swift-study-theme");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    } catch {
+      // Algunos navegadores bloquean localStorage al abrir mediante file://.
+    }
+
+    document.querySelector("#themeToggle").addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem("swift-study-theme", next);
+      } catch {
+        // El cambio funciona durante la sesión aunque no pueda persistirse.
+      }
+    });
+
+    document.querySelector("#printButton").addEventListener("click", () => window.print());
+    document.querySelector("#menuButton").addEventListener("click", () => sidebar.classList.toggle("open"));
+    sectionLinks.forEach((link) => link.addEventListener("click", () => sidebar.classList.remove("open")));
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          sectionLinks.forEach((link) => {
+            link.classList.toggle("active", link.dataset.target === entry.target.id);
+          });
+        });
+      }, { rootMargin: "-15% 0px -75% 0px" });
+      sections.forEach((section) => observer.observe(section));
+    }
+
+    window.addEventListener("scroll", () => {
+      const scrollable = document.documentElement.scrollHeight - innerHeight;
+      const value = scrollable > 0 ? (scrollY / scrollable) * 100 : 0;
+      document.querySelector("#progress").style.width = `${Math.min(value, 100)}%`;
+    }, { passive: true });
+  </script>
+</body>
+</html>

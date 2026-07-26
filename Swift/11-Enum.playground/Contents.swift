@@ -161,7 +161,7 @@ enum CompassPoint {
     case west
     
     // Propiedad
-    var owner: String { "SwiftBeta" }
+    var owner: String { "Rodolfo" }
 
     // Método de Instancia
     func printValue() -> String {
@@ -181,7 +181,7 @@ print(compassPoint.owner)
 print(compassPoint.printValue())
 
 // RESULTADO 👇
-// SwiftBeta
+// Rodolfo
 // Value: Método de Instancia
 
 

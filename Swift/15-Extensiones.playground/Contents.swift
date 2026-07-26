@@ -210,10 +210,10 @@ let newUser = User4(name: "Rodolfo",
 
 
 extension User4{
-    init(swiftbetaName: String = "Rodolfo",
+    init(userName: String = "Rodolfo",
          youtubeChannel: String = "RodDev",
          twitter: String = "Rod-Dev") {
-        self.init(name: swiftbetaName, youtubeChannel: youtubeChannel,
+        self.init(name: userName, youtubeChannel: youtubeChannel,
                   twitter: twitter)
     }
 }
@@ -221,11 +221,11 @@ extension User4{
 
 //instancia de objeto que tiene extensión con inicializador
 
-let newSwiftBeta = User4()
-print(newSwiftBeta)
+let defaultUser = User4()
+print(defaultUser)
 
 // RESULTADO 👇
-// User(name: "SwiftBeta", youtubeChannel: "@swiftbeta", twitter: "swiftbeta_")
+// User4(name: "Rodolfo", youtubeChannel: "RodDev", twitter: "Rod-Dev")
 
 
 
@@ -304,7 +304,7 @@ protocol Printa {
 //creacion objeto que conforma el protocolo
 
 struct User6: Printa {
-    var information: String { "SwiftBeta" }
+    var information: String { "Rodolfo" }
 }
 
 //cabe señalar que en este ejemplo el valor de la propiedad del protocolo la debemos implementar en el tipo, no en la extension

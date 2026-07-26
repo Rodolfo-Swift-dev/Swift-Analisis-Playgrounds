@@ -237,7 +237,7 @@ class Dog4: Animal {
     
     init(legs: Int) {
         self.legs = legs
-        super.init(name: "SwiftBeta", age: 10)
+        super.init(name: "Rodolfo", age: 10)
     }
 }
 
