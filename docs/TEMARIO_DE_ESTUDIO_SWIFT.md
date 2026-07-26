@@ -2,7 +2,7 @@
 
 Resumen de los 20 playgrounds del proyecto. Este archivo sirve para repasar palabras clave y reglas esenciales.
 
-La explicación completa, los límites y los ejemplos están en [la guía HTML](TEMARIO_DE_ESTUDIO_SWIFT.html).
+La explicación completa, los límites y los ejemplos están en [la guía web](index.html).
 
 ## Índice
 
@@ -42,7 +42,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `"\(value)"` interpola un valor; `+` concatena strings.
 - Swift no convierte automáticamente entre tipos numéricos diferentes.
 
-[Playground](Swift/0-Basic.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#0-basic)
+[Playground](../Swift/0-Basic.playground/Contents.swift) · [Explicación completa](index.html#0-basic)
 
 ## 1. TypeAlias
 
@@ -55,7 +55,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - No crea identidad, validación ni seguridad de tipo adicional.
 - Para crear un tipo realmente distinto se utiliza `struct`, `class` o `enum`.
 
-[Playground](Swift/1-TypeAlias.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#1-typealias)
+[Playground](../Swift/1-TypeAlias.playground/Contents.swift) · [Explicación completa](index.html#1-typealias)
 
 ## 2. Tuplas
 
@@ -70,7 +70,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - El orden, la cantidad y los tipos forman parte de la tupla.
 - Para modelos estables o complejos se prefiere `struct`.
 
-[Playground](Swift/2-Tuplas.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#2-tuplas)
+[Playground](../Swift/2-Tuplas.playground/Contents.swift) · [Explicación completa](index.html#2-tuplas)
 
 ## 3. Optional
 
@@ -85,7 +85,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `dictionary[key]` devuelve un opcional porque la clave puede no existir.
 - `T!` es un **Implicitly Unwrapped Optional**; no equivale simplemente a escribir `!` después de un `T?`.
 
-[Playground](Swift/3-Optional.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#3-optional)
+[Playground](../Swift/3-Optional.playground/Contents.swift) · [Explicación completa](index.html#3-optional)
 
 ## 4. Colecciones
 
@@ -101,7 +101,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Sus claves deben conformar `Hashable`.
 - `dictionary[key]` devuelve `Value?`; asignar `nil` elimina el par.
 
-[Playground](Swift/4-Colecciones.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#4-colecciones)
+[Playground](../Swift/4-Colecciones.playground/Contents.swift) · [Explicación completa](index.html#4-colecciones)
 
 ## 5. ControlFlow
 
@@ -117,7 +117,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `for-in` recorre secuencias.
 - `while` pregunta antes de ejecutar; `repeat-while` ejecuta al menos una vez.
 
-[Playground](Swift/5-ControlFlow.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#5-controlflow)
+[Playground](../Swift/5-ControlFlow.playground/Contents.swift) · [Explicación completa](index.html#5-controlflow)
 
 ## 6. Funciones
 
@@ -133,7 +133,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `inout` permite modificar una variable externa; la llamada utiliza `&variable`.
 - Una función puede almacenarse, enviarse, retornarse o declararse dentro de otra.
 
-[Playground](Swift/6-Funciones.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#6-funciones)
+[Playground](../Swift/6-Funciones.playground/Contents.swift) · [Explicación completa](index.html#6-funciones)
 
 ## 7. Clases y estructuras
 
@@ -149,7 +149,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Solo las clases admiten herencia y `deinit`.
 - Elegir entre ambos depende de valor independiente frente a identidad compartida, no de una garantía de stack o heap.
 
-[Playground](Swift/7-ClasesyEstructuras.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#7-clases-y-estructuras)
+[Playground](../Swift/7-ClasesyEstructuras.playground/Contents.swift) · [Explicación completa](index.html#7-clases-y-estructuras)
 
 ## 8. Métodos
 
@@ -163,7 +163,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `static func` pertenece al tipo y no puede sobrescribirse.
 - `class func` pertenece a una clase y admite `override`.
 
-[Playground](Swift/8-Metodos.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#8-metodos)
+[Playground](../Swift/8-Metodos.playground/Contents.swift) · [Explicación completa](index.html#8-metodos)
 
 ## 9. Propiedades
 
@@ -178,7 +178,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `newValue` representa el valor entrante; `oldValue`, el anterior.
 - **Property Wrapper** reutiliza reglas de almacenamiento mediante `wrappedValue`.
 
-[Playground](Swift/9-Propiedades.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#9-propiedades)
+[Playground](../Swift/9-Propiedades.playground/Contents.swift) · [Explicación completa](index.html#9-propiedades)
 
 ## 10. Closures
 
@@ -194,7 +194,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `@escaping` permite ejecutar o guardar el closure después de terminar la función.
 - `@autoclosure` envuelve una expresión y retrasa su evaluación.
 
-[Playground](Swift/10-Closures.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#10-closures)
+[Playground](../Swift/10-Closures.playground/Contents.swift) · [Explicación completa](index.html#10-closures)
 
 ## 11. Enum
 
@@ -210,7 +210,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Los raw values enteros pueden asignarse incrementalmente.
 - Un enum recursivo utiliza `indirect`.
 
-[Playground](Swift/11-Enum.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#11-enum)
+[Playground](../Swift/11-Enum.playground/Contents.swift) · [Explicación completa](index.html#11-enum)
 
 ## 12. Herencia
 
@@ -226,7 +226,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `final func` y `final var` impiden sobrescritura.
 - Solo las clases participan en herencia de implementación.
 
-[Playground](Swift/12-Herencia.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#12-herencia)
+[Playground](../Swift/12-Herencia.playground/Contents.swift) · [Explicación completa](index.html#12-herencia)
 
 ## 13. Protocolos
 
@@ -242,7 +242,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - La implementación concreta del tipo tiene prioridad sobre la predeterminada.
 - `@objc optional` solo sirve en protocolos compatibles con Objective-C.
 
-[Playground](Swift/13-Protocolos.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#13-protocolos)
+[Playground](../Swift/13-Protocolos.playground/Contents.swift) · [Explicación completa](index.html#13-protocolos)
 
 ## 14. Genéricos
 
@@ -258,7 +258,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Un genérico solo puede usar operaciones garantizadas por sus restricciones.
 - `Array`, `Set` y `Dictionary` son tipos genéricos.
 
-[Playground](Swift/14-Genericos.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#14-genericos)
+[Playground](../Swift/14-Genericos.playground/Contents.swift) · [Explicación completa](index.html#14-genericos)
 
 ## 15. Extensiones
 
@@ -273,7 +273,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - **Protocol Extension** comparte implementaciones predeterminadas.
 - Una cláusula `where` puede limitar cuándo está disponible la extensión.
 
-[Playground](Swift/15-Extensiones.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#15-extensiones)
+[Playground](../Swift/15-Extensiones.playground/Contents.swift) · [Explicación completa](index.html#15-extensiones)
 
 ## 16. Access Level
 
@@ -288,7 +288,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - `open` solo se aplica a clases y miembros de clases.
 - Una API no puede exponer un tipo con acceso más restrictivo.
 
-[Playground](Swift/16-AccesLevel.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#16-access-level)
+[Playground](../Swift/16-AccesLevel.playground/Contents.swift) · [Explicación completa](index.html#16-access-level)
 
 ## 17. Gestión de errores
 
@@ -304,7 +304,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - **Typed Throws:** `throws(MyError)` restringe el tipo de error propagado.
 - `defer` ejecuta limpieza antes de abandonar el scope.
 
-[Playground](Swift/17-Gestion%20de%20errores.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#17-gestion-de-errores)
+[Playground](../Swift/17-Gestion%20de%20errores.playground/Contents.swift) · [Explicación completa](index.html#17-gestion-de-errores)
 
 ## 18. Type Casting
 
@@ -319,7 +319,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Type casting no crea otro objeto; cambia la información de tipo disponible.
 - Los valores guardados como `Any` necesitan convertirse para recuperar su interfaz concreta.
 
-[Playground](Swift/18-typeCasting.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#18-type-casting)
+[Playground](../Swift/18-typeCasting.playground/Contents.swift) · [Explicación completa](index.html#18-type-casting)
 
 ## 19. Operador ternario
 
@@ -333,7 +333,7 @@ La explicación completa, los límites y los ejemplos están en [la guía HTML](
 - Los ternarios anidados y los efectos secundarios reducen claridad.
 - Cuando una rama no hace nada o contiene varias instrucciones, se prefiere `if`.
 
-[Playground](Swift/19-Operador%20ternario.playground/Contents.swift) · [Explicación completa](TEMARIO_DE_ESTUDIO_SWIFT.html#19-operador-ternario)
+[Playground](../Swift/19-Operador%20ternario.playground/Contents.swift) · [Explicación completa](index.html#19-operador-ternario)
 
 ---
 

@@ -7,6 +7,12 @@
 
 > 🎯 Repositorio educativo completo con ejemplos prácticos de Swift, principios SOLID y Clean Code implementados en Xcode Playgrounds.
 
+## 🌐 Guía web
+
+La guía completa está publicada para computador y móvil en:
+
+**[Abrir Swift · Guía de estudio](https://rodolfo-swift-dev.github.io/Swift-Analisis-Playgrounds/)**
+
 ---
 
 ## 📋 Tabla de Contenidos
@@ -162,6 +168,12 @@ print(defaultValue) // "Hello"
 ```
 Swift-Analisis-Playgrounds/
 ├── README.md                          # Este archivo
+├── docs/                              # Guía web publicada con GitHub Pages
+│   ├── index.html
+│   └── TEMARIO_DE_ESTUDIO_SWIFT.md
+├── tools/                             # Fuente y generador de la guía web
+│   ├── generate_study_html.rb
+│   └── study_guide_full.md
 ├── Swift/                             # Playgrounds de Swift
 │   ├── 0-Basic.playground
 │   ├── 1-TypeAlias.playground

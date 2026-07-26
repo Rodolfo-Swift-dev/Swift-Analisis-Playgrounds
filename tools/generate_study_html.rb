@@ -4,7 +4,8 @@ require "cgi"
 
 ROOT = File.expand_path("..", __dir__)
 SOURCE = File.join(ROOT, "tools", "study_guide_full.md")
-OUTPUT = File.join(ROOT, "TEMARIO_DE_ESTUDIO_SWIFT.html")
+OUTPUT = File.join(ROOT, "docs", "index.html")
+REPOSITORY_URL = "https://github.com/Rodolfo-Swift-dev/Swift-Analisis-Playgrounds"
 
 EXAMPLES_BY_CHAPTER = {
   0 => [
@@ -305,6 +306,7 @@ def inline_markdown(text)
     label = Regexp.last_match(1)
     href = Regexp.last_match(2)
     href = "##{slugify(href.delete_prefix("#"))}" if href.start_with?("#")
+    href = "#{REPOSITORY_URL}/blob/main/#{href}" if href.start_with?("Swift/")
     external = href.start_with?("http://", "https://")
     attributes = external ? ' target="_blank" rel="noreferrer"' : ""
     %(<a href="#{href}"#{attributes}>#{label}</a>)
@@ -1195,6 +1197,7 @@ document = <<~HTML
           justify-content: space-between;
           padding: 12px 16px;
           border-bottom: 1px solid var(--line);
+          background: var(--surface);
           background: color-mix(in srgb, var(--surface) 92%, transparent);
           backdrop-filter: blur(12px);
         }
